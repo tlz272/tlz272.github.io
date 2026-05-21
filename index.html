@@ -606,6 +606,15 @@
     </div>
   </div>
 
+  <!-- LIGHTBOX (full-screen photo viewer) -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <div id="lightbox-close" onclick="closeLightbox()">Close</div>
+    <div id="lightbox-prev" onclick="lightboxPrev(event)">Prev</div>
+    <div id="lightbox-next" onclick="lightboxNext(event)">Next</div>
+    <img id="lightbox-img" alt="" onclick="event.stopPropagation()">
+    <div id="lightbox-counter"></div>
+  </div>
+
   <!-- Site content (edit content.js to update the site) -->
   <script src="content.js"></script>
 
