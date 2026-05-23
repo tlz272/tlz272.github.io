@@ -102,11 +102,12 @@
       width: 100%;
       height: 100vh;
       background: var(--black);
-      padding: calc(var(--nav-height) + 36px) 40px 40px;
+      padding: calc(var(--nav-height) + 28px) 40px 96px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 32px;
+      justify-content: center;
+      gap: 36px;
       overflow: hidden;
     }
 
@@ -138,14 +139,14 @@
     }
 
     .hero-tiles {
-      flex: 1 1 auto;
-      min-height: 0;
+      flex-shrink: 0;
       width: 100%;
-      max-width: 760px;
+      max-width: 720px;
+      height: min(440px, 56vh);
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
     }
 
     .hero-tile {
@@ -327,7 +328,7 @@
         justify-content: center;
       }
 
-      .hero-mosaic { padding: calc(var(--nav-height) + 20px) 16px 20px; gap: 20px; }
+      .hero-mosaic { padding: calc(var(--nav-height) + 20px) 16px 48px; gap: 20px; }
       .hero-name { font-size: 22px; margin-bottom: 10px; }
       .hero-bio { font-size: 13px; line-height: 1.5; max-width: 90%; }
       .hero-tiles { gap: 8px; }
@@ -605,17 +606,6 @@
       margin-top: 6px;
     }
 
-    .music-intro {
-      font-family: 'EB Garamond', serif;
-      font-size: 15px;
-      line-height: 1.6;
-      color: #999;
-      text-align: center;
-      max-width: 520px;
-      margin: 4px auto 24px;
-      font-style: italic;
-    }
-
     .music-content {
       width: 100%;
       max-width: 760px;
@@ -673,7 +663,6 @@
 
     @media (max-width: 768px) {
       .music-content { padding: 0 16px; }
-      .music-intro { font-size: 13px; padding: 0 16px; }
     }
 
     /* ABOUT PAGE */
@@ -991,7 +980,6 @@
   <div id="page-sound" class="page">
     <div class="music-page">
       <h1 class="music-heading">Music</h1>
-      <div class="music-intro">Field recordings, improvisations, and original compositions.</div>
       <div class="music-content" id="music-content"></div>
     </div>
   </div>
@@ -1380,9 +1368,9 @@
         }
         html += tracks.map(url => `
           <iframe class="soundcloud-embed"
-            width="100%" height="166" scrolling="no" frameborder="no"
+            width="100%" height="220" scrolling="no" frameborder="no"
             allow="autoplay" loading="lazy"
-            src="${scUrl(url, Object.assign({}, commonOpts, { visual: 'false' }))}">
+            src="${scUrl(url, Object.assign({}, commonOpts, { visual: 'true' }))}">
           </iframe>
         `).join('');
       }
