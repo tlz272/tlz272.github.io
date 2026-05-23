@@ -5,8 +5,41 @@
    ============================================================ */
 
 
-// --- MUSIC TRACKS ---
-// To add a track: drop the MP3 in /audio/ and add a line below.
+// --- MUSIC TRACKS (SoundCloud) ---
+// To add a track: open the track on SoundCloud, copy the page URL
+// (the part after soundcloud.com), and paste it as a new line below.
+// Example URL format: https://soundcloud.com/tobiasleigh/track-name
+// Tracks render in the order listed (top of list = top of music page).
+const SOUNDCLOUD_TRACKS = [
+  "https://soundcloud.com/tobiasleigh/170725a",
+  "https://soundcloud.com/tobiasleigh/150725a",
+  "https://soundcloud.com/tobiasleigh/valves",
+  "https://soundcloud.com/tobiasleigh/vosa",
+  "https://soundcloud.com/tobiasleigh/vosa-ii",
+  "https://soundcloud.com/tobiasleigh/vosa-iii-v1",
+  "https://soundcloud.com/tobiasleigh/texture-i",
+  "https://soundcloud.com/tobiasleigh/kirrila",
+  "https://soundcloud.com/tobiasleigh/moongaze-railways",
+  "https://soundcloud.com/tobiasleigh/didessafantasy",
+  "https://soundcloud.com/tobiasleigh/aporia",
+  "https://soundcloud.com/tobiasleigh/chronos-1",
+  "https://soundcloud.com/tobiasleigh/breath-by-breath",
+  "https://soundcloud.com/tobiasleigh/immolation",
+  "https://soundcloud.com/tobiasleigh/vintur",
+  "https://soundcloud.com/tobiasleigh/shadows-dance",
+  "https://soundcloud.com/tobiasleigh/valleys-of-despoina",
+  "https://soundcloud.com/tobiasleigh/wandering-by-foot",
+  "https://soundcloud.com/tobiasleigh/a-bird-and-his-shadow",
+  "https://soundcloud.com/tobiasleigh/rosa-moschata",
+  "https://soundcloud.com/tobiasleigh/a5-nebula-mandala",
+  "https://soundcloud.com/tobiasleigh/a6-sketches-for-a-melting-piano",
+  
+  // Paste more track URLs here, one per line, each in quotes ending with a comma.
+];
+
+// --- OLD: local MP3 tracks (no longer used — kept for reference only) ---
+// Music now plays from SoundCloud embeds above. The MP3 files in /audio/
+// can be deleted from your repo if you want to save space.
 const TRACKS = [
   { title: "Vosa",            src: "audio/track-01.mp3" },
   { title: "Vosa II",         src: "audio/track-02.mp3" },
