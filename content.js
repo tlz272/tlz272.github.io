@@ -115,30 +115,6 @@ const CONTENT = {
   // The image is optional; leave it as an empty string to hide.
   writing: [
     {
-      title: "The Attention Economy",
-      url: "https://vosacreative.substack.com/p/the-attention-economy",
-      description: "The making of the modern digital attention economy.",
-      image: "https://substackcdn.com/image/youtube/w_728,c_limit/EBBJVx-fyjU"
-    },
-    {
-      title: "The Invention of Time",
-      url: "https://vosacreative.substack.com/p/the-invention-of-time",
-      description: "How the mechanical clock restructured our experience of time.",
-      image: "https://substackcdn.com/image/youtube/w_728,c_limit/X8QS6HN1XlU"
-    },
-    {
-      title: "We Live Inside a Metaphor",
-      url: "https://vosacreative.substack.com/p/we-live-inside-a-metaphor",
-      description: "Tracing the evolution of metaphors surrounding technology across the Western imagination.",
-      image: "https://substackcdn.com/image/youtube/w_728,c_limit/YeIB0uNhH3k"
-    },
-    {
-      title: "Beyond Disciplines: The Transdisciplinary Approach",
-      url: "https://vosacreative.substack.com/p/beyond-disciplines-the-transdisciplinary",
-      description: "Tracing the history of disciplinary thinking — and what it means to think between, across, and beyond the disciplines.",
-      image: "https://substackcdn.com/image/fetch/$s_!FOEW!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8d23c1a2-82fe-413c-9ed9-28285e53d9bc_1064x1637.jpeg"
-    },
-    {
       title: "Humboldt, the mind of a scientist and heart of a poet",
       url: "https://vosacreative.substack.com/p/humboldt-the-mind-of-a-scientist",
       description: "How the forgotten polymath Alexander von Humboldt's travels and writings paved the way for a new understanding of nature.",
@@ -149,6 +125,30 @@ const CONTENT = {
       url: "https://vosacreative.substack.com/p/absolute-idealism-in-hegelianism",
       description: "Exploring the worldview of absolute idealism through Hegel and the philosophy of Advaita Vedanta.",
       image: "https://substackcdn.com/image/fetch/$s_!ftat!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0fe00ef5-5b91-4ea5-a85b-a2454719254b_1280x1920.png"
+    },
+    {
+      title: "Beyond Disciplines: The Transdisciplinary Approach",
+      url: "https://vosacreative.substack.com/p/beyond-disciplines-the-transdisciplinary",
+      description: "Tracing the history of disciplinary thinking — and what it means to think between, across, and beyond the disciplines.",
+      image: "https://substackcdn.com/image/fetch/$s_!FOEW!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8d23c1a2-82fe-413c-9ed9-28285e53d9bc_1064x1637.jpeg"
+    },
+    {
+      title: "We Live Inside a Metaphor",
+      url: "https://vosacreative.substack.com/p/we-live-inside-a-metaphor",
+      description: "Tracing the evolution of metaphors surrounding technology across the Western imagination.",
+      image: "https://substackcdn.com/image/youtube/w_728,c_limit/YeIB0uNhH3k"
+    },
+    {
+      title: "The Invention of Time",
+      url: "https://vosacreative.substack.com/p/the-invention-of-time",
+      description: "How the mechanical clock restructured our experience of time.",
+      image: "https://substackcdn.com/image/youtube/w_728,c_limit/X8QS6HN1XlU"
+    },
+    {
+      title: "The Attention Economy",
+      url: "https://vosacreative.substack.com/p/the-attention-economy",
+      description: "The making of the modern digital attention economy.",
+      image: "https://substackcdn.com/image/youtube/w_728,c_limit/EBBJVx-fyjU"
     },
   ],
 
