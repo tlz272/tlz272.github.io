@@ -11,8 +11,6 @@
 // Example URL format: https://soundcloud.com/tobiasleigh/track-name
 // Tracks render in the order listed (top of list = top of music page).
 const SOUNDCLOUD_TRACKS = [
-  "https://soundcloud.com/tobiasleigh/170725a",
-  "https://soundcloud.com/tobiasleigh/150725a",
   "https://soundcloud.com/tobiasleigh/valves",
   "https://soundcloud.com/tobiasleigh/vosa",
   "https://soundcloud.com/tobiasleigh/vosa-ii",
@@ -36,6 +34,17 @@ const SOUNDCLOUD_TRACKS = [
   
   // Paste more track URLs here, one per line, each in quotes ending with a comma.
 ];
+
+
+// --- MUSIC PLAYLISTS (SoundCloud) ---
+// Optional — to feature a playlist, open it on SoundCloud, copy the URL
+// (looks like https://soundcloud.com/tobiasleigh/sets/playlist-name),
+// and paste it below. Playlists render at the TOP of the Music page,
+// above individual tracks. Leave the array empty if you don't want any.
+const SOUNDCLOUD_PLAYLISTS = [
+  // "https://soundcloud.com/tobiasleigh/sets/your-playlist-name",
+];
+
 
 // --- OLD: local MP3 tracks (no longer used — kept for reference only) ---
 // Music now plays from SoundCloud embeds above. The MP3 files in /audio/

@@ -124,16 +124,17 @@
       color: #fff;
       letter-spacing: 0.04em;
       line-height: 1.2;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
-    .hero-tagline {
-      font-family: 'Jost', sans-serif;
-      font-size: 11px;
-      font-weight: 300;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: #888;
+    .hero-bio {
+      font-family: 'EB Garamond', serif;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: #c8c8c8;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
     .hero-tiles {
@@ -177,25 +178,35 @@
       opacity: 1;
     }
 
+    /* Gradient at bottom of each tile so labels always read crisply */
+    .hero-tile::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 70px;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
+      z-index: 1;
+      pointer-events: none;
+    }
+
     .hero-label {
       position: absolute;
       bottom: 14px;
       left: 18px;
       font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      font-weight: 300;
+      font-size: 11px;
+      font-weight: 500;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: #fff;
       z-index: 2;
-      text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+      text-shadow: 0 1px 10px rgba(0,0,0,0.95), 0 0 6px rgba(0,0,0,0.7);
       transition: letter-spacing 0.5s ease, color 0.3s ease;
-      opacity: 0.92;
+      opacity: 1;
     }
 
     .hero-tile:hover .hero-label {
       letter-spacing: 0.3em;
-      opacity: 1;
     }
 
     /* INNER PAGES */
@@ -317,8 +328,8 @@
       }
 
       .hero-mosaic { padding: calc(var(--nav-height) + 20px) 16px 20px; gap: 20px; }
-      .hero-name { font-size: 22px; margin-bottom: 8px; }
-      .hero-tagline { font-size: 9px; letter-spacing: 0.16em; }
+      .hero-name { font-size: 22px; margin-bottom: 10px; }
+      .hero-bio { font-size: 13px; line-height: 1.5; max-width: 90%; }
       .hero-tiles { gap: 8px; }
       .hero-tile img { opacity: 0.85; }
       .hero-label { font-size: 9px; bottom: 8px; left: 10px; letter-spacing: 0.2em; }
@@ -594,14 +605,40 @@
       margin-top: 6px;
     }
 
+    .music-intro {
+      font-family: 'EB Garamond', serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #999;
+      text-align: center;
+      max-width: 520px;
+      margin: 4px auto 24px;
+      font-style: italic;
+    }
+
     .music-content {
       width: 100%;
-      max-width: 720px;
+      max-width: 760px;
       padding: 0 40px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 14px;
     }
+
+    .music-section-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #666;
+      margin-top: 18px;
+      margin-bottom: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .music-section-label:first-child { margin-top: 0; }
 
     .soundcloud-embed {
       border: none;
@@ -609,15 +646,23 @@
       background: #0a0a0a;
     }
 
+    .soundcloud-playlist {
+      margin-bottom: 6px;
+    }
+
     .music-link {
-      text-align: right;
+      text-align: center;
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: 1px solid #1a1a1a;
     }
 
     .music-link a {
       font-family: 'Jost', sans-serif;
       font-size: 11px;
-      letter-spacing: 0.14em;
-      color: #777;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #888;
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -628,6 +673,7 @@
 
     @media (max-width: 768px) {
       .music-content { padding: 0 16px; }
+      .music-intro { font-size: 13px; padding: 0 16px; }
     }
 
     /* ABOUT PAGE */
@@ -894,7 +940,7 @@
     <div class="hero-mosaic">
       <div class="hero-header">
         <div class="hero-name">Tobias Leigh Robertson</div>
-        <div class="hero-tagline">Interdisciplinary artist &mdash; film, photography, writing, music</div>
+        <div class="hero-bio">Tobias Leigh Robertson is an interdisciplinary artist working across film, photography, writing, and music. He is the founder of Vosa Creative, an independent studio for original film and media works.</div>
       </div>
       <div class="hero-tiles">
         <a href="#" class="hero-tile" onclick="showPage('video', null); return false;">
@@ -945,6 +991,7 @@
   <div id="page-sound" class="page">
     <div class="music-page">
       <h1 class="music-heading">Music</h1>
+      <div class="music-intro">Field recordings, improvisations, and original compositions.</div>
       <div class="music-content" id="music-content"></div>
     </div>
   </div>
@@ -960,7 +1007,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=3"></script>
+  <script src="content.js?v=4"></script>
 
   <script id="music-data">
     let currentTrack = null;
@@ -1287,29 +1334,61 @@
       const container = document.getElementById('music-content');
       if (!container) return;
       if (typeof SOUNDCLOUD_TRACKS === 'undefined') {
-        container.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Loading… (if stuck, hard-refresh with Cmd+Shift+R)</p>';
+        container.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;text-align:center;">Loading… (if stuck, hard-refresh with Cmd+Shift+R)</p>';
         return;
       }
       const tracks = SOUNDCLOUD_TRACKS;
-      if (tracks.length === 0) {
+      const playlists = (typeof SOUNDCLOUD_PLAYLISTS !== 'undefined') ? SOUNDCLOUD_PLAYLISTS : [];
+      const totalItems = tracks.length + playlists.length;
+      if (totalItems === 0) {
         container.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Tracks coming soon</p>';
         return;
       }
-      // Skip re-render if already populated with same number of tracks
-      if (container.querySelectorAll('iframe.soundcloud-embed').length === tracks.length) return;
-      const embeds = tracks.map(url => `
-        <iframe class="soundcloud-embed"
-          width="100%"
-          height="300"
-          scrolling="no"
-          frameborder="no"
-          allow="autoplay"
-          loading="lazy"
-          src="https://w.soundcloud.com/player/?url=${encodeURIComponent(url)}&color=%23c0392b&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true">
-        </iframe>
-      `).join('');
-      const footer = `<div class="music-link"><a href="https://soundcloud.com/tobiasleigh" target="_blank">Full archive on SoundCloud &rarr;</a></div>`;
-      container.innerHTML = embeds + footer;
+      // Skip re-render if already populated with same total count
+      if (container.querySelectorAll('iframe.soundcloud-embed').length === totalItems) return;
+
+      const scUrl = (url, opts) => {
+        const params = Object.entries(opts).map(([k,v]) => k + '=' + v).join('&');
+        return 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(url) + '&' + params;
+      };
+      const commonOpts = {
+        color: '%23c0392b',
+        auto_play: 'false',
+        hide_related: 'true',
+        show_comments: 'false',
+        show_user: 'true',
+        show_reposts: 'false',
+        show_teaser: 'false',
+      };
+
+      let html = '';
+
+      if (playlists.length > 0) {
+        html += '<div class="music-section-label">Playlists</div>';
+        html += playlists.map(url => `
+          <iframe class="soundcloud-embed soundcloud-playlist"
+            width="100%" height="420" scrolling="no" frameborder="no"
+            allow="autoplay" loading="lazy"
+            src="${scUrl(url, Object.assign({}, commonOpts, { visual: 'true' }))}">
+          </iframe>
+        `).join('');
+      }
+
+      if (tracks.length > 0) {
+        if (playlists.length > 0) {
+          html += '<div class="music-section-label">Tracks</div>';
+        }
+        html += tracks.map(url => `
+          <iframe class="soundcloud-embed"
+            width="100%" height="166" scrolling="no" frameborder="no"
+            allow="autoplay" loading="lazy"
+            src="${scUrl(url, Object.assign({}, commonOpts, { visual: 'false' }))}">
+          </iframe>
+        `).join('');
+      }
+
+      html += `<div class="music-link"><a href="https://soundcloud.com/tobiasleigh" target="_blank">Full archive on SoundCloud &rarr;</a></div>`;
+      container.innerHTML = html;
     }
 
     // Render dynamic content on page load
