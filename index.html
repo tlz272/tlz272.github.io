@@ -102,28 +102,29 @@
       width: 100%;
       height: 100vh;
       background: var(--black);
-      padding: var(--nav-height) 40px 40px;
+      padding: calc(var(--nav-height) + 36px) 40px 40px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 52px;
+      gap: 32px;
+      overflow: hidden;
     }
 
     .hero-header {
       text-align: center;
+      flex-shrink: 0;
       opacity: 0;
       animation: fadeUp 1.1s ease 0.2s forwards;
     }
 
     .hero-name {
       font-family: 'EB Garamond', serif;
-      font-size: 38px;
+      font-size: 34px;
       font-weight: 400;
       color: #fff;
       letter-spacing: 0.04em;
       line-height: 1.2;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .hero-tagline {
@@ -136,12 +137,14 @@
     }
 
     .hero-tiles {
+      flex: 1 1 auto;
+      min-height: 0;
+      width: 100%;
+      max-width: 760px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
-      gap: 18px;
-      width: min(720px, 90%);
-      aspect-ratio: 4 / 3;
+      gap: 16px;
     }
 
     .hero-tile {
@@ -313,10 +316,10 @@
         justify-content: center;
       }
 
-      .hero-mosaic { padding: var(--nav-height) 18px 24px; gap: 30px; }
-      .hero-name { font-size: 24px; margin-bottom: 10px; }
-      .hero-tagline { font-size: 9px; letter-spacing: 0.18em; }
-      .hero-tiles { gap: 8px; width: 100%; aspect-ratio: 1; }
+      .hero-mosaic { padding: calc(var(--nav-height) + 20px) 16px 20px; gap: 20px; }
+      .hero-name { font-size: 22px; margin-bottom: 8px; }
+      .hero-tagline { font-size: 9px; letter-spacing: 0.16em; }
+      .hero-tiles { gap: 8px; }
       .hero-tile img { opacity: 0.85; }
       .hero-label { font-size: 9px; bottom: 8px; left: 10px; letter-spacing: 0.2em; }
       .inner-page h1 { font-size: 30px; }
@@ -956,7 +959,8 @@
   </div>
 
   <!-- Site content (edit content.js to update the site) -->
-  <script src="content.js"></script>
+  <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
+  <script src="content.js?v=3"></script>
 
   <script id="music-data">
     let currentTrack = null;
@@ -1248,7 +1252,7 @@
       document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
       if (linkEl) linkEl.classList.add('active');
 
-      if (id === 'sound') initMusic();
+      if (id === 'sound') renderMusic();
       if (window.event) event.preventDefault();
     }
 
@@ -1282,11 +1286,17 @@
     function renderMusic() {
       const container = document.getElementById('music-content');
       if (!container) return;
-      const tracks = (typeof SOUNDCLOUD_TRACKS !== 'undefined') ? SOUNDCLOUD_TRACKS : [];
+      if (typeof SOUNDCLOUD_TRACKS === 'undefined') {
+        container.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Loading… (if stuck, hard-refresh with Cmd+Shift+R)</p>';
+        return;
+      }
+      const tracks = SOUNDCLOUD_TRACKS;
       if (tracks.length === 0) {
         container.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Tracks coming soon</p>';
         return;
       }
+      // Skip re-render if already populated with same number of tracks
+      if (container.querySelectorAll('iframe.soundcloud-embed').length === tracks.length) return;
       const embeds = tracks.map(url => `
         <iframe class="soundcloud-embed"
           width="100%"
