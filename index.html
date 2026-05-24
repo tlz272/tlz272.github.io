@@ -81,12 +81,12 @@
     .page { display: none; }
     .page.active { display: block; }
 
-    /* HOME: full-bleed mosaic */
+    /* HOME (= About): bio left, portrait right */
     #page-home.active {
       display: block;
-      height: 100vh;
+      min-height: 100vh;
       padding-top: 0;
-      overflow: hidden;
+      overflow: visible;
     }
 
     @keyframes fadeUp {
@@ -97,117 +97,65 @@
       to { opacity: 1; }
     }
 
-    .hero-mosaic {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      background: var(--black);
-      padding: calc(var(--nav-height) + 20px) 40px 120px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 38px;
-      overflow: hidden;
-    }
-
-    .hero-header {
-      text-align: center;
-      flex-shrink: 0;
-      opacity: 0;
-      animation: fadeUp 1.1s ease 0.2s forwards;
-    }
-
-    .hero-name {
-      font-family: 'EB Garamond', serif;
-      font-size: 40px;
-      font-weight: 400;
-      color: #fff;
-      letter-spacing: 0.04em;
-      line-height: 1.2;
-      margin-bottom: 16px;
-    }
-
-    .hero-bio {
-      font-family: 'EB Garamond', serif;
-      font-size: 16.5px;
-      font-weight: 400;
-      line-height: 1.6;
-      color: #c8c8c8;
-      max-width: 640px;
+    .home-spread {
+      min-height: calc(100vh - var(--nav-height));
+      padding: calc(var(--nav-height) + 60px) 0 80px;
+      max-width: 1240px;
       margin: 0 auto;
-    }
-
-    .hero-tiles {
-      flex-shrink: 0;
-      width: 100%;
-      max-width: 720px;
-      height: min(420px, 50vh);
       display: grid;
       grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .hero-tile {
-      position: relative;
-      overflow: hidden;
-      display: block;
-      background: #0a0a0a;
-      text-decoration: none;
-      cursor: pointer;
+      gap: 0;
+      align-items: start;
       opacity: 0;
-      animation: fadeIn 1.2s ease forwards;
+      animation: fadeUp 0.9s ease 0.15s forwards;
     }
 
-    .hero-tile:nth-child(1) { animation-delay: 0.4s; }
-    .hero-tile:nth-child(2) { animation-delay: 0.5s; }
-    .hero-tile:nth-child(3) { animation-delay: 0.6s; }
-    .hero-tile:nth-child(4) { animation-delay: 0.7s; }
-
-    .hero-tile img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      opacity: 0.85;
-      transition: transform 1.2s ease, opacity 0.6s ease;
+    .home-text {
+      padding: 0 56px 0 60px;
     }
 
-    .hero-tile:hover img {
-      transform: scale(1.05);
-      opacity: 1;
-    }
-
-    /* Gradient at bottom of each tile so labels always read crisply */
-    .hero-tile::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 70px;
-      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .hero-label {
-      position: absolute;
-      bottom: 14px;
-      left: 18px;
-      font-family: 'Jost', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
+    .home-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 42px;
+      font-weight: 400;
       color: #fff;
-      z-index: 2;
-      text-shadow: 0 1px 10px rgba(0,0,0,0.95), 0 0 6px rgba(0,0,0,0.7);
-      transition: letter-spacing 0.5s ease, color 0.3s ease;
-      opacity: 1;
+      letter-spacing: 0.03em;
+      line-height: 1.15;
+      margin-bottom: 36px;
     }
 
-    .hero-tile:hover .hero-label {
-      letter-spacing: 0.3em;
+    .home-bio p {
+      font-family: 'EB Garamond', serif;
+      font-size: 17px;
+      line-height: 1.75;
+      color: #d0d0d0;
+      margin-bottom: 1.4em;
+    }
+
+    .home-bio p:last-child { margin-bottom: 0; }
+
+    .home-portrait {
+      padding: 0 60px 0 0;
+    }
+
+    .home-portrait img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center 18%;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .home-spread {
+        grid-template-columns: 1fr;
+        padding: calc(var(--nav-height) + 28px) 24px 56px;
+        gap: 28px;
+      }
+      .home-text { padding: 0; }
+      .home-portrait { padding: 0; max-width: 280px; margin: 0 auto; order: -1; }
+      .home-name { font-size: 28px; margin-bottom: 24px; }
+      .home-bio p { font-size: 15.5px; line-height: 1.7; }
     }
 
     /* INNER PAGES */
@@ -328,12 +276,6 @@
         justify-content: center;
       }
 
-      .hero-mosaic { padding: calc(var(--nav-height) + 20px) 16px 48px; gap: 20px; }
-      .hero-name { font-size: 26px; margin-bottom: 12px; }
-      .hero-bio { font-size: 14px; line-height: 1.55; max-width: 92%; }
-      .hero-tiles { gap: 8px; }
-      .hero-tile img { opacity: 0.85; }
-      .hero-label { font-size: 9px; bottom: 8px; left: 10px; letter-spacing: 0.2em; }
       .inner-page h1 { font-size: 30px; }
     }
 
@@ -359,6 +301,164 @@
       color: #555;
       margin-bottom: 40px;
       margin-top: 40px;
+      min-height: 16px;
+    }
+
+    /* CURATIONS LIST */
+    .curations-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 56px 40px;
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 40px;
+    }
+
+    .curation-card {
+      display: block;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    .curation-card:hover { opacity: 0.92; }
+
+    .curation-card-image {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
+
+    .curation-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+
+    .curation-card:hover .curation-card-image img {
+      transform: scale(1.04);
+    }
+
+    .curation-card-meta {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+    }
+
+    .curation-card-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 20px;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+
+    .curation-card-date {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #666;
+    }
+
+    /* CURATION DETAIL */
+    .curation-detail {
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 56px;
+      align-items: start;
+    }
+
+    .curation-back {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #666;
+      cursor: pointer;
+      margin-bottom: 28px;
+      display: inline-block;
+      background: none;
+      border: none;
+      padding: 0;
+      transition: color 0.2s;
+    }
+
+    .curation-back:hover { color: #fff; }
+
+    .curation-images {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .curation-images img {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      display: block;
+      cursor: zoom-in;
+      background: #0a0a0a;
+      transition: opacity 0.3s ease, transform 0.6s ease;
+    }
+
+    .curation-images img:hover { opacity: 0.92; transform: scale(1.02); }
+
+    .curation-info {
+      position: sticky;
+      top: calc(var(--nav-height) + 60px);
+    }
+
+    .curation-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 30px;
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: 0.02em;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .curation-date {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 26px;
+    }
+
+    .curation-desc {
+      font-family: 'EB Garamond', serif;
+      font-size: 15px;
+      color: #c8c8c8;
+      margin-bottom: 26px;
+      line-height: 1.6;
+    }
+
+    .curation-quote {
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: #a0a0a0;
+      padding-left: 16px;
+      border-left: 1px solid #2a2a2a;
+    }
+
+    @media (max-width: 768px) {
+      .curations-grid { grid-template-columns: 1fr; gap: 36px; padding: 0 16px; }
+      .curation-detail { grid-template-columns: 1fr; gap: 24px; padding: 0 16px; }
+      .curation-info { position: relative; top: 0; }
+      .curation-name { font-size: 24px; }
+      .curation-images { grid-template-columns: 1fr; gap: 6px; }
     }
 
     /* PHOTO GRID */
@@ -400,8 +500,8 @@
     }
     #lightbox.open { display: flex; }
     #lightbox-img {
-      max-width: 88vw;
-      max-height: 88vh;
+      max-width: 96vw;
+      max-height: 94vh;
       object-fit: contain;
       display: block;
       opacity: 0;
@@ -636,7 +736,54 @@
       padding: 0 40px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 32px;
+    }
+
+    /* Grouped player */
+    .track-group {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .track-group--no-art {
+      grid-template-columns: 1fr;
+    }
+
+    .track-group-artwork {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
+
+    .track-group-artwork img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .track-group-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .track-group-header {
+      font-family: 'EB Garamond', serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 6px;
+    }
+
+    @media (max-width: 768px) {
+      .track-group { grid-template-columns: 96px 1fr; gap: 14px; }
+      .track-group-header { font-size: 11px; letter-spacing: 0.18em; }
     }
 
     .music-section-label {
@@ -970,35 +1117,23 @@
       <a href="#" onclick="showPage('photography', this)">Photography</a>
       <a href="#" onclick="showPage('writing', this)">Writing</a>
       <a href="#" onclick="showPage('sound', this)">Music</a>
-      <a href="#" onclick="showPage('about', this)">About</a>
       <a href="#" onclick="showPage('contact', this)">Contact</a>
     </div>
   </nav>
 
-  <!-- HOME -->
+  <!-- HOME (= About) -->
   <div id="page-home" class="page active">
-    <div class="hero-mosaic">
-      <div class="hero-header">
-        <div class="hero-name">Tobias Leigh Robertson</div>
-        <div class="hero-bio">Tobias Leigh Robertson is an interdisciplinary artist working across film, photography, writing, and music. He is the founder of Vosa Creative, an independent studio for original film and media works.</div>
+    <div class="home-spread">
+      <div class="home-text">
+        <h1 class="home-name">Tobias Leigh Robertson</h1>
+        <div class="home-bio">
+          <p>Tobias Leigh Robertson is an interdisciplinary artist working across film, photography, writing, and music. He is the founder of Vosa Creative, an independent studio for original film and media works. His work has been presented at the Fremantle Biennale (2025), where he co-directed, filmed, edited, and composed sound for a film-poem as part of the Room Service exhibition.</p>
+          <p>He holds a Bachelor of Journalism and Bachelor of Arts in Philosophy and History from the University of Queensland.</p>
+          <p>Born in Australia in 2001, Tobias grew up among the lush forests of the Northern Rivers, a landscape that continues to shape his work, visually and sonically. His abiding interest is in the space where creation meets discovery: stepping into the unknown as an explorer, and finding that something is transformed in the process of bringing it back.</p>
+        </div>
       </div>
-      <div class="hero-tiles">
-        <a href="#" class="hero-tile" onclick="showPage('video', null); return false;">
-          <img src="https://img.youtube.com/vi/X8QS6HN1XlU/maxresdefault.jpg" alt="Video Essays">
-          <span class="hero-label">Video Essays</span>
-        </a>
-        <a href="#" class="hero-tile" onclick="showPage('photography', null); return false;">
-          <img src="photos/hero-photography.jpg" alt="Photography" onerror="this.onerror=null;this.src='photos/02.webp';">
-          <span class="hero-label">Photography</span>
-        </a>
-        <a href="#" class="hero-tile" onclick="showPage('writing', null); return false;">
-          <img src="https://substackcdn.com/image/fetch/$s_!FOEW!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8d23c1a2-82fe-413c-9ed9-28285e53d9bc_1064x1637.jpeg" alt="Writing">
-          <span class="hero-label">Writing</span>
-        </a>
-        <a href="#" class="hero-tile" onclick="showPage('sound', null); return false;">
-          <img src="photos/hero-music.jpg" alt="Music" onerror="this.onerror=null;this.src='photos/09.webp';">
-          <span class="hero-label">Music</span>
-        </a>
+      <div class="home-portrait">
+        <img src="photos/01.webp" alt="Tobias Leigh Robertson">
       </div>
     </div>
   </div>
@@ -1022,8 +1157,8 @@
   <!-- PHOTOGRAPHY -->
   <div id="page-photography" class="page">
     <div class="photo-page">
-      <h1>Photography</h1>
-      <div id="photo-grid"></div>
+      <h1 id="photo-heading">Photography</h1>
+      <div id="photo-view"></div>
     </div>
   </div>
 
@@ -1046,7 +1181,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=4"></script>
+  <script src="content.js?v=6"></script>
 
   <script id="music-data">
     let currentTrack = null;
@@ -1151,25 +1286,6 @@
     }
   </script>
 
-  <!-- ABOUT -->
-  <div id="page-about" class="page">
-    <div class="about-page">
-      <div class="about-inner">
-        <h1>About</h1>
-        <div class="about-grid">
-          <div class="about-text">
-            <p>Tobias Leigh Robertson is an interdisciplinary artist working across film, photography, writing, and music. He is the founder of Vosa Creative, an independent studio for original film and media works. His work has been presented at the Fremantle Biennale (2025), where he co-directed, filmed, edited, and composed sound for a film-poem as part of the Room Service exhibition.</p>
-            <p>He holds a Bachelor of Journalism and Bachelor of Arts in Philosophy and History from the University of Queensland.</p>
-            <p>Born in Australia in 2001, Tobias grew up among the lush forests of the Northern Rivers, a landscape that continues to shape his work, visually and sonically. His abiding interest is in the space where creation meets discovery: stepping into the unknown as an explorer, and finding that something is transformed in the process of bringing it back.</p>
-          </div>
-          <div class="about-photo">
-            <img src="photos/01.webp" alt="Tobias Leigh Robertson">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- CONTACT -->
   <div id="page-contact" class="page">
     <div class="contact-page">
@@ -1250,33 +1366,109 @@
     }
 
     function renderPhotos() {
+      const view = document.getElementById('photo-view');
+      if (!view) return;
+      const curations = CONTENT.curations || [];
+      if (curations.length > 0) {
+        renderCurations();
+        return;
+      }
+      // Legacy fallback: flat photo grid if no curations defined.
+      view.innerHTML = '<div id="photo-grid"></div>';
       const grid = document.getElementById('photo-grid');
-      if (!grid) return;
-      if (CONTENT.photos.length === 0) {
+      const photos = CONTENT.photos || [];
+      if (photos.length === 0) {
         grid.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Documentary and artistic photography — coming soon</p>';
         return;
       }
-      grid.innerHTML = CONTENT.photos.map((p, i) => `
+      grid.innerHTML = photos.map((p, i) => `
         <div class="photo-item">
-          <img src="${p.url}" alt="${p.caption}" onclick="openLightbox(${i})">
+          <img src="${p.url}" alt="${p.caption}" onclick="openFlatLightbox(${i})">
           ${p.caption ? `<div class="photo-caption">${p.caption}</div>` : ''}
         </div>
       `).join('');
     }
 
+    function renderCurations() {
+      const view = document.getElementById('photo-view');
+      const heading = document.getElementById('photo-heading');
+      if (!view) return;
+      if (heading) heading.textContent = 'Photography';
+      const curations = CONTENT.curations || [];
+      view.innerHTML = '<div class="curations-grid">' +
+        curations.map((c, i) => `
+          <a class="curation-card" href="#" onclick="showCuration(${i}); return false;">
+            <div class="curation-card-image">
+              <img src="${c.cover}" alt="${c.name}" loading="lazy">
+            </div>
+            <div class="curation-card-meta">
+              <div class="curation-card-name">${c.name}</div>
+              <div class="curation-card-date">${c.date}</div>
+            </div>
+          </a>
+        `).join('') +
+        '</div>';
+    }
+
+    function showCuration(i) {
+      const view = document.getElementById('photo-view');
+      const heading = document.getElementById('photo-heading');
+      const c = CONTENT.curations[i];
+      if (!c || !view) return;
+      if (heading) heading.textContent = '';
+      view.innerHTML = `
+        <div class="curation-detail">
+          <div>
+            <button class="curation-back" onclick="renderCurations()">&larr; All curations</button>
+            <div class="curation-images">
+              ${c.images.map((img, idx) => `<img src="${img}" alt="${c.name} ${idx+1}" loading="lazy" onclick="openCurationLightbox(${i}, ${idx})">`).join('')}
+            </div>
+          </div>
+          <div class="curation-info">
+            <h2 class="curation-name">${c.name}</h2>
+            <div class="curation-date">${c.date}</div>
+            ${c.description ? `<div class="curation-desc">${c.description}</div>` : ''}
+            ${c.quote ? `<div class="curation-quote">${c.quote}</div>` : ''}
+          </div>
+        </div>
+      `;
+      // Scroll the inner page back to top
+      const photoPage = document.querySelector('.photo-page');
+      if (photoPage) photoPage.scrollTop = 0;
+    }
+
+    // Generic lightbox state — works for any image array
+    let currentLightboxImages = [];
     let currentLightboxIndex = 0;
 
-    function openLightbox(index) {
-      currentLightboxIndex = index;
+    function showLightboxImage() {
       const lb = document.getElementById('lightbox');
       const img = document.getElementById('lightbox-img');
       img.classList.remove('loaded');
-      img.src = CONTENT.photos[index].url;
+      img.src = currentLightboxImages[currentLightboxIndex];
       img.onload = () => img.classList.add('loaded');
-      document.getElementById('lightbox-counter').textContent = (index + 1) + ' / ' + CONTENT.photos.length;
+      document.getElementById('lightbox-counter').textContent =
+        (currentLightboxIndex + 1) + ' / ' + currentLightboxImages.length;
       lb.classList.add('open');
       document.addEventListener('keydown', lightboxKeyHandler);
     }
+
+    function openFlatLightbox(index) {
+      currentLightboxImages = (CONTENT.photos || []).map(p => p.url);
+      currentLightboxIndex = index;
+      showLightboxImage();
+    }
+
+    function openCurationLightbox(curationIdx, imageIdx) {
+      const c = CONTENT.curations[curationIdx];
+      if (!c) return;
+      currentLightboxImages = c.images;
+      currentLightboxIndex = imageIdx;
+      showLightboxImage();
+    }
+
+    // Kept for backward compatibility
+    function openLightbox(index) { openFlatLightbox(index); }
 
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('open');
@@ -1285,12 +1477,16 @@
 
     function lightboxPrev(e) {
       e && e.stopPropagation();
-      openLightbox((currentLightboxIndex - 1 + CONTENT.photos.length) % CONTENT.photos.length);
+      if (!currentLightboxImages.length) return;
+      currentLightboxIndex = (currentLightboxIndex - 1 + currentLightboxImages.length) % currentLightboxImages.length;
+      showLightboxImage();
     }
 
     function lightboxNext(e) {
       e && e.stopPropagation();
-      openLightbox((currentLightboxIndex + 1) % CONTENT.photos.length);
+      if (!currentLightboxImages.length) return;
+      currentLightboxIndex = (currentLightboxIndex + 1) % currentLightboxImages.length;
+      showLightboxImage();
     }
 
     function lightboxKeyHandler(e) {
@@ -1372,72 +1568,62 @@
     function renderMusic() {
       const container = document.getElementById('music-content');
       if (!container) return;
-      if (typeof SOUNDCLOUD_TRACKS === 'undefined') {
+      if (typeof TRACKS === 'undefined' || TRACKS.length === 0) {
         container.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;text-align:center;">Loading… (if stuck, hard-refresh with Cmd+Shift+R)</p>';
         return;
       }
-      const tracks = SOUNDCLOUD_TRACKS;
-      const playlists = (typeof SOUNDCLOUD_PLAYLISTS !== 'undefined') ? SOUNDCLOUD_PLAYLISTS : [];
-      const totalItems = tracks.length + playlists.length;
-      if (totalItems === 0) {
-        container.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Tracks coming soon</p>';
-        return;
-      }
-      // Skip re-render if already populated with same total count
-      if (container.querySelectorAll('iframe.soundcloud-embed').length === totalItems) return;
-
-      const scUrl = (url, opts) => {
-        const params = Object.entries(opts).map(([k,v]) => k + '=' + v).join('&');
-        return 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(url) + '&' + params;
-      };
-      const commonOpts = {
-        color: '%23c0392b',
-        auto_play: 'false',
-        hide_related: 'true',
-        show_comments: 'false',
-        show_user: 'true',
-        show_reposts: 'false',
-        show_teaser: 'false',
-      };
-
-      const visualOpts = Object.assign({}, commonOpts, { visual: 'true' });
-      let html = '';
-
-      if (playlists.length > 0) {
-        html += '<div class="music-section-label">Playlists</div>';
-        html += playlists.map(url => `
-          <iframe class="soundcloud-embed soundcloud-playlist"
-            width="100%" height="420" scrolling="no" frameborder="no"
-            allow="autoplay" loading="lazy"
-            src="${scUrl(url, visualOpts)}">
-          </iframe>
-        `).join('');
-      }
-
-      if (tracks.length > 0) {
-        // Featured first track — larger embed for visual hierarchy
-        html += '<div class="music-section-label">Latest</div>';
-        html += `
-          <iframe class="soundcloud-embed soundcloud-featured"
-            width="100%" height="380" scrolling="no" frameborder="no"
-            allow="autoplay" loading="lazy"
-            src="${scUrl(tracks[0], visualOpts)}">
-          </iframe>
-        `;
-
-        if (tracks.length > 1) {
-          html += '<div class="music-section-label">Selected Works</div>';
-          html += tracks.slice(1).map(url => `
-            <iframe class="soundcloud-embed"
-              width="100%" height="220" scrolling="no" frameborder="no"
-              allow="autoplay" loading="lazy"
-              src="${scUrl(url, visualOpts)}">
-            </iframe>
-          `).join('');
+      // Group consecutive tracks that share a `group` field.
+      const groups = [];
+      let current = null;
+      TRACKS.forEach((t, idx) => {
+        const trackEntry = Object.assign({}, t, { idx });
+        if (t.group && current && current.name === t.group) {
+          current.tracks.push(trackEntry);
+        } else {
+          current = {
+            name: t.group || null,
+            artwork: t.artwork || '',
+            tracks: [trackEntry],
+          };
+          groups.push(current);
         }
-      }
+      });
 
-      html += `<div class="music-link"><a href="https://soundcloud.com/tobiasleigh" target="_blank">Listen to the full archive on SoundCloud &rarr;</a></div>`;
+      // Skip re-render if already populated with same group count
+      if (container.querySelectorAll('.track-group').length === groups.length) return;
+
+      const trackRowHtml = (t) => `
+        <div class="track-item" id="track-${t.idx}">
+          <div class="track-play-btn" onclick="toggleTrack(${t.idx})">
+            <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </div>
+          <div class="track-info">
+            <div class="track-title">${t.title}</div>
+            <div class="track-progress-wrap" onclick="seekTrack(event, ${t.idx})">
+              <div class="track-progress-bar"><div class="track-progress-fill" id="fill-${t.idx}"></div></div>
+            </div>
+            <div class="track-time"><span id="cur-${t.idx}">0:00</span> / <span id="dur-${t.idx}">—</span></div>
+          </div>
+        </div>
+      `;
+
+      let html = '';
+      groups.forEach(g => {
+        const hasArt = !!g.artwork;
+        html += `<div class="track-group${hasArt ? '' : ' track-group--no-art'}">`;
+        if (hasArt) {
+          html += `<div class="track-group-artwork"><img src="${g.artwork}" alt="${g.name || g.tracks[0].title}" loading="lazy"></div>`;
+        }
+        html += '<div class="track-group-content">';
+        if (g.name) {
+          html += `<div class="track-group-header">${g.name}</div>`;
+        }
+        g.tracks.forEach(t => { html += trackRowHtml(t); });
+        html += '</div></div>';
+      });
+
+      html += '<div class="music-link"><a href="https://soundcloud.com/tobiasleigh" target="_blank">More on SoundCloud &rarr;</a></div>';
       container.innerHTML = html;
     }
 

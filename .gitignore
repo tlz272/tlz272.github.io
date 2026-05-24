@@ -1,3 +1,10 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# Audio source masters — kept locally for backup, never pushed
+# (the website plays the 320 kbps MP3s in /audio/ which ARE pushed).
+audio/*.wav
+audio/*.aif
+audio/*.aiff
+audio/*.flac

@@ -46,17 +46,32 @@ const SOUNDCLOUD_PLAYLISTS = [
 ];
 
 
-// --- OLD: local MP3 tracks (no longer used — kept for reference only) ---
-// Music now plays from SoundCloud embeds above. The MP3 files in /audio/
-// can be deleted from your repo if you want to save space.
+// --- MUSIC TRACKS (self-hosted, curated) ---
+// Each track plays through the custom player on the Music page.
+// Fields:
+//   title    – shown next to the play button
+//   src      – path to the MP3 inside /audio/
+//   artwork  – (optional) path to a cover image
+//   group    – (optional) tracks with the same group name share one artwork
+//              and appear together under a small "trilogy"-style header.
+//
+// To add a track: drop the MP3 into /audio/, add a row below, and (optionally)
+// drop a cover image into /audio/art/ and reference it.
 const TRACKS = [
-  { title: "Vosa",            src: "audio/track-01.mp3" },
-  { title: "Vosa II",         src: "audio/track-02.mp3" },
-  { title: "Vosa III",        src: "audio/track-03.mp3" },
-  { title: "Vintur",          src: "audio/vintur.mp3" },
-  { title: "Texture 92",      src: "audio/texture-92.mp3" },
-  { title: "Didessa Fantasy", src: "audio/didessa-fantasy.mp3" },
-  { title: "Valves",          src: "audio/valves.mp3" },
+  { title: "Vosa",                       src: "audio/track-01.mp3",                  artwork: "audio/art/vosa.jpg",                       group: "Vosa" },
+  { title: "Vosa II",                    src: "audio/track-02.mp3",                  artwork: "audio/art/vosa.jpg",                       group: "Vosa" },
+  { title: "Vosa III",                   src: "audio/track-03.mp3",                  artwork: "audio/art/vosa.jpg",                       group: "Vosa" },
+  { title: "Vintur",                     src: "audio/vintur.mp3",                    artwork: "audio/art/vintur.jpg" },
+  { title: "Texture 92",                 src: "audio/texture-92.mp3",                artwork: "audio/art/texture-92.jpg" },
+  { title: "Didessa Fantasy",            src: "audio/didessa-fantasy.mp3",           artwork: "audio/art/didessa-fantasy.jpg" },
+  { title: "Valves",                     src: "audio/valves.mp3",                    artwork: "audio/art/valves.jpg" },
+  { title: "A Moment's Solace",          src: "audio/a-moments-solace.mp3",          artwork: "audio/art/a-moment's-solace.jpg" },
+  { title: "A5 (Nebula Mandala)",        src: "audio/a5-nebula-mandala.mp3",         artwork: "" },
+  { title: "Breath by Breath",           src: "audio/breath-by-breath.mp3",          artwork: "audio/art/breath-by-breath.jpg" },
+  { title: "Immolation",                 src: "audio/immolation.mp3",                artwork: "audio/art/immolation.jpg" },
+  { title: "Shadows Dance",              src: "audio/shadows-dance.mp3",             artwork: "audio/art/shadows-dance.jpg" },
+  { title: "Sketches for Sunken Hammers", src: "audio/sketches-for-sunken-hammers.mp3", artwork: "audio/art/sketches-for-sunken-hammers.jpg" },
+  { title: "Valleys of Despina",         src: "audio/valleys-of-despina.mp3",        artwork: "audio/art/valleys-of-despina.jpg" },
 ];
 
 
@@ -73,9 +88,34 @@ const CONTENT = {
   ],
 
 
-  // --- PHOTOS ---
-  // To add a photo: drop the file in /photos/ and add a line below.
-  // Caption is optional.
+  // --- PHOTOGRAPHY CURATIONS ---
+  // Each curation is a collection of photos that share a single thread —
+  // a place, a technique, a mood. The Photography landing page shows
+  // a grid of curation covers; clicking one opens its full view
+  // (images on the left, writing on the right).
+  //
+  // To add a curation: copy a block, fill in fields, drop the images
+  // into /photos/curations/<folder-name>/ (filenames must match the urls below).
+  curations: [
+    {
+      name: "Aquae Motus",
+      date: "June 2019",
+      description: "Slow shutter studies.",
+      quote: "“You cannot step into the same river twice, for other waters are continually flowing on to you.” — Heraclitus",
+      cover: "photos/curations/aquae-motus/01.jpg",
+      images: [
+        "photos/curations/aquae-motus/01.jpg",
+        "photos/curations/aquae-motus/02.jpg",
+        "photos/curations/aquae-motus/03.jpg",
+        "photos/curations/aquae-motus/04.jpg",
+      ],
+    },
+  ],
+
+
+  // --- PHOTOS (legacy flat grid) ---
+  // Only shown if the curations array above is empty. Once you've moved
+  // these into curations, you can delete this section.
   photos: [
     { url: "photos/02.webp", caption: "" },
     { url: "photos/03.webp", caption: "" },
