@@ -304,14 +304,35 @@
       min-height: 16px;
     }
 
-    /* CURATIONS LIST */
+    /* PHOTOGRAPHY LANDING — section labels */
+    .photo-section-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #555;
+      text-align: center;
+      margin: 0 0 32px;
+      width: 100%;
+      max-width: 1400px;
+      padding: 0 40px;
+    }
+
+    .photo-section-label + .photo-section-label,
+    .curations-grid + .photo-section-label {
+      margin-top: 80px;
+    }
+
+    /* CURATIONS LIST — denser grid of square previews */
     .curations-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 56px 40px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 40px 28px;
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
       padding: 0 40px;
+      margin: 0 auto;
     }
 
     .curation-card {
@@ -325,7 +346,7 @@
 
     .curation-card-image {
       width: 100%;
-      aspect-ratio: 3 / 2;
+      aspect-ratio: 1 / 1;
       overflow: hidden;
       background: #0a0a0a;
     }
@@ -343,26 +364,26 @@
     }
 
     .curation-card-meta {
-      margin-top: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 16px;
+      margin-top: 14px;
+      text-align: center;
     }
 
     .curation-card-name {
       font-family: 'EB Garamond', serif;
-      font-size: 20px;
+      font-size: 17px;
       color: #fff;
       letter-spacing: 0.02em;
+      display: block;
     }
 
     .curation-card-date {
       font-family: 'Jost', sans-serif;
       font-size: 10px;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: #666;
+      margin-top: 4px;
+      display: block;
     }
 
     /* CURATION DETAIL */
@@ -461,14 +482,15 @@
       .curation-images { grid-template-columns: 1fr; gap: 6px; }
     }
 
-    /* PHOTO GRID */
+    /* PHOTO GRID (flat photos) */
     #photo-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 10px;
       width: 100%;
-      max-width: 1600px;
+      max-width: 1400px;
       padding: 0 40px;
+      margin: 0 auto;
     }
     .photo-item {
       position: relative;
@@ -666,12 +688,13 @@
     .track-item {
       display: flex;
       align-items: center;
-      gap: 24px;
-      padding: 24px 0;
-      border-bottom: 1px solid #111;
+      gap: 20px;
+      padding: 18px 0;
+      border-bottom: 1px solid #1a1a1a;
       transition: opacity 0.2s;
     }
-    .track-item:first-child { border-top: 1px solid #111; }
+    .track-item:last-child { border-bottom: none; }
+    .track-list .track-item:first-child { border-top: 1px solid #1a1a1a; }
 
     .track-play-btn {
       width: 40px;
@@ -696,23 +719,26 @@
 
     .track-title {
       font-family: 'EB Garamond', serif;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 400;
       color: var(--white);
       letter-spacing: 0.01em;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      line-height: 1.2;
     }
     .track-item.active .track-title { color: var(--white); }
 
     .track-progress-wrap {
       cursor: pointer;
-      padding: 4px 0;
+      padding: 6px 0;
     }
 
     .track-progress-bar {
-      height: 1px;
-      background: #222;
+      height: 3px;
+      background: #1a1a1a;
       position: relative;
+      border-radius: 2px;
+      overflow: hidden;
     }
 
     .track-progress-fill {
@@ -720,14 +746,15 @@
       background: var(--red);
       width: 0%;
       transition: width 0.1s linear;
+      border-radius: 2px;
     }
 
     .track-time {
       font-family: 'Jost', sans-serif;
-      font-size: 10px;
+      font-size: 11px;
       letter-spacing: 0.1em;
-      color: #444;
-      margin-top: 6px;
+      color: #888;
+      margin-top: 8px;
     }
 
     .music-content {
@@ -744,7 +771,7 @@
       display: grid;
       grid-template-columns: 200px 1fr;
       gap: 28px;
-      align-items: stretch;
+      align-items: start;
     }
 
     .track-group--no-art {
@@ -753,7 +780,8 @@
 
     .track-group-artwork {
       position: relative;
-      aspect-ratio: 1 / 1;
+      width: 200px;
+      height: 200px;
       overflow: hidden;
       background: #0a0a0a;
     }
@@ -768,22 +796,25 @@
     .track-group-content {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      min-width: 0;
     }
 
     .track-group-header {
       font-family: 'EB Garamond', serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 400;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: #888;
-      margin-bottom: 6px;
+      color: #777;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #1a1a1a;
     }
 
     @media (max-width: 768px) {
       .track-group { grid-template-columns: 96px 1fr; gap: 14px; }
-      .track-group-header { font-size: 11px; letter-spacing: 0.18em; }
+      .track-group-artwork { width: 96px; height: 96px; }
+      .track-group-header { font-size: 10px; letter-spacing: 0.18em; }
     }
 
     .music-section-label {
@@ -1181,7 +1212,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=6"></script>
+  <script src="content.js?v=7"></script>
 
   <script id="music-data">
     let currentTrack = null;
@@ -1366,27 +1397,7 @@
     }
 
     function renderPhotos() {
-      const view = document.getElementById('photo-view');
-      if (!view) return;
-      const curations = CONTENT.curations || [];
-      if (curations.length > 0) {
-        renderCurations();
-        return;
-      }
-      // Legacy fallback: flat photo grid if no curations defined.
-      view.innerHTML = '<div id="photo-grid"></div>';
-      const grid = document.getElementById('photo-grid');
-      const photos = CONTENT.photos || [];
-      if (photos.length === 0) {
-        grid.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Documentary and artistic photography — coming soon</p>';
-        return;
-      }
-      grid.innerHTML = photos.map((p, i) => `
-        <div class="photo-item">
-          <img src="${p.url}" alt="${p.caption}" onclick="openFlatLightbox(${i})">
-          ${p.caption ? `<div class="photo-caption">${p.caption}</div>` : ''}
-        </div>
-      `).join('');
+      renderCurations();
     }
 
     function renderCurations() {
@@ -1395,19 +1406,46 @@
       if (!view) return;
       if (heading) heading.textContent = 'Photography';
       const curations = CONTENT.curations || [];
-      view.innerHTML = '<div class="curations-grid">' +
-        curations.map((c, i) => `
+      const photos = CONTENT.photos || [];
+
+      let html = '';
+
+      // SERIES (curations) at top
+      if (curations.length > 0) {
+        html += '<div class="photo-section-label">Series</div>';
+        html += '<div class="curations-grid">';
+        html += curations.map((c, i) => `
           <a class="curation-card" href="#" onclick="showCuration(${i}); return false;">
             <div class="curation-card-image">
               <img src="${c.cover}" alt="${c.name}" loading="lazy">
             </div>
             <div class="curation-card-meta">
-              <div class="curation-card-name">${c.name}</div>
-              <div class="curation-card-date">${c.date}</div>
+              <span class="curation-card-name">${c.name}</span>
+              <span class="curation-card-date">${c.date}</span>
             </div>
           </a>
-        `).join('') +
-        '</div>';
+        `).join('');
+        html += '</div>';
+      }
+
+      // ALL PHOTOGRAPHS (flat grid) below
+      if (photos.length > 0) {
+        html += '<div class="photo-section-label">All Photographs</div>';
+        html += '<div id="photo-grid">';
+        html += photos.map((p, i) => `
+          <div class="photo-item">
+            <img src="${p.url}" alt="${p.caption || ''}" loading="lazy" onclick="openFlatLightbox(${i})">
+            ${p.caption ? `<div class="photo-caption">${p.caption}</div>` : ''}
+          </div>
+        `).join('');
+        html += '</div>';
+      }
+
+      if (curations.length === 0 && photos.length === 0) {
+        html = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;text-align:center;">Photography — coming soon</p>';
+      }
+
+      view.innerHTML = html;
     }
 
     function showCuration(i) {

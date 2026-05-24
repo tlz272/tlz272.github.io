@@ -66,7 +66,7 @@ const TRACKS = [
   { title: "Didessa Fantasy",            src: "audio/didessa-fantasy.mp3",           artwork: "audio/art/didessa-fantasy.jpg" },
   { title: "Valves",                     src: "audio/valves.mp3",                    artwork: "audio/art/valves.jpg" },
   { title: "A Moment's Solace",          src: "audio/a-moments-solace.mp3",          artwork: "audio/art/a-moment's-solace.jpg" },
-  { title: "A5 (Nebula Mandala)",        src: "audio/a5-nebula-mandala.mp3",         artwork: "" },
+  { title: "A5 (Nebula Mandala)",        src: "audio/a5-nebula-mandala.mp3",         artwork: "audio/art/a5-nebula-mandala.jpg" },
   { title: "Breath by Breath",           src: "audio/breath-by-breath.mp3",          artwork: "audio/art/breath-by-breath.jpg" },
   { title: "Immolation",                 src: "audio/immolation.mp3",                artwork: "audio/art/immolation.jpg" },
   { title: "Shadows Dance",              src: "audio/shadows-dance.mp3",             artwork: "audio/art/shadows-dance.jpg" },
