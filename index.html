@@ -102,12 +102,12 @@
       width: 100%;
       height: 100vh;
       background: var(--black);
-      padding: calc(var(--nav-height) + 28px) 40px 96px;
+      padding: calc(var(--nav-height) + 20px) 40px 120px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 36px;
+      gap: 38px;
       overflow: hidden;
     }
 
@@ -120,21 +120,21 @@
 
     .hero-name {
       font-family: 'EB Garamond', serif;
-      font-size: 34px;
+      font-size: 40px;
       font-weight: 400;
       color: #fff;
       letter-spacing: 0.04em;
       line-height: 1.2;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .hero-bio {
       font-family: 'EB Garamond', serif;
-      font-size: 15px;
+      font-size: 16.5px;
       font-weight: 400;
       line-height: 1.6;
       color: #c8c8c8;
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
     }
 
@@ -142,7 +142,7 @@
       flex-shrink: 0;
       width: 100%;
       max-width: 720px;
-      height: min(440px, 56vh);
+      height: min(420px, 50vh);
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr 1fr;
@@ -329,12 +329,36 @@
       }
 
       .hero-mosaic { padding: calc(var(--nav-height) + 20px) 16px 48px; gap: 20px; }
-      .hero-name { font-size: 22px; margin-bottom: 10px; }
-      .hero-bio { font-size: 13px; line-height: 1.5; max-width: 90%; }
+      .hero-name { font-size: 26px; margin-bottom: 12px; }
+      .hero-bio { font-size: 14px; line-height: 1.55; max-width: 92%; }
       .hero-tiles { gap: 8px; }
       .hero-tile img { opacity: 0.85; }
       .hero-label { font-size: 9px; bottom: 8px; left: 10px; letter-spacing: 0.2em; }
       .inner-page h1 { font-size: 30px; }
+    }
+
+    /* PHOTOGRAPHY PAGE */
+    .photo-page {
+      min-height: calc(100vh - var(--nav-height));
+      max-height: 100vh;
+      padding: var(--nav-height) 0 80px;
+      overflow-y: auto;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.1s forwards;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .photo-page h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 40px;
+      margin-top: 40px;
     }
 
     /* PHOTO GRID */
@@ -619,21 +643,48 @@
       font-family: 'Jost', sans-serif;
       font-size: 10px;
       font-weight: 400;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.36em;
       text-transform: uppercase;
-      color: #666;
-      margin-top: 18px;
-      margin-bottom: 6px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #1a1a1a;
+      color: #555;
+      text-align: center;
+      margin: 32px 0 18px;
+      position: relative;
     }
 
-    .music-section-label:first-child { margin-top: 0; }
+    .music-section-label::before,
+    .music-section-label::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 48px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #2a2a2a);
+    }
+
+    .music-section-label::before {
+      right: calc(50% + 56px);
+      background: linear-gradient(to left, #2a2a2a, transparent);
+    }
+
+    .music-section-label::after {
+      left: calc(50% + 56px);
+    }
+
+    .music-section-label:first-child { margin-top: 8px; }
 
     .soundcloud-embed {
       border: none;
       display: block;
       background: #0a0a0a;
+      transition: box-shadow 0.35s ease, transform 0.35s ease;
+    }
+
+    .soundcloud-embed:hover {
+      box-shadow: 0 0 30px rgba(192, 57, 43, 0.18);
+    }
+
+    .soundcloud-featured {
+      margin-bottom: 6px;
     }
 
     .soundcloud-playlist {
@@ -970,8 +1021,8 @@
 
   <!-- PHOTOGRAPHY -->
   <div id="page-photography" class="page">
-    <div class="inner-page" style="gap:32px;align-items:flex-start;padding:0 0 80px;">
-      <h1 style="align-self:center;">Photography</h1>
+    <div class="photo-page">
+      <h1>Photography</h1>
       <div id="photo-grid"></div>
     </div>
   </div>
@@ -1267,7 +1318,7 @@
     }
 
     function showPage(id, linkEl) {
-      const innerSel = '.inner-page, .video-page, .writing-page, .music-page, .about-page, .contact-page';
+      const innerSel = '.inner-page, .video-page, .writing-page, .music-page, .about-page, .contact-page, .photo-page';
 
       document.querySelectorAll('.page').forEach(p => {
         p.classList.remove('active');
@@ -1349,6 +1400,7 @@
         show_teaser: 'false',
       };
 
+      const visualOpts = Object.assign({}, commonOpts, { visual: 'true' });
       let html = '';
 
       if (playlists.length > 0) {
@@ -1357,25 +1409,35 @@
           <iframe class="soundcloud-embed soundcloud-playlist"
             width="100%" height="420" scrolling="no" frameborder="no"
             allow="autoplay" loading="lazy"
-            src="${scUrl(url, Object.assign({}, commonOpts, { visual: 'true' }))}">
+            src="${scUrl(url, visualOpts)}">
           </iframe>
         `).join('');
       }
 
       if (tracks.length > 0) {
-        if (playlists.length > 0) {
-          html += '<div class="music-section-label">Tracks</div>';
-        }
-        html += tracks.map(url => `
-          <iframe class="soundcloud-embed"
-            width="100%" height="220" scrolling="no" frameborder="no"
+        // Featured first track — larger embed for visual hierarchy
+        html += '<div class="music-section-label">Latest</div>';
+        html += `
+          <iframe class="soundcloud-embed soundcloud-featured"
+            width="100%" height="380" scrolling="no" frameborder="no"
             allow="autoplay" loading="lazy"
-            src="${scUrl(url, Object.assign({}, commonOpts, { visual: 'true' }))}">
+            src="${scUrl(tracks[0], visualOpts)}">
           </iframe>
-        `).join('');
+        `;
+
+        if (tracks.length > 1) {
+          html += '<div class="music-section-label">Selected Works</div>';
+          html += tracks.slice(1).map(url => `
+            <iframe class="soundcloud-embed"
+              width="100%" height="220" scrolling="no" frameborder="no"
+              allow="autoplay" loading="lazy"
+              src="${scUrl(url, visualOpts)}">
+            </iframe>
+          `).join('');
+        }
       }
 
-      html += `<div class="music-link"><a href="https://soundcloud.com/tobiasleigh" target="_blank">Full archive on SoundCloud &rarr;</a></div>`;
+      html += `<div class="music-link"><a href="https://soundcloud.com/tobiasleigh" target="_blank">Listen to the full archive on SoundCloud &rarr;</a></div>`;
       container.innerHTML = html;
     }
 
