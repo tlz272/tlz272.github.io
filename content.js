@@ -46,6 +46,21 @@ const SOUNDCLOUD_PLAYLISTS = [
 ];
 
 
+// --- MUSIC GROUP METADATA ---
+// Optional description + quote per playlist. Keys are the `group` field
+// in TRACKS below (and for solo tracks, the track title itself).
+// Leave description/quote blank to hide them; fill them in to display
+// a small evocative line under the playlist title.
+const GROUP_META = {
+  "Vosa":            { description: "", quote: "" },
+  "Vintur":          { description: "", quote: "" },
+  "Didessa Fantasy": { description: "", quote: "" },
+  "Valves":          { description: "", quote: "" },
+  "Nebula Mandala":  { description: "", quote: "" },
+  "Shadows Dance":   { description: "", quote: "" },
+};
+
+
 // --- MUSIC TRACKS (self-hosted, curated) ---
 // Each track plays through the custom player on the Music page.
 // Fields:
@@ -143,7 +158,7 @@ const CONTENT = {
       date: "December 2018",
       description: "",
       quote: "",
-      cover: "photos/curations/castle/01.jpg",
+      cover: "photos/curations/castle/03.jpg",
       images: [
         "photos/curations/castle/01.jpg",
         "photos/curations/castle/02.jpg",
@@ -161,7 +176,7 @@ const CONTENT = {
       date: "January 2019",
       description: "",
       quote: "",
-      cover: "photos/curations/cathedrals/01.jpg",
+      cover: "photos/curations/cathedrals/25.jpg",
       images: [
         "photos/curations/cathedrals/01.jpg",
         "photos/curations/cathedrals/02.jpg",
@@ -199,7 +214,7 @@ const CONTENT = {
       date: "January 2020",
       description: "",
       quote: "",
-      cover: "photos/curations/epoche/01.jpg",
+      cover: "photos/curations/epoche/09.jpg",
       images: [
         "photos/curations/epoche/01.jpg",
         "photos/curations/epoche/02.jpg",
@@ -222,7 +237,7 @@ const CONTENT = {
       date: "",
       description: "",
       quote: "",
-      cover: "photos/curations/listen-to-nature/01.jpg",
+      cover: "photos/curations/listen-to-nature/07.jpg",
       images: [
         "photos/curations/listen-to-nature/01.jpg",
         "photos/curations/listen-to-nature/02.jpg",
@@ -247,7 +262,7 @@ const CONTENT = {
       date: "November 2018",
       description: "",
       quote: "",
-      cover: "photos/curations/moonlight/01.jpg",
+      cover: "photos/curations/moonlight/06.jpg",
       images: [
         "photos/curations/moonlight/01.jpg",
         "photos/curations/moonlight/02.jpg",
@@ -264,7 +279,7 @@ const CONTENT = {
       date: "June 2019",
       description: "",
       quote: "",
-      cover: "photos/curations/mount-tambourine/01.jpg",
+      cover: "photos/curations/mount-tambourine/06.jpg",
       images: [
         "photos/curations/mount-tambourine/01.jpg",
         "photos/curations/mount-tambourine/02.jpg",
@@ -302,7 +317,7 @@ const CONTENT = {
       date: "January 2019",
       description: "",
       quote: "",
-      cover: "photos/curations/notre-dame/01.jpg",
+      cover: "photos/curations/notre-dame/41.jpg",
       images: [
         "photos/curations/notre-dame/01.jpg",
         "photos/curations/notre-dame/02.jpg",
@@ -438,7 +453,7 @@ const CONTENT = {
       date: "January 2019",
       description: "",
       quote: "",
-      cover: "photos/curations/pantheon/01.jpg",
+      cover: "photos/curations/pantheon/03.jpg",
       images: [
         "photos/curations/pantheon/01.jpg",
         "photos/curations/pantheon/02.jpg",
@@ -454,7 +469,7 @@ const CONTENT = {
       date: "December 2018",
       description: "",
       quote: "",
-      cover: "photos/curations/paris-cemetery/01.jpg",
+      cover: "photos/curations/paris-cemetery/09.jpg",
       images: [
         "photos/curations/paris-cemetery/01.jpg",
         "photos/curations/paris-cemetery/02.jpg",
@@ -473,7 +488,7 @@ const CONTENT = {
       date: "December 2018",
       description: "",
       quote: "",
-      cover: "photos/curations/reflections/01.jpg",
+      cover: "photos/curations/reflections/08.jpg",
       images: [
         "photos/curations/reflections/01.jpg",
         "photos/curations/reflections/02.jpg",
@@ -491,7 +506,7 @@ const CONTENT = {
       date: "December 2018",
       description: "",
       quote: "",
-      cover: "photos/curations/rural-france/01.jpg",
+      cover: "photos/curations/rural-france/32.jpg",
       images: [
         "photos/curations/rural-france/01.jpg",
         "photos/curations/rural-france/02.jpg",
@@ -534,7 +549,7 @@ const CONTENT = {
       date: "December 2018 – January 2019",
       description: "",
       quote: "",
-      cover: "photos/curations/time/01.jpg",
+      cover: "photos/curations/time/10.jpg",
       images: [
         "photos/curations/time/01.jpg",
         "photos/curations/time/02.jpg",
