@@ -754,11 +754,15 @@
       position: relative;
     }
     .group-artwork img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      transition: opacity 0.45s ease;
     }
+    .group-artwork img.swapping { opacity: 0; }
 
     .group-player {
       display: flex;
@@ -1262,7 +1266,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=8"></script>
+  <script src="content.js?v=11"></script>
 
   <script id="music-data">
     // Audio state
@@ -1315,7 +1319,21 @@
       const titleEl = document.getElementById('group-title-' + gi);
       if (titleEl) titleEl.textContent = TRACKS[trackIdx].title;
       highlightActiveRow(gi, trackIdx);
+      swapGroupArtwork(gi, TRACKS[trackIdx].artwork);
       startTrack(trackIdx, gi);
+    }
+
+    function swapGroupArtwork(gi, newSrc) {
+      const img = document.getElementById('group-art-' + gi);
+      if (!img || !newSrc || img.getAttribute('src') === newSrc) return;
+      img.classList.add('swapping');
+      // wait for fade-out, then swap, then fade in
+      setTimeout(() => {
+        img.src = newSrc;
+        img.onload = () => img.classList.remove('swapping');
+        // Failsafe in case onload doesn't fire (cached image)
+        setTimeout(() => img.classList.remove('swapping'), 80);
+      }, 220);
     }
 
     function startTrack(trackIdx, gi) {
@@ -1522,25 +1540,14 @@
             </div>
             <div class="curation-card-meta">
               <span class="curation-card-name">${c.name}</span>
-              <span class="curation-card-date">${c.date}</span>
             </div>
           </a>
         `).join('');
         html += '</div>';
       }
 
-      // ALL PHOTOGRAPHS (flat grid) below
-      if (photos.length > 0) {
-        html += '<div class="photo-section-label">All Photographs</div>';
-        html += '<div id="photo-grid">';
-        html += photos.map((p, i) => `
-          <div class="photo-item">
-            <img src="${p.url}" alt="${p.caption || ''}" loading="lazy" onclick="openFlatLightbox(${i})">
-            ${p.caption ? `<div class="photo-caption">${p.caption}</div>` : ''}
-          </div>
-        `).join('');
-        html += '</div>';
-      }
+      // Legacy flat-grid intentionally hidden — kept in content.js (commented out)
+      // as a backup. To restore, un-comment the photos array in content.js.
 
       if (curations.length === 0 && photos.length === 0) {
         html = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;text-align:center;">Photography — coming soon</p>';
@@ -1744,9 +1751,10 @@
 
         html += '<div class="track-group ' + sideClass + '" data-group="' + gi + '" data-active-track="' + firstTrack.idx + '">';
 
-        // Artwork
+        // Artwork (initial = first track's image; swaps when a different track is clicked)
+        const coverSrc = g.tracks[0].artwork || g.artwork || '';
         html += '<div class="group-artwork">';
-        if (g.artwork) html += '<img src="' + g.artwork + '" alt="' + g.name + '" loading="lazy">';
+        if (coverSrc) html += '<img id="group-art-' + gi + '" src="' + coverSrc + '" alt="' + g.name + '" loading="lazy">';
         html += '</div>';
 
         // Player
@@ -1759,7 +1767,6 @@
                 '<svg class="icon-pause" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>' +
                 '</button>';
         html += '<div class="group-meta">' +
-                  '<div class="group-artist">Tobias Leigh Robertson</div>' +
                   '<div class="group-title" id="group-title-' + gi + '">' + (g.name || firstTrack.title) + '</div>' +
                 '</div>';
         html += '</div>'; // header
@@ -1783,9 +1790,10 @@
         if (g.tracks.length > 1) {
           html += '<div class="group-tracklist">';
           g.tracks.forEach((t, ti) => {
+            const thumbSrc = t.artwork || g.tracks[0].artwork || '';
             html += '<div class="group-trackrow" onclick="playGroupTrack(' + gi + ', ' + t.idx + ')">' +
                       '<div class="group-track-num">' + (ti + 1) + '</div>' +
-                      '<div class="group-track-thumb"><img src="' + g.artwork + '" alt=""></div>' +
+                      '<div class="group-track-thumb"><img src="' + thumbSrc + '" alt="" loading="lazy"></div>' +
                       '<div class="group-track-title">' + t.title + '</div>' +
                     '</div>';
           });
