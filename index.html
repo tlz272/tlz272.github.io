@@ -416,14 +416,25 @@
       font-weight: 400;
       color: #e8e8e8;
       letter-spacing: 0.015em;
-      display: block;
       transition: color 0.2s, letter-spacing 0.4s ease;
+    }
+
+    .curation-card-numeral {
+      font-family: 'EB Garamond', serif;
+      font-style: normal;
+      font-size: 13px;
+      color: #6a6a6a;
+      letter-spacing: 0.06em;
+      margin-left: 6px;
+      vertical-align: 1px;
+      transition: color 0.3s ease;
     }
 
     .curation-card:hover .curation-card-name {
       color: #fff;
       letter-spacing: 0.035em;
     }
+    .curation-card:hover .curation-card-numeral { color: #aaa; }
 
     .curation-card-date {
       font-family: 'Jost', sans-serif;
@@ -433,6 +444,16 @@
       color: #666;
       margin-top: 4px;
       display: block;
+    }
+
+    .curation-name-numeral {
+      font-family: 'EB Garamond', serif;
+      font-style: normal;
+      font-size: 0.62em;
+      color: #777;
+      letter-spacing: 0.06em;
+      margin-left: 8px;
+      vertical-align: 4px;
     }
 
     /* CURATION DETAIL — editorial layout: title on top, grid+text below */
@@ -447,23 +468,47 @@
     }
 
     .curation-back {
-      font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #666;
-      cursor: pointer;
-      display: inline-block;
+      width: 34px;
+      height: 34px;
       background: none;
       border: none;
       padding: 0;
+      color: #555;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       align-self: flex-start;
-      transition: color 0.2s;
+      transition: color 0.25s ease, transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+    .curation-back:hover {
+      color: #fff;
+      transform: translateX(-4px);
+    }
+    .curation-back svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
-    .curation-back:hover { color: #fff; }
-
     .curation-header { padding-bottom: 4px; }
+
+    /* Soft cascading entrance when opening a curation */
+    .curation-header,
+    .curation-body {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: detailFade 0.75s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+    .curation-header { animation-delay: 0.05s; }
+    .curation-body   { animation-delay: 0.2s; }
+    @keyframes detailFade {
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     .curation-name {
       font-family: 'EB Garamond', serif;
@@ -1376,7 +1421,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=15"></script>
+  <script src="content.js?v=16"></script>
 
   <script id="music-data">
     // Audio state
@@ -1625,8 +1670,24 @@
       `).join('');
     }
 
+    // Remember where the user was scrolled in the curations grid, so when they
+    // come back from a series detail page they land where they left off.
+    let lastGridScroll = 0;
+
     function renderPhotos() {
       renderCurations();
+    }
+
+    // Roman numeral helper — works for 1–39 (enough for any series count we'll have)
+    function toRoman(num) {
+      const map = [
+        [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']
+      ];
+      let out = '';
+      for (const [val, sym] of map) {
+        while (num >= val) { out += sym; num -= val; }
+      }
+      return out;
     }
 
     function renderCurations() {
@@ -1650,6 +1711,7 @@
             </div>
             <div class="curation-card-meta">
               <span class="curation-card-name">${c.name}</span>
+              <span class="curation-card-numeral">(${toRoman(i+1)})</span>
             </div>
           </a>
         `).join('');
@@ -1664,6 +1726,13 @@
       }
 
       view.innerHTML = html;
+
+      // Restore scroll if coming back from a curation
+      const photoPage = document.querySelector('.photo-page');
+      if (photoPage && lastGridScroll > 0) {
+        // Defer to next frame so layout is committed before scrolling
+        requestAnimationFrame(() => { photoPage.scrollTop = lastGridScroll; });
+      }
     }
 
     function showCuration(i) {
@@ -1671,12 +1740,17 @@
       const heading = document.getElementById('photo-heading');
       const c = CONTENT.curations[i];
       if (!c || !view) return;
+      // Remember current scroll so we can restore it on "back"
+      const photoPageScroll = document.querySelector('.photo-page');
+      if (photoPageScroll) lastGridScroll = photoPageScroll.scrollTop;
       if (heading) heading.textContent = '';
       view.innerHTML = `
         <div class="curation-detail">
-          <button class="curation-back" onclick="renderCurations()">&larr; All series</button>
+          <button class="curation-back" onclick="renderCurations()" aria-label="Back to all series">
+            <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"/></svg>
+          </button>
           <div class="curation-header">
-            <h2 class="curation-name">${c.name}</h2>
+            <h2 class="curation-name">${c.name} <span class="curation-name-numeral">(${toRoman(i+1)})</span></h2>
           </div>
           <div class="curation-body">
             <div class="curation-images" data-count="${c.images.length}">

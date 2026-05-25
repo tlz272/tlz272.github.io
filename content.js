@@ -77,6 +77,9 @@ const GROUP_META = {
 // supplies the playlist's default cover. Drop new artwork into /audio/art/ and
 // reference it below.
 const TRACKS = [
+  // Standalone — Valves
+  { title: "Valves",                      src: "audio/valves.mp3",                      artwork: "audio/art/valves.jpg" },
+
   // Group 1 — Vosa
   { title: "Vosa",                        src: "audio/track-01.mp3",                    artwork: "audio/art/vosa.jpg",                       group: "Vosa" },
   { title: "Vosa II",                     src: "audio/track-02.mp3",                    artwork: "audio/art/vosa.jpg",                       group: "Vosa" },
@@ -91,9 +94,6 @@ const TRACKS = [
   { title: "A Moment's Solace",           src: "audio/a-moments-solace.mp3",            artwork: "audio/art/a-moments-solace.jpg",           group: "Didessa Fantasy" },
   { title: "Valleys of Despina",          src: "audio/valleys-of-despina.mp3",          artwork: "audio/art/valleys-of-despina.jpg",         group: "Didessa Fantasy" },
 
-  // Standalone — Valves
-  { title: "Valves",                      src: "audio/valves.mp3",                      artwork: "audio/art/valves.jpg" },
-
   // Group 4 — Nebula Mandala
   { title: "Nebula Mandala",              src: "audio/a5-nebula-mandala.mp3",           artwork: "audio/art/a5-nebula-mandala.jpg",          group: "Nebula Mandala" },
   { title: "Texture 92",                  src: "audio/texture-92.mp3",                  artwork: "audio/art/texture-92.jpg",                 group: "Nebula Mandala" },
@@ -102,7 +102,7 @@ const TRACKS = [
   // Group 5 — Shadows Dance
   { title: "Shadows Dance",               src: "audio/shadows-dance.mp3",               artwork: "audio/art/shadows-dance.jpg",              group: "Shadows Dance" },
   { title: "Immolation",                  src: "audio/immolation.mp3",                  artwork: "audio/art/immolation.jpg",                 group: "Shadows Dance" },
-  { title: "Moongaze Railways",           src: "audio/moongaze-railways.mp3",           artwork: "audio/art/shadows-dance.jpg",              group: "Shadows Dance" },
+  { title: "Moongaze Railways",           src: "audio/moongaze-railways.mp3",           artwork: "audio/art/moongaze-railways.jpg",          group: "Shadows Dance" },
 ];
 
 
@@ -145,7 +145,7 @@ const CONTENT = {
     {
       name: "A Bird and His Shadow",
       date: "",
-      description: "",
+      description: "A single frame. Bird and shadow caught in passage, each refusing to belong wholly to the other.",
       quote: "",
       cover: "photos/curations/a-bird-and-his-shadow/01.jpg",
       images: [
@@ -156,7 +156,7 @@ const CONTENT = {
     {
       name: "Castle",
       date: "December 2018",
-      description: "",
+      description: "Stone, weather, and the long patience of architecture. Walls remembering centuries of light.",
       quote: "",
       cover: "photos/curations/castle/03.jpg",
       images: [
@@ -174,7 +174,7 @@ const CONTENT = {
     {
       name: "Cathedrals",
       date: "January 2019",
-      description: "",
+      description: "Vaulted air, columns of stone made luminous. Studies in the way light enters a sacred space and is shaped by it.",
       quote: "",
       cover: "photos/curations/cathedrals/25.jpg",
       images: [
@@ -212,7 +212,7 @@ const CONTENT = {
     {
       name: "Epoché",
       date: "January 2020",
-      description: "",
+      description: "A phenomenological pause — bracketing the familiar to see again what was always there. From a season of slow, deliberate looking.",
       quote: "",
       cover: "photos/curations/epoche/09.jpg",
       images: [
@@ -235,7 +235,7 @@ const CONTENT = {
     {
       name: "Listen to Nature",
       date: "",
-      description: "",
+      description: "Quiet attention to the wild. Each photograph a kind of listening — to wind, leaf, water — translated into image.",
       quote: "",
       cover: "photos/curations/listen-to-nature/07.jpg",
       images: [
@@ -260,7 +260,7 @@ const CONTENT = {
     {
       name: "Moonlight",
       date: "November 2018",
-      description: "",
+      description: "Photographs made beneath the moon, where colour drains and silver remains. Long exposures of the world after dark.",
       quote: "",
       cover: "photos/curations/moonlight/06.jpg",
       images: [
@@ -277,7 +277,7 @@ const CONTENT = {
     {
       name: "Mount Tambourine",
       date: "June 2019",
-      description: "",
+      description: "Subtropical rainforest at the edge of the southeast Queensland plateau. Mist, fern, and the green hush of canopy.",
       quote: "",
       cover: "photos/curations/mount-tambourine/06.jpg",
       images: [
@@ -315,7 +315,7 @@ const CONTENT = {
     {
       name: "Notre-Dame",
       date: "January 2019",
-      description: "",
+      description: "Made in the months before the fire of April 2019. Stone and shadow inside a cathedral on the verge of change.",
       quote: "",
       cover: "photos/curations/notre-dame/41.jpg",
       images: [
@@ -377,7 +377,7 @@ const CONTENT = {
     {
       name: "Painting in Light",
       date: "June 2019",
-      description: "",
+      description: "Long-exposure studies where the camera becomes a brush. Light gathered, smeared, drawn — held briefly on the sensor.",
       quote: "",
       cover: "photos/curations/painting-in-light/01.jpg",
       images: [
@@ -451,7 +451,7 @@ const CONTENT = {
     {
       name: "Pantheon",
       date: "January 2019",
-      description: "",
+      description: "Beneath the oculus, where rain still falls indoors. A study in the geometry of awe.",
       quote: "",
       cover: "photos/curations/pantheon/03.jpg",
       images: [
@@ -467,7 +467,7 @@ const CONTENT = {
     {
       name: "Paris Cemetery",
       date: "December 2018",
-      description: "",
+      description: "Winter at Père Lachaise. Moss, marble, and the quiet city of the dead beside the living one.",
       quote: "",
       cover: "photos/curations/paris-cemetery/09.jpg",
       images: [
@@ -486,7 +486,7 @@ const CONTENT = {
     {
       name: "Reflections",
       date: "December 2018",
-      description: "",
+      description: "Water and glass as second cameras — making mirrors of the world, and of the one who walked it.",
       quote: "",
       cover: "photos/curations/reflections/08.jpg",
       images: [
@@ -504,7 +504,7 @@ const CONTENT = {
     {
       name: "Rural France",
       date: "December 2018",
-      description: "",
+      description: "Villages, fields, and weather between Burgundy and the Loire. A countryside in midwinter, unhurried.",
       quote: "",
       cover: "photos/curations/rural-france/32.jpg",
       images: [
@@ -547,7 +547,7 @@ const CONTENT = {
     {
       name: "Time",
       date: "December 2018 – January 2019",
-      description: "",
+      description: "An attempt at what cannot quite be photographed — duration, weathering, the slow passage of light across surfaces.",
       quote: "",
       cover: "photos/curations/time/10.jpg",
       images: [
