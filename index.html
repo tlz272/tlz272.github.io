@@ -379,9 +379,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Gallery-room spotlight: hovering one card dims the others */
-    .curations-grid:hover .curation-card { opacity: 0.5; }
-    .curations-grid:hover .curation-card:hover { opacity: 1; }
+    .curation-card:hover { opacity: 0.96; }
 
     .curation-card-image {
       width: 100%;
@@ -437,14 +435,15 @@
       display: block;
     }
 
-    /* CURATION DETAIL — info on top, full-width image grid below */
+    /* CURATION DETAIL — editorial layout: title on top, grid+text below */
     .curation-detail {
       width: 100%;
-      max-width: 1500px;
-      padding: 0 40px;
+      max-width: 1480px;
+      padding: 0 56px;
       display: flex;
       flex-direction: column;
-      gap: 36px;
+      gap: 26px;
+      margin: 0 auto;
     }
 
     .curation-back {
@@ -454,7 +453,6 @@
       text-transform: uppercase;
       color: #666;
       cursor: pointer;
-      margin-bottom: 4px;
       display: inline-block;
       background: none;
       border: none;
@@ -465,105 +463,117 @@
 
     .curation-back:hover { color: #fff; }
 
-    /* Museum-placard treatment: centered, intimate */
-    .curation-info {
-      text-align: center;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 8px 16px 12px;
-    }
+    .curation-header { padding-bottom: 4px; }
 
     .curation-name {
       font-family: 'EB Garamond', serif;
       font-style: italic;
-      font-size: 40px;
+      font-size: 28px;
       font-weight: 400;
       color: #fff;
-      letter-spacing: 0.005em;
-      margin-bottom: 14px;
-      line-height: 1.08;
+      letter-spacing: 0.015em;
+      line-height: 1.15;
+    }
+
+    .curation-body {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      column-gap: 64px;
+      align-items: start;
+    }
+
+    .curation-images {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .curation-images img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      background: #0a0a0a;
+      transition: opacity 0.3s ease, filter 0.5s ease;
+      filter: brightness(0.95);
+    }
+
+    .curation-images img:hover {
+      opacity: 0.92;
+      filter: brightness(1.02);
+    }
+
+    /* Adaptive grid for small series */
+    .curation-images[data-count="1"] {
+      grid-template-columns: 1fr;
+      max-width: 580px;
+    }
+    .curation-images[data-count="2"],
+    .curation-images[data-count="3"],
+    .curation-images[data-count="4"] {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Text column (right) */
+    .curation-info {
+      position: sticky;
+      top: calc(var(--nav-height) + 32px);
+      padding-top: 2px;
     }
 
     .curation-date {
       font-family: 'Jost', sans-serif;
       font-size: 10px;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
       color: #888;
-      margin-bottom: 26px;
-    }
-
-    .curation-divider {
-      width: 44px;
-      height: 1px;
-      background: #2a2a2a;
-      margin: 0 auto 28px;
+      margin-bottom: 22px;
     }
 
     .curation-desc {
       font-family: 'EB Garamond', serif;
-      font-size: 16.5px;
+      font-size: 15px;
       color: #c8c8c8;
-      margin: 0 auto 22px;
-      line-height: 1.7;
-      max-width: 600px;
+      line-height: 1.75;
+      margin-bottom: 22px;
+      text-align: justify;
+      hyphens: auto;
     }
 
     .curation-quote {
       font-family: 'EB Garamond', serif;
       font-style: italic;
-      font-size: 15px;
-      line-height: 1.75;
-      color: #a0a0a0;
-      max-width: 540px;
-      margin: 0 auto;
+      font-size: 14.5px;
+      line-height: 1.7;
+      color: #9a9a9a;
+      padding-top: 18px;
+      border-top: 1px solid #1a1a1a;
     }
 
-    /* MASONRY image layout — preserves each photo's native aspect ratio */
-    .curation-images {
-      column-count: 2;
-      column-gap: 20px;
-      width: 100%;
-      max-width: 1400px;
-      margin: 12px auto 0;
-      padding: 0 12px;
-    }
-
-    .curation-images img {
-      width: 100%;
-      display: block;
-      margin: 0 0 20px;
-      cursor: zoom-in;
-      background: #0a0a0a;
-      transition: opacity 0.4s ease, filter 0.5s ease;
-      break-inside: avoid;
-      filter: brightness(0.95);
-    }
-
-    .curation-images img:hover {
-      opacity: 0.95;
-      filter: brightness(1.02);
-    }
-
-    /* Gallery spotlight in the detail view: dim siblings on hover */
-    .curation-images:hover img { opacity: 0.55; filter: brightness(0.85); }
-    .curation-images:hover img:hover { opacity: 1; filter: brightness(1.02); }
-
-    /* Single-image curations: one centered column */
-    .curation-images.single-col {
-      column-count: 1;
-      max-width: 1000px;
+    @media (max-width: 900px) {
+      .curation-detail { padding: 0 20px; gap: 22px; }
+      .curation-body {
+        grid-template-columns: 1fr;
+        row-gap: 28px;
+      }
+      .curation-info {
+        position: relative;
+        top: 0;
+        max-width: 600px;
+      }
+      .curation-images {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .curation-images[data-count="1"] { max-width: 100%; }
     }
 
     @media (max-width: 768px) {
       .curations-grid { grid-template-columns: 1fr; gap: 56px 0; padding: 0 16px; }
-      .curation-detail { gap: 24px; padding: 0 16px; }
-      .curation-name { font-size: 28px; }
-      .curation-date { margin-bottom: 18px; }
-      .curation-divider { margin-bottom: 18px; }
-      .curation-desc { font-size: 15px; }
-      .curation-images { column-count: 1; column-gap: 0; padding: 0 4px; }
-      .curation-images img { margin-bottom: 10px; }
+      .curation-name { font-size: 22px; }
+      .curation-date { margin-bottom: 16px; }
+      .curation-desc { font-size: 14.5px; text-align: left; }
     }
 
     /* PHOTO GRID (flat photos) */
@@ -605,20 +615,50 @@
       justify-content: center;
     }
     #lightbox.open { display: flex; }
-    #lightbox-img {
+
+    .lb-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
       max-width: 96vw;
-      max-height: 94vh;
+      max-height: 96vh;
+      transition: gap 0.4s ease;
+    }
+
+    #lightbox-img {
+      max-width: 92vw;
+      max-height: 82vh;
       object-fit: contain;
       display: block;
       opacity: 0;
       cursor: zoom-in;
-      transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
-      transform-origin: center center;
+      transition: opacity 0.3s ease, max-width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  max-height 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
     }
     #lightbox-img.loaded { opacity: 1; }
-    #lightbox-img.zoomed {
+
+    #lightbox-label {
+      font-family: 'EB Garamond', serif;
+      font-weight: 400;
+      font-size: 18px;
+      letter-spacing: 0.015em;
+      color: #fff;
+      text-align: center;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Fullscreen mode: image fills viewport, UI disappears */
+    #lightbox.fullscreen .lb-stage { gap: 0; max-width: 100vw; max-height: 100vh; }
+    #lightbox.fullscreen #lightbox-img {
+      max-width: 100vw;
+      max-height: 100vh;
       cursor: zoom-out;
-      transform: scale(2);
+    }
+    #lightbox.fullscreen #lightbox-label,
+    #lightbox.fullscreen .lb-btn {
+      opacity: 0;
+      pointer-events: none;
     }
 
     .lb-btn {
@@ -661,21 +701,12 @@
     #lightbox-prev:hover { transform: translateY(-50%) translateX(-3px); }
     #lightbox-next:hover { transform: translateY(-50%) translateX(3px); }
 
-    #lightbox-counter {
-      position: absolute;
-      bottom: 26px; left: 50%; transform: translateX(-50%);
-      font-family: 'Jost', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #888;
-      white-space: nowrap;
-    }
-
     @media (max-width: 768px) {
       #photo-grid { grid-template-columns: repeat(2, 1fr); padding: 0 12px; gap: 3px; }
       .lb-btn { width: 44px; height: 44px; }
       .lb-btn svg { width: 22px; height: 22px; }
+      #lightbox-img { max-height: 78vh; }
+      #lightbox-label { font-size: 15px; }
     }
 
     /* WRITING PAGE */
@@ -1337,13 +1368,15 @@
     <button class="lb-btn" id="lightbox-next" onclick="lightboxNext(event)" aria-label="Next">
       <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
     </button>
-    <img id="lightbox-img" alt="" onclick="toggleLightboxZoom(event)">
-    <div id="lightbox-counter"></div>
+    <div class="lb-stage" onclick="event.stopPropagation()">
+      <img id="lightbox-img" alt="" onclick="toggleLightboxFullscreen(event)">
+      <div id="lightbox-label"></div>
+    </div>
   </div>
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=14"></script>
+  <script src="content.js?v=15"></script>
 
   <script id="music-data">
     // Audio state
@@ -1642,15 +1675,18 @@
       view.innerHTML = `
         <div class="curation-detail">
           <button class="curation-back" onclick="renderCurations()">&larr; All series</button>
-          <div class="curation-info">
+          <div class="curation-header">
             <h2 class="curation-name">${c.name}</h2>
-            ${c.date ? `<div class="curation-date">${c.date}</div>` : ''}
-            <div class="curation-divider"></div>
-            ${c.description ? `<div class="curation-desc">${c.description}</div>` : ''}
-            ${c.quote ? `<div class="curation-quote">${c.quote}</div>` : ''}
           </div>
-          <div class="curation-images${c.images.length === 1 ? ' single-col' : ''}">
-            ${c.images.map((img, idx) => `<img src="${img}" alt="${c.name} ${idx+1}" loading="lazy" onclick="openCurationLightbox(${i}, ${idx})">`).join('')}
+          <div class="curation-body">
+            <div class="curation-images" data-count="${c.images.length}">
+              ${c.images.map((img, idx) => `<img src="${img}" alt="${c.name} ${idx+1}" loading="lazy" onclick="openCurationLightbox(${i}, ${idx})">`).join('')}
+            </div>
+            <aside class="curation-info">
+              ${c.date ? `<div class="curation-date">${c.date}</div>` : ''}
+              ${c.description ? `<div class="curation-desc">${c.description}</div>` : ''}
+              ${c.quote ? `<div class="curation-quote">${c.quote}</div>` : ''}
+            </aside>
           </div>
         </div>
       `;
@@ -1667,17 +1703,16 @@
     function showLightboxImage() {
       const lb = document.getElementById('lightbox');
       const img = document.getElementById('lightbox-img');
-      // Reset zoom on new image
-      img.classList.remove('loaded', 'zoomed');
-      img.style.transformOrigin = 'center center';
+      // Reset state on new image (drop fullscreen if it was active)
+      lb.classList.remove('fullscreen');
+      img.classList.remove('loaded');
       img.src = currentLightboxImages[currentLightboxIndex];
       img.onload = () => img.classList.add('loaded');
       const pos = String(currentLightboxIndex + 1).padStart(2, '0');
-      const total = String(currentLightboxImages.length).padStart(2, '0');
       const label = currentLightboxLabel
-        ? `${currentLightboxLabel} · ${pos} / ${total}`
-        : `${pos} / ${total}`;
-      document.getElementById('lightbox-counter').textContent = label;
+        ? `${currentLightboxLabel} ${pos}`
+        : pos;
+      document.getElementById('lightbox-label').textContent = label;
       lb.classList.add('open');
       document.addEventListener('keydown', lightboxKeyHandler);
     }
@@ -1726,21 +1761,11 @@
       else if (e.key === 'Escape') closeLightbox();
     }
 
-    function toggleLightboxZoom(e) {
+    function toggleLightboxFullscreen(e) {
       e.stopPropagation();
-      const img = document.getElementById('lightbox-img');
-      if (!img) return;
-      if (img.classList.contains('zoomed')) {
-        img.classList.remove('zoomed');
-        img.style.transformOrigin = 'center center';
-      } else {
-        // Zoom toward the click point
-        const rect = img.getBoundingClientRect();
-        const xPct = ((e.clientX - rect.left) / rect.width) * 100;
-        const yPct = ((e.clientY - rect.top) / rect.height) * 100;
-        img.style.transformOrigin = xPct + '% ' + yPct + '%';
-        img.classList.add('zoomed');
-      }
+      const lb = document.getElementById('lightbox');
+      if (!lb) return;
+      lb.classList.toggle('fullscreen');
     }
 
     function renderWriting() {
