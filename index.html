@@ -99,93 +99,12 @@
     .page { display: none; }
     .page.active { display: block; }
 
-    /* HOME (= About): bio left, portrait right; "Recent" section below */
+    /* HOME (= About): bio left, portrait right */
     #page-home.active {
       display: block;
       min-height: 100vh;
-      max-height: 100vh;
-      overflow-y: auto;
       padding-top: 0;
-    }
-
-    /* LATEST WORK */
-    .latest-section {
-      max-width: 1240px;
-      margin: 12px auto 80px;
-      padding: 0 60px;
-    }
-
-    .latest-divider {
-      width: 60px;
-      height: 1px;
-      background: #2a2a2a;
-      margin: 0 auto 40px;
-    }
-
-    .latest-heading {
-      text-align: center;
-      font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.36em;
-      text-transform: uppercase;
-      color: #666;
-      margin-bottom: 44px;
-    }
-
-    .latest-subsection { margin-bottom: 56px; }
-    .latest-subsection:last-child { margin-bottom: 0; }
-
-    .latest-subheading {
-      font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      font-weight: 400;
-      letter-spacing: 0.26em;
-      text-transform: uppercase;
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    .latest-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-    .latest-grid--2col { grid-template-columns: repeat(2, 1fr); }
-
-    .latest-tile {
-      display: block;
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
-    .latest-tile:hover { opacity: 0.85; }
-
-    .latest-tile-img {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      background: #0a0a0a;
-    }
-    .latest-tile-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.8s ease;
-    }
-    .latest-tile:hover .latest-tile-img img { transform: scale(1.04); }
-
-    .latest-tile-title {
-      margin-top: 12px;
-      font-family: 'EB Garamond', serif;
-      font-size: 15px;
-      color: #d8d8d8;
-      line-height: 1.35;
-      letter-spacing: 0.01em;
-    }
-
-    @media (max-width: 768px) {
-      .latest-section { padding: 0 20px; margin-bottom: 56px; }
-      .latest-grid, .latest-grid--2col { grid-template-columns: 1fr; gap: 18px; }
+      overflow: visible;
     }
 
     @keyframes fadeUp {
@@ -435,14 +354,14 @@
       margin-top: 80px;
     }
 
-    /* CURATIONS LIST — denser grid of square previews */
+    /* CURATIONS LIST — gallery-wall grid */
     .curations-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 56px 36px;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 78px 44px;
       width: 100%;
-      max-width: 1400px;
-      padding: 0 40px;
+      max-width: 1480px;
+      padding: 0 56px;
       margin: 0 auto;
     }
 
@@ -450,17 +369,19 @@
       display: block;
       text-decoration: none;
       cursor: pointer;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.5s ease;
       opacity: 0;
-      transform: translateY(12px);
-      animation: cardIn 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      transform: translateY(14px);
+      animation: cardIn 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
 
     @keyframes cardIn {
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .curation-card:hover { opacity: 0.94; }
+    /* Gallery-room spotlight: hovering one card dims the others */
+    .curations-grid:hover .curation-card { opacity: 0.5; }
+    .curations-grid:hover .curation-card:hover { opacity: 1; }
 
     .curation-card-image {
       width: 100%;
@@ -475,33 +396,36 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1),
+      transition: transform 1.4s cubic-bezier(0.22, 0.61, 0.36, 1),
                   filter 0.6s ease;
-      filter: brightness(0.92);
+      filter: brightness(0.9);
     }
 
     .curation-card:hover .curation-card-image img {
-      transform: scale(1.035);
-      filter: brightness(1);
+      transform: scale(1.04);
+      filter: brightness(1.02);
     }
 
     .curation-card-meta {
-      margin-top: 18px;
+      margin-top: 20px;
       text-align: center;
     }
 
     .curation-card-name {
       font-family: 'EB Garamond', serif;
       font-style: italic;
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 400;
       color: #e8e8e8;
       letter-spacing: 0.015em;
       display: block;
-      transition: color 0.2s;
+      transition: color 0.2s, letter-spacing 0.4s ease;
     }
 
-    .curation-card:hover .curation-card-name { color: #fff; }
+    .curation-card:hover .curation-card-name {
+      color: #fff;
+      letter-spacing: 0.035em;
+    }
 
     .curation-card-date {
       font-family: 'Jost', sans-serif;
@@ -595,33 +519,51 @@
       margin: 0 auto;
     }
 
+    /* MASONRY image layout — preserves each photo's native aspect ratio */
     .curation-images {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
+      column-count: 2;
+      column-gap: 20px;
       width: 100%;
+      max-width: 1400px;
+      margin: 12px auto 0;
+      padding: 0 12px;
     }
 
     .curation-images img {
       width: 100%;
-      aspect-ratio: 3 / 2;
-      object-fit: cover;
       display: block;
+      margin: 0 0 20px;
       cursor: zoom-in;
       background: #0a0a0a;
-      transition: opacity 0.3s ease, transform 0.6s ease;
+      transition: opacity 0.4s ease, filter 0.5s ease;
+      break-inside: avoid;
+      filter: brightness(0.95);
     }
 
-    .curation-images img:hover { opacity: 0.92; transform: scale(1.01); }
+    .curation-images img:hover {
+      opacity: 0.95;
+      filter: brightness(1.02);
+    }
+
+    /* Gallery spotlight in the detail view: dim siblings on hover */
+    .curation-images:hover img { opacity: 0.55; filter: brightness(0.85); }
+    .curation-images:hover img:hover { opacity: 1; filter: brightness(1.02); }
+
+    /* Single-image curations: one centered column */
+    .curation-images.single-col {
+      column-count: 1;
+      max-width: 1000px;
+    }
 
     @media (max-width: 768px) {
-      .curations-grid { grid-template-columns: 1fr; gap: 40px; padding: 0 16px; }
+      .curations-grid { grid-template-columns: 1fr; gap: 56px 0; padding: 0 16px; }
       .curation-detail { gap: 24px; padding: 0 16px; }
       .curation-name { font-size: 28px; }
       .curation-date { margin-bottom: 18px; }
       .curation-divider { margin-bottom: 18px; }
       .curation-desc { font-size: 15px; }
-      .curation-images { grid-template-columns: 1fr; gap: 6px; }
+      .curation-images { column-count: 1; column-gap: 0; padding: 0 4px; }
+      .curation-images img { margin-bottom: 10px; }
     }
 
     /* PHOTO GRID (flat photos) */
@@ -1350,21 +1292,6 @@
         <img src="photos/01.webp" alt="Tobias Leigh Robertson">
       </div>
     </div>
-
-    <div class="latest-section">
-      <div class="latest-divider"></div>
-      <div class="latest-heading">Recent</div>
-
-      <div class="latest-subsection">
-        <div class="latest-subheading">Films</div>
-        <div class="latest-grid" id="latest-films"></div>
-      </div>
-
-      <div class="latest-subsection">
-        <div class="latest-subheading">Photography</div>
-        <div class="latest-grid latest-grid--2col" id="latest-photos"></div>
-      </div>
-    </div>
   </div>
 
   <!-- WRITING -->
@@ -1416,7 +1343,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=13"></script>
+  <script src="content.js?v=14"></script>
 
   <script id="music-data">
     // Audio state
@@ -1679,9 +1606,8 @@
 
       let html = '';
 
-      // SERIES (curations) at top
+      // SERIES (curations)
       if (curations.length > 0) {
-        html += '<div class="photo-section-label">Series</div>';
         html += '<div class="curations-grid">';
         html += curations.map((c, i) => `
           <a class="curation-card" href="#" style="animation-delay: ${Math.min(i * 60, 900)}ms"
@@ -1723,7 +1649,7 @@
             ${c.description ? `<div class="curation-desc">${c.description}</div>` : ''}
             ${c.quote ? `<div class="curation-quote">${c.quote}</div>` : ''}
           </div>
-          <div class="curation-images">
+          <div class="curation-images${c.images.length === 1 ? ' single-col' : ''}">
             ${c.images.map((img, idx) => `<img src="${img}" alt="${c.name} ${idx+1}" loading="lazy" onclick="openCurationLightbox(${i}, ${idx})">`).join('')}
           </div>
         </div>
@@ -1815,68 +1741,6 @@
         img.style.transformOrigin = xPct + '% ' + yPct + '%';
         img.classList.add('zoomed');
       }
-    }
-
-    function parseCurationDate(d) {
-      if (!d) return 0;
-      const m = d.match(/([A-Za-z]+)\s+(\d{4})/);
-      if (!m) return 0;
-      const months = {
-        jan: 0, january: 0, feb: 1, february: 1, mar: 2, march: 2,
-        apr: 3, april: 3, may: 4, jun: 5, june: 5, jul: 6, july: 6,
-        aug: 7, august: 7, sep: 8, sept: 8, september: 8, oct: 9, october: 9,
-        nov: 10, november: 10, dec: 11, december: 11
-      };
-      const monKey = m[1].toLowerCase();
-      return new Date(parseInt(m[2], 10), months[monKey] || 0).getTime();
-    }
-
-    function renderLatest() {
-      const filmsEl = document.getElementById('latest-films');
-      const photosEl = document.getElementById('latest-photos');
-      if (!filmsEl || !photosEl) return;
-
-      // Films — first 3 of videos array (top = newest by convention)
-      const films = (CONTENT.videos || []).slice(0, 3);
-      filmsEl.innerHTML = films.map(v => `
-        <a class="latest-tile" href="#" onclick="navToFilms(); return false;">
-          <div class="latest-tile-img">
-            <img src="https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg" alt="${v.title}" loading="lazy"
-                 onerror="this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'">
-          </div>
-          <div class="latest-tile-title">${v.title}</div>
-        </a>
-      `).join('');
-
-      // Photography — 2 newest curations by date
-      const sorted = (CONTENT.curations || [])
-        .map((c, idx) => ({ c, idx }))
-        .filter(x => x.c.date)
-        .sort((a, b) => parseCurationDate(b.c.date) - parseCurationDate(a.c.date));
-      const top2 = sorted.slice(0, 2);
-      photosEl.innerHTML = top2.map(({ c, idx }) => `
-        <a class="latest-tile" href="#" onclick="navToCuration(${idx}); return false;">
-          <div class="latest-tile-img">
-            <img src="${c.cover}" alt="${c.name}" loading="lazy">
-          </div>
-          <div class="latest-tile-title">${c.name}</div>
-        </a>
-      `).join('');
-    }
-
-    function findNavLink(label) {
-      return Array.from(document.querySelectorAll('.nav-links a'))
-        .find(a => a.textContent.trim() === label) || null;
-    }
-
-    function navToFilms() {
-      showPage('video', findNavLink('Video'));
-    }
-
-    function navToCuration(i) {
-      showPage('photography', findNavLink('Photography'));
-      // Defer to after the page swap so showCuration overwrites the landing grid
-      setTimeout(() => showCuration(i), 0);
     }
 
     function renderWriting() {
@@ -2059,5 +1923,4 @@
     renderPhotos();
     renderWriting();
     renderMusic();
-    renderLatest();
   </script>
