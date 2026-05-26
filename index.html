@@ -6,7 +6,6 @@
   <title>Tobias Leigh Robertson</title>
   <meta name="description" content="Tobias Leigh Robertson is an interdisciplinary artist working across film, photography, writing, and music. Founder of Vosa Creative.">
   <meta name="author" content="Tobias Leigh Robertson">
-  <link rel="icon" type="image/png" href="favicon.png?v=2">
 
   <!-- Open Graph — used by Facebook, LinkedIn, Substack, iMessage, etc. -->
   <meta property="og:type" content="website">
@@ -198,7 +197,7 @@
     }
     .nav-drawer-links a {
       font-family: 'EB Garamond', serif;
-      font-style: italic;
+      font-style: normal;
       font-size: 22px;
       font-weight: 400;
       color: #e0e0e0;
@@ -210,7 +209,6 @@
     .nav-drawer-links a.active { color: var(--red); }
     /* The "Tobias Robertson" entry stays subtle since it's effectively the home link */
     .nav-drawer-links a[data-page="home"] {
-      font-style: normal;
       font-size: 14px;
       letter-spacing: 0.04em;
       color: #888;
@@ -525,13 +523,11 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 1.4s cubic-bezier(0.22, 0.61, 0.36, 1),
-                  filter 0.6s ease;
-      filter: brightness(0.9);
+      transition: filter 0.5s ease;
+      filter: brightness(0.92);
     }
 
     .curation-card:hover .curation-card-image img {
-      transform: scale(1.04);
       filter: brightness(1.02);
     }
 
@@ -671,24 +667,11 @@
       display: block;
       cursor: pointer;
       background: #0a0a0a;
-      /* Default state for scroll fade-in. JS adds .in-view as each photo
-         enters the viewport (IntersectionObserver). Fades to brightness 0.95
-         and translates back to baseline. */
-      opacity: 0;
-      transform: translateY(14px);
-      filter: brightness(0.7);
-      transition: opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
-                  transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
-                  filter 0.6s ease;
+      transition: opacity 0.3s ease, filter 0.4s ease;
     }
-    .curation-images img.in-view {
-      opacity: 1;
-      transform: translateY(0);
-      filter: brightness(0.95);
-    }
-    .curation-images img.in-view:hover {
+    .curation-images img:hover {
       opacity: 0.92;
-      filter: brightness(1.02);
+      filter: brightness(1.04);
     }
 
     /* Adaptive grid for small series */
@@ -1827,7 +1810,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=23"></script>
+  <script src="content.js?v=24"></script>
 
   <script id="music-data">
     // Audio state
@@ -2160,7 +2143,16 @@
           </div>
           <div class="curation-body">
             <div class="curation-images" data-count="${c.images.length}">
-              ${c.images.map((img, idx) => `<img src="${img}" alt="${c.name} ${idx+1}" loading="lazy" onclick="openCurationLightbox(${i}, ${idx})">`).join('')}
+              ${c.images.map((img, idx) => {
+                // First image: highest priority. Next five: eager (above-the-fold).
+                // The rest: lazy — stream in as the user scrolls.
+                const loadAttr = idx === 0
+                  ? 'loading="eager" fetchpriority="high" decoding="async"'
+                  : idx < 6
+                    ? 'loading="eager" decoding="async"'
+                    : 'loading="lazy" decoding="async"';
+                return `<img src="${img}" alt="${c.name} ${idx+1}" ${loadAttr} onclick="openCurationLightbox(${i}, ${idx})">`;
+              }).join('')}
             </div>
             <aside class="curation-info">
               ${c.date ? `<div class="curation-date">${c.date}</div>` : ''}
@@ -2173,32 +2165,6 @@
       // Scroll the inner page back to top
       const photoPage = document.querySelector('.photo-page');
       if (photoPage) photoPage.scrollTop = 0;
-
-      // Wire scroll fade-in for the masonry grid
-      setupCurationScrollFade();
-    }
-
-    /* Photos in the curation detail grid fade up as they enter the viewport.
-       Cleaner-feeling than every photo appearing at once. Uses IntersectionObserver
-       (~20 lines of JS, native to all modern browsers). */
-    function setupCurationScrollFade() {
-      const imgs = document.querySelectorAll('.curation-images img');
-      if (!imgs.length) return;
-      // Browsers without IO: just reveal everything
-      if (!('IntersectionObserver' in window)) {
-        imgs.forEach(img => img.classList.add('in-view'));
-        return;
-      }
-      const photoPage = document.querySelector('.photo-page');
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            obs.unobserve(entry.target);
-          }
-        });
-      }, { root: photoPage, threshold: 0.05, rootMargin: '0px 0px -8% 0px' });
-      imgs.forEach(img => obs.observe(img));
     }
 
     // Generic lightbox state — works for any image array
