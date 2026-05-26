@@ -135,9 +135,9 @@ const CONTENT = {
   //      placeholder while the audio-only mix is still being prepared.
   films: [
     {
-      title:       "Room Service",
+      title:       "The Inner Room",
       credit:      "Fremantle Biennale, 2025 — dual-channel film-poem",
-      description: "A two-channel film-poem co-directed, filmed, edited, and scored by Tobias Leigh Robertson for the Room Service exhibition at the Fremantle Biennale (2025). Originally presented across two facing walls of the installation space; the dual channels play synchronously here as a single field of attention.",
+      description: "A two-channel film-poem made in collaboration with award-winning Australian poet Jennifer Kornberger. Co-directed, filmed, edited, and scored by Tobias Leigh Robertson for the Room Service exhibition at the Fremantle Biennale (2025). Originally presented across two facing walls of the installation space; the dual channels play synchronously here as a single field of attention.",
       leftSrc:     "films/room-service-left.mp4",
       rightSrc:    "films/room-service-right.mp4",
       audioSrc:    "films/room-service.mp3",

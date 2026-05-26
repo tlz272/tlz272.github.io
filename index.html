@@ -106,6 +106,105 @@
       border-bottom-color: var(--red);
     }
 
+    /* Hamburger button — mobile only */
+    .nav-toggle {
+      display: none;
+      justify-self: end;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      color: var(--white);
+      cursor: pointer;
+      padding: 0;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+    .nav-toggle:hover { color: #ccc; }
+    .nav-toggle svg { width: 24px; height: 24px; }
+
+    /* Slide-out drawer — mobile only */
+    .nav-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 78vw;
+      max-width: 360px;
+      height: 100vh;
+      background: #050505;
+      border-left: 1px solid #1a1a1a;
+      padding: 22px 28px 32px;
+      z-index: 250;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .nav-drawer.open { transform: translateX(0); }
+
+    .nav-drawer-close {
+      align-self: flex-end;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      color: #888;
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+      margin-bottom: 24px;
+    }
+    .nav-drawer-close:hover { color: #fff; }
+    .nav-drawer-close svg { width: 22px; height: 22px; }
+
+    .nav-drawer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      padding: 8px 4px;
+    }
+    .nav-drawer-links a {
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: 22px;
+      font-weight: 400;
+      color: #e0e0e0;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+    .nav-drawer-links a:hover { color: #fff; }
+    .nav-drawer-links a.active { color: var(--red); }
+    /* The "Tobias Robertson" entry stays subtle since it's effectively the home link */
+    .nav-drawer-links a[data-page="home"] {
+      font-style: normal;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: #888;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #1a1a1a;
+      margin-bottom: 12px;
+    }
+
+    .nav-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 249;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .nav-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     /* PAGES */
     .page { display: none; }
     .page.active { display: block; }
@@ -303,19 +402,12 @@
       html, body { overflow: auto; }
 
       nav {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 12px 16px;
-        height: auto;
+        grid-template-columns: 1fr auto;
+        padding: 0 20px;
+        height: var(--nav-height);
       }
-      .nav-logo { justify-self: auto; }
-      .nav-links {
-        justify-self: auto;
-        gap: 14px;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
+      .nav-links { display: none; }
+      .nav-toggle { display: inline-flex; }
 
       .inner-page h1 { font-size: 30px; }
     }
@@ -1571,14 +1663,38 @@
   <nav>
     <a href="#" class="nav-logo" onclick="showPage('home', null)">Tobias Robertson</a>
     <div class="nav-links">
-      <a href="#" onclick="showPage('video', this)">Video Essays</a>
-      <a href="#" onclick="showPage('photography', this)">Photography</a>
-      <a href="#" onclick="showPage('writing', this)">Writing</a>
-      <a href="#" onclick="showPage('sound', this)">Music</a>
-      <a href="#" onclick="showPage('film', this)">Film Poetry</a>
-      <a href="#" onclick="showPage('contact', this)">Contact</a>
+      <a href="#" data-page="video"       onclick="showPage('video', this)">Video Essays</a>
+      <a href="#" data-page="photography" onclick="showPage('photography', this)">Photography</a>
+      <a href="#" data-page="writing"     onclick="showPage('writing', this)">Writing</a>
+      <a href="#" data-page="sound"       onclick="showPage('sound', this)">Music</a>
+      <a href="#" data-page="film"        onclick="showPage('film', this)">Film Poetry</a>
+      <a href="#" data-page="contact"     onclick="showPage('contact', this)">Contact</a>
     </div>
+    <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16"/>
+      </svg>
+    </button>
   </nav>
+
+  <!-- Mobile slide-out drawer -->
+  <aside class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <button class="nav-drawer-close" onclick="toggleMobileNav()" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <path d="M6 6L18 18M18 6L6 18"/>
+      </svg>
+    </button>
+    <nav class="nav-drawer-links">
+      <a href="#" data-page="home"        onclick="navMobile('home')">Tobias Robertson</a>
+      <a href="#" data-page="video"       onclick="navMobile('video')">Video Essays</a>
+      <a href="#" data-page="photography" onclick="navMobile('photography')">Photography</a>
+      <a href="#" data-page="writing"     onclick="navMobile('writing')">Writing</a>
+      <a href="#" data-page="sound"       onclick="navMobile('sound')">Music</a>
+      <a href="#" data-page="film"        onclick="navMobile('film')">Film Poetry</a>
+      <a href="#" data-page="contact"     onclick="navMobile('contact')">Contact</a>
+    </nav>
+  </aside>
+  <div class="nav-backdrop" id="nav-backdrop" onclick="toggleMobileNav()"></div>
 
   <!-- HOME (= About) -->
   <div id="page-home" class="page active">
@@ -1658,7 +1774,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=20"></script>
+  <script src="content.js?v=21"></script>
 
   <script id="music-data">
     // Audio state
@@ -2243,7 +2359,7 @@
     }
 
     function showPage(id, linkEl) {
-      const innerSel = '.inner-page, .video-page, .writing-page, .music-page, .about-page, .contact-page, .photo-page';
+      const innerSel = '.inner-page, .video-page, .writing-page, .music-page, .about-page, .contact-page, .photo-page, .film-page';
 
       document.querySelectorAll('.page').forEach(p => {
         p.classList.remove('active');
@@ -2260,12 +2376,37 @@
         inner.style.animation = '';
       }
 
-      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-      if (linkEl) linkEl.classList.add('active');
+      // Mark active on EVERY nav link (desktop + drawer) by page id
+      document.querySelectorAll('[data-page]').forEach(a => a.classList.remove('active'));
+      document.querySelectorAll('[data-page="' + id + '"]').forEach(a => a.classList.add('active'));
 
       if (id === 'sound') renderMusic();
       if (window.event) event.preventDefault();
     }
+
+    function toggleMobileNav() {
+      const drawer   = document.getElementById('nav-drawer');
+      const backdrop = document.getElementById('nav-backdrop');
+      if (!drawer || !backdrop) return;
+      const opening = !drawer.classList.contains('open');
+      drawer.classList.toggle('open', opening);
+      backdrop.classList.toggle('open', opening);
+      drawer.setAttribute('aria-hidden', opening ? 'false' : 'true');
+      document.body.style.overflow = opening ? 'hidden' : '';
+    }
+
+    function navMobile(id) {
+      toggleMobileNav();
+      // Slight delay so the drawer-close animation can begin before the page swap
+      setTimeout(() => showPage(id, null), 60);
+    }
+
+    // ESC closes the drawer
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      const drawer = document.getElementById('nav-drawer');
+      if (drawer && drawer.classList.contains('open')) toggleMobileNav();
+    });
 
     function handleSubscribe(e) {
       e.preventDefault();
