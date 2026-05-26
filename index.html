@@ -6,7 +6,7 @@
   <title>Tobias Leigh Robertson</title>
   <meta name="description" content="Tobias Leigh Robertson is an interdisciplinary artist working across film, photography, writing, and music. Founder of Vosa Creative.">
   <meta name="author" content="Tobias Leigh Robertson">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" href="favicon.png?v=2">
 
   <!-- Open Graph — used by Facebook, LinkedIn, Substack, iMessage, etc. -->
   <meta property="og:type" content="website">
@@ -671,11 +671,22 @@
       display: block;
       cursor: pointer;
       background: #0a0a0a;
-      transition: opacity 0.3s ease, filter 0.5s ease;
+      /* Default state for scroll fade-in. JS adds .in-view as each photo
+         enters the viewport (IntersectionObserver). Fades to brightness 0.95
+         and translates back to baseline. */
+      opacity: 0;
+      transform: translateY(14px);
+      filter: brightness(0.7);
+      transition: opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+                  filter 0.6s ease;
+    }
+    .curation-images img.in-view {
+      opacity: 1;
+      transform: translateY(0);
       filter: brightness(0.95);
     }
-
-    .curation-images img:hover {
+    .curation-images img.in-view:hover {
       opacity: 0.92;
       filter: brightness(1.02);
     }
@@ -802,17 +813,25 @@
       transition: gap 0.4s ease;
     }
 
-    #lightbox-img {
+    .lb-img-wrap {
+      display: grid;
+      cursor: zoom-in;
+    }
+
+    .lb-img {
+      grid-area: 1 / 1;
       max-width: 92vw;
       max-height: 82vh;
       object-fit: contain;
       display: block;
       opacity: 0;
-      cursor: zoom-in;
-      transition: opacity 0.3s ease, max-width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+      justify-self: center;
+      align-self: center;
+      transition: opacity 0.45s ease,
+                  max-width 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
                   max-height 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
     }
-    #lightbox-img.loaded { opacity: 1; }
+    .lb-img.active { opacity: 1; }
 
     #lightbox-label {
       font-family: 'EB Garamond', serif;
@@ -826,10 +845,10 @@
 
     /* Fullscreen mode: image fills viewport, UI disappears */
     #lightbox.fullscreen .lb-stage { gap: 0; max-width: 100vw; max-height: 100vh; }
-    #lightbox.fullscreen #lightbox-img {
+    #lightbox.fullscreen .lb-img-wrap { cursor: zoom-out; }
+    #lightbox.fullscreen .lb-img {
       max-width: 100vw;
       max-height: 100vh;
-      cursor: zoom-out;
     }
     #lightbox.fullscreen #lightbox-label,
     #lightbox.fullscreen .lb-btn {
@@ -881,7 +900,7 @@
       #photo-grid { grid-template-columns: repeat(2, 1fr); padding: 0 12px; gap: 3px; }
       .lb-btn { width: 44px; height: 44px; }
       .lb-btn svg { width: 22px; height: 22px; }
-      #lightbox-img { max-height: 78vh; }
+      .lb-img { max-height: 78vh; }
       #lightbox-label { font-size: 15px; }
     }
 
@@ -1798,14 +1817,17 @@
       <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
     </button>
     <div class="lb-stage" onclick="event.stopPropagation()">
-      <img id="lightbox-img" alt="" onclick="toggleLightboxFullscreen(event)">
+      <div class="lb-img-wrap" onclick="toggleLightboxFullscreen(event)">
+        <img class="lb-img" id="lightbox-img-a" alt="">
+        <img class="lb-img" id="lightbox-img-b" alt="">
+      </div>
       <div id="lightbox-label"></div>
     </div>
   </div>
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=22"></script>
+  <script src="content.js?v=23"></script>
 
   <script id="music-data">
     // Audio state
@@ -1998,7 +2020,7 @@
               (graceful fallback so the page never throws an error).
               ============================================
             -->
-            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="return handleContactSubmit(event)">
+            <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="return handleContactSubmit(event)">
               <div class="form-field">
                 <label>Name*</label>
                 <input type="text" name="name" required>
@@ -2151,28 +2173,93 @@
       // Scroll the inner page back to top
       const photoPage = document.querySelector('.photo-page');
       if (photoPage) photoPage.scrollTop = 0;
+
+      // Wire scroll fade-in for the masonry grid
+      setupCurationScrollFade();
+    }
+
+    /* Photos in the curation detail grid fade up as they enter the viewport.
+       Cleaner-feeling than every photo appearing at once. Uses IntersectionObserver
+       (~20 lines of JS, native to all modern browsers). */
+    function setupCurationScrollFade() {
+      const imgs = document.querySelectorAll('.curation-images img');
+      if (!imgs.length) return;
+      // Browsers without IO: just reveal everything
+      if (!('IntersectionObserver' in window)) {
+        imgs.forEach(img => img.classList.add('in-view'));
+        return;
+      }
+      const photoPage = document.querySelector('.photo-page');
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { root: photoPage, threshold: 0.05, rootMargin: '0px 0px -8% 0px' });
+      imgs.forEach(img => obs.observe(img));
     }
 
     // Generic lightbox state — works for any image array
     let currentLightboxImages = [];
     let currentLightboxIndex = 0;
-    let currentLightboxLabel = '';   // e.g. "Epoché" — shown as "Epoché · 01 / 13"
+    let currentLightboxLabel = '';   // e.g. "Epoché" — shown as "Epoché 01"
+    let lbActiveLayer = 'a';         // which of the two <img> layers is currently visible
 
     function showLightboxImage() {
       const lb = document.getElementById('lightbox');
-      const img = document.getElementById('lightbox-img');
-      // Reset state on new image (drop fullscreen if it was active)
+      // Reset fullscreen on new image
       lb.classList.remove('fullscreen');
-      img.classList.remove('loaded');
-      img.src = currentLightboxImages[currentLightboxIndex];
-      img.onload = () => img.classList.add('loaded');
+
+      const newSrc = currentLightboxImages[currentLightboxIndex];
+      const nextLayer = lbActiveLayer === 'a' ? 'b' : 'a';
+      const newImg = document.getElementById('lightbox-img-' + nextLayer);
+      const oldImg = document.getElementById('lightbox-img-' + lbActiveLayer);
+
+      // Preload via a detached Image so we can swap with no flash
+      const tmp = new Image();
+      tmp.onload = () => {
+        newImg.src = newSrc;
+        newImg.classList.add('active');
+        oldImg.classList.remove('active');
+        lbActiveLayer = nextLayer;
+        // Free the off-screen image's memory after the fade completes
+        setTimeout(() => {
+          if (!oldImg.classList.contains('active')) oldImg.removeAttribute('src');
+        }, 600);
+        // Soft-preload neighbors so prev/next feel instant
+        preloadLightboxNeighbors();
+      };
+      tmp.onerror = () => {
+        // Fall back to direct src set so the user still sees the image (or a broken-image icon)
+        newImg.src = newSrc;
+        newImg.classList.add('active');
+        oldImg.classList.remove('active');
+        lbActiveLayer = nextLayer;
+      };
+      tmp.src = newSrc;
+
+      // Update label
       const pos = String(currentLightboxIndex + 1).padStart(2, '0');
-      const label = currentLightboxLabel
-        ? `${currentLightboxLabel} ${pos}`
-        : pos;
-      document.getElementById('lightbox-label').textContent = label;
+      document.getElementById('lightbox-label').textContent =
+        currentLightboxLabel ? (currentLightboxLabel + ' ' + pos) : pos;
+
       lb.classList.add('open');
       document.addEventListener('keydown', lightboxKeyHandler);
+    }
+
+    // Preload the image one step ahead AND one step behind (covers both
+    // navigation directions, browser caches both for instant transitions).
+    function preloadLightboxNeighbors() {
+      const len = currentLightboxImages.length;
+      if (len <= 1) return;
+      const nextIdx = (currentLightboxIndex + 1) % len;
+      const prevIdx = (currentLightboxIndex - 1 + len) % len;
+      [nextIdx, prevIdx].forEach(i => {
+        const im = new Image();
+        im.src = currentLightboxImages[i];
+      });
     }
 
     function openFlatLightbox(index) {
@@ -2371,22 +2458,115 @@
       }
     }
 
+    /* WRITING — renders CONTENT.writing immediately as a fallback, then
+       fetches the latest posts from your Substack RSS feed (via rss2json)
+       and seamlessly swaps them in. Cached in localStorage for 1 hour so
+       repeat visits are instant and never hit the rate limit. */
+    const SUBSTACK_FEED = 'https://vosacreative.substack.com/feed';
+    const SUBSTACK_CACHE_KEY = 'writing-cache-v1';
+    const SUBSTACK_CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
     function renderWriting() {
+      // 1) immediate fallback render from content.js
+      paintWriting(CONTENT.writing || []);
+
+      // 2) try cached substack data
+      const cached = readWritingCache();
+      if (cached && cached.length) {
+        paintWriting(cached);
+      }
+
+      // 3) fetch fresh in background; replace if we get something newer
+      fetchSubstackPosts().then(posts => {
+        if (posts && posts.length) {
+          paintWriting(posts);
+          writeWritingCache(posts);
+        }
+      }).catch(() => { /* fall through to whatever is on screen */ });
+    }
+
+    function paintWriting(writing) {
       const list = document.getElementById('writing-list');
       if (!list) return;
-      if (CONTENT.writing.length === 0) {
+      if (writing.length === 0) {
         list.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Essays, fiction, and thought — coming soon</p>';
         return;
       }
-      list.innerHTML = CONTENT.writing.map(w => `
-        <a href="${w.url}" target="_blank" class="writing-item">
-          ${w.image ? `<div class="writing-img"><img src="${w.image}" alt="${w.title}"></div>` : ''}
+      list.innerHTML = writing.map(w => `
+        <a href="${w.url}" target="_blank" rel="noopener" class="writing-item">
+          ${w.image ? `<div class="writing-img"><img src="${w.image}" alt="${escapeAttr(w.title)}" loading="lazy"></div>` : ''}
           <div class="writing-text">
             <div class="writing-title">${w.title}</div>
-            <div class="writing-desc">${w.description}</div>
+            <div class="writing-desc">${w.description || ''}</div>
           </div>
         </a>
       `).join('');
+    }
+
+    function escapeAttr(s) {
+      return String(s).replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    }
+
+    async function fetchSubstackPosts() {
+      const url = 'https://api.rss2json.com/v1/api.json?rss_url=' +
+                  encodeURIComponent(SUBSTACK_FEED) + '&count=12';
+      const ctrl = new AbortController();
+      const timeoutId = setTimeout(() => ctrl.abort(), 6000);
+      try {
+        const res = await fetch(url, { signal: ctrl.signal });
+        clearTimeout(timeoutId);
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (data.status !== 'ok' || !data.items) return null;
+        return data.items.map(item => {
+          const cleanDesc = stripHtml(item.description || '');
+          return {
+            title: item.title,
+            url:   item.link,
+            description: truncate(cleanDesc, 220),
+            image: pickItemImage(item),
+          };
+        });
+      } catch (e) {
+        clearTimeout(timeoutId);
+        return null;
+      }
+    }
+
+    function stripHtml(html) {
+      const d = document.createElement('div');
+      d.innerHTML = html;
+      return (d.textContent || '').replace(/\s+/g, ' ').trim();
+    }
+
+    function truncate(s, n) {
+      if (!s || s.length <= n) return s;
+      return s.slice(0, n).replace(/\s+\S*$/, '') + '…';
+    }
+
+    function pickItemImage(item) {
+      if (item.thumbnail) return item.thumbnail;
+      if (item.enclosure && item.enclosure.link) return item.enclosure.link;
+      const d = document.createElement('div');
+      d.innerHTML = item.description || item.content || '';
+      const img = d.querySelector('img');
+      return img ? img.src : '';
+    }
+
+    function readWritingCache() {
+      try {
+        const raw = localStorage.getItem(SUBSTACK_CACHE_KEY);
+        if (!raw) return null;
+        const { ts, data } = JSON.parse(raw);
+        if (!data || Date.now() - ts > SUBSTACK_CACHE_TTL) return null;
+        return data;
+      } catch (e) { return null; }
+    }
+
+    function writeWritingCache(data) {
+      try {
+        localStorage.setItem(SUBSTACK_CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+      } catch (e) { /* localStorage disabled — ignore */ }
     }
 
     function showPage(id, linkEl) {
@@ -2449,7 +2629,9 @@
     function handleContactSubmit(e) {
       const form = e.target;
       // If Formspree isn't set up yet, fall back to opening the visitor's email client.
-      if (form.action.includes('YOUR_FORM_ID')) {
+      const noFormspree = form.action.includes('YOUR_FORM_ID') ||
+                          (typeof FORMSPREE_ID === 'undefined' || !FORMSPREE_ID);
+      if (noFormspree) {
         e.preventDefault();
         const data = new FormData(form);
         const name = data.get('name') || '';
@@ -2570,6 +2752,13 @@
 
       container.innerHTML = html;
     }
+
+    // Wire Formspree action from content.js (if user has set FORMSPREE_ID)
+    (function applyFormspree() {
+      if (typeof FORMSPREE_ID === 'undefined' || !FORMSPREE_ID) return;
+      const form = document.getElementById('contact-form');
+      if (form) form.action = 'https://formspree.io/f/' + FORMSPREE_ID;
+    })();
 
     // Render dynamic content on page load
     renderVideos();

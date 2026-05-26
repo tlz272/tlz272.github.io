@@ -5,6 +5,22 @@
    ============================================================ */
 
 
+// --- CONTACT FORM (Formspree) ---
+// To activate the contact form so messages arrive in your inbox instead of
+// opening the visitor's email client:
+//   1. Go to https://formspree.io and sign up (free, ~2 minutes).
+//   2. Create a new form. You'll be given an endpoint that looks like
+//      https://formspree.io/f/abcd1234
+//   3. Paste just the ID part (the "abcd1234") between the quotes below.
+//      Save, push, done. The form will start sending submissions to your
+//      verified email automatically.
+//
+// Leave it blank to keep the current mailto: fallback (which opens the
+// visitor's email app pre-filled with the message — works fine but less
+// convenient for the visitor).
+const FORMSPREE_ID = "";   // e.g. "abcd1234"
+
+
 // --- MUSIC TRACKS (SoundCloud) ---
 // To add a track: open the track on SoundCloud, copy the page URL
 // (the part after soundcloud.com), and paste it as a new line below.
@@ -52,12 +68,12 @@ const SOUNDCLOUD_PLAYLISTS = [
 // Leave description/quote blank to hide them; fill them in to display
 // a small evocative line under the playlist title.
 const GROUP_META = {
-  "Vintur":          { description: "Long-form breath studies, recorded as one continuous exhalation across two pieces.",                                quote: "" },
-  "Vosa":            { description: "Three movements composed in the years Vosa Creative was founded — the slow shape of a beginning.",                  quote: "" },
-  "Didessa Fantasy": { description: "Place-named pieces drawn from rivers, moons, and other unseen geographies.",                                        quote: "" },
-  "Valves":          { description: "A single hour-long piece. Recorded in one take; valves opening and closing on their own time.",                     quote: "" },
-  "Nebula Mandala":  { description: "Patterns of stillness and dispersal — what becomes of a centre when the centre keeps moving.",                      quote: "" },
-  "Shadows Dance":   { description: "Music for the hours when light is gone but the room is not silent.",                                                quote: "" },
+  "Vintur":          { description: "", quote: "" },
+  "Vosa":            { description: "", quote: "" },
+  "Didessa Fantasy": { description: "", quote: "" },
+  "Valves":          { description: "", quote: "" },
+  "Nebula Mandala":  { description: "", quote: "" },
+  "Shadows Dance":   { description: "", quote: "" },
 };
 
 
