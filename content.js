@@ -52,12 +52,12 @@ const SOUNDCLOUD_PLAYLISTS = [
 // Leave description/quote blank to hide them; fill them in to display
 // a small evocative line under the playlist title.
 const GROUP_META = {
-  "Vosa":            { description: "", quote: "" },
-  "Vintur":          { description: "", quote: "" },
-  "Didessa Fantasy": { description: "", quote: "" },
-  "Valves":          { description: "", quote: "" },
-  "Nebula Mandala":  { description: "", quote: "" },
-  "Shadows Dance":   { description: "", quote: "" },
+  "Vintur":          { description: "Long-form breath studies, recorded as one continuous exhalation across two pieces.",                                quote: "" },
+  "Vosa":            { description: "Three movements composed in the years Vosa Creative was founded — the slow shape of a beginning.",                  quote: "" },
+  "Didessa Fantasy": { description: "Place-named pieces drawn from rivers, moons, and other unseen geographies.",                                        quote: "" },
+  "Valves":          { description: "A single hour-long piece. Recorded in one take; valves opening and closing on their own time.",                     quote: "" },
+  "Nebula Mandala":  { description: "Patterns of stillness and dispersal — what becomes of a centre when the centre keeps moving.",                      quote: "" },
+  "Shadows Dance":   { description: "Music for the hours when light is gone but the room is not silent.",                                                quote: "" },
 };
 
 
@@ -141,7 +141,7 @@ const CONTENT = {
       leftSrc:     "films/room-service-left.mp4",
       rightSrc:    "films/room-service-right.mp4",
       audioSrc:    "films/room-service.mp3",
-      ready:       true,   // set to false to show a placeholder until the MP4s are uploaded
+      ready:       false,  // currently hidden — flip to true (and un-comment the nav links in index.html) to bring it back
     },
   ],
 

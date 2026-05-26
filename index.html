@@ -24,6 +24,34 @@
   <meta name="twitter:image" content="https://tobiasrobertson.com/photos/01.webp">
 
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+
+  <!-- Structured data — helps Google/Bing etc. understand who the site is about -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Tobias Leigh Robertson",
+    "alternateName": "Tobias Robertson",
+    "url": "https://tobiasrobertson.com",
+    "image": "https://tobiasrobertson.com/photos/01.webp",
+    "jobTitle": "Interdisciplinary Artist",
+    "description": "Interdisciplinary artist working across film, photography, writing, and music. Founder of Vosa Creative.",
+    "nationality": "Australian",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Vosa Creative",
+      "url": "https://vosacreative.substack.com"
+    },
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": "The University of Queensland"
+    },
+    "sameAs": [
+      "https://vosacreative.substack.com",
+      "https://soundcloud.com/tobiasleigh"
+    ]
+  }
+  </script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1667,7 +1695,10 @@
       <a href="#" data-page="photography" onclick="showPage('photography', this)">Photography</a>
       <a href="#" data-page="writing"     onclick="showPage('writing', this)">Writing</a>
       <a href="#" data-page="sound"       onclick="showPage('sound', this)">Music</a>
-      <a href="#" data-page="film"        onclick="showPage('film', this)">Film Poetry</a>
+      <!-- Film Poetry hidden until the videos can be hosted at full quality.
+           To restore: un-comment this line + the drawer link below, and set
+           ready: true on the films entry in content.js. -->
+      <!-- <a href="#" data-page="film"        onclick="showPage('film', this)">Film Poetry</a> -->
       <a href="#" data-page="contact"     onclick="showPage('contact', this)">Contact</a>
     </div>
     <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Open menu">
@@ -1690,7 +1721,7 @@
       <a href="#" data-page="photography" onclick="navMobile('photography')">Photography</a>
       <a href="#" data-page="writing"     onclick="navMobile('writing')">Writing</a>
       <a href="#" data-page="sound"       onclick="navMobile('sound')">Music</a>
-      <a href="#" data-page="film"        onclick="navMobile('film')">Film Poetry</a>
+      <!-- <a href="#" data-page="film"        onclick="navMobile('film')">Film Poetry</a> -->
       <a href="#" data-page="contact"     onclick="navMobile('contact')">Contact</a>
     </nav>
   </aside>
@@ -1774,7 +1805,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=21"></script>
+  <script src="content.js?v=22"></script>
 
   <script id="music-data">
     // Audio state

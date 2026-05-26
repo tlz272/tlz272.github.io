@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Not Found — Tobias Leigh Robertson</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      background: #000;
+      color: #fff;
+      font-family: 'EB Garamond', Georgia, serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      padding: 40px 24px;
+      text-align: center;
+      opacity: 0;
+      animation: fade 0.9s ease 0.1s forwards;
+    }
+
+    @keyframes fade { to { opacity: 1; } }
+
+    .label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .heading {
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: 42px;
+      font-weight: 400;
+      color: #f0f0f0;
+      letter-spacing: 0.005em;
+      line-height: 1.12;
+      max-width: 600px;
+    }
+
+    .desc {
+      font-size: 15.5px;
+      color: #aaa;
+      max-width: 460px;
+      line-height: 1.7;
+    }
+
+    .divider {
+      width: 44px;
+      height: 1px;
+      background: #2a2a2a;
+      margin-top: 6px;
+    }
+
+    .home-link {
+      margin-top: 12px;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #888;
+      text-decoration: none;
+      padding-bottom: 3px;
+      border-bottom: 1px solid #333;
+      transition: color 0.25s ease, border-color 0.25s ease;
+    }
+    .home-link:hover {
+      color: #fff;
+      border-bottom-color: #888;
+    }
+
+    @media (max-width: 600px) {
+      .heading { font-size: 28px; }
+      .desc { font-size: 14.5px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="label">404 — Not Found</div>
+  <h1 class="heading">This page is not here.</h1>
+  <div class="divider"></div>
+  <p class="desc">The link may have moved, or this address never quite existed.</p>
+  <a href="/" class="home-link">Return home</a>
+</body>
+</html>
