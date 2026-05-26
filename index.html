@@ -6,6 +6,7 @@
   <title>Tobias Leigh Robertson</title>
   <meta name="description" content="Tobias Leigh Robertson is an interdisciplinary artist working across film, photography, writing, and music. Founder of Vosa Creative.">
   <meta name="author" content="Tobias Leigh Robertson">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <!-- Open Graph — used by Facebook, LinkedIn, Substack, iMessage, etc. -->
   <meta property="og:type" content="website">
@@ -25,6 +26,16 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* Keyboard focus — quiet but visible, matches the site palette */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 1px solid #888;
+      outline-offset: 3px;
+    }
+    a:focus-visible, button:focus-visible {
+      outline-color: #fff;
+    }
 
     :root {
       --black: #000000;
@@ -105,34 +116,6 @@
       min-height: 100vh;
       padding-top: 0;
       overflow: visible;
-      position: relative;
-    }
-
-    /* AMBIENT OSCILLATORS — harmonograph-style line drawings on each side */
-    .bg-osc {
-      position: absolute;
-      top: var(--nav-height);
-      bottom: 0;
-      width: 240px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.85;
-      mix-blend-mode: screen;
-    }
-    .bg-osc--left  { left: 0; }
-    .bg-osc--right { right: 0; }
-
-    /* Keep content above the oscillators */
-    .home-spread { position: relative; z-index: 1; }
-
-    /* Hide on smaller viewports where they'd compete with content */
-    @media (max-width: 1180px) {
-      .bg-osc { display: none; }
-    }
-
-    /* Respect reduced-motion preferences */
-    @media (prefers-reduced-motion: reduce) {
-      .bg-osc { display: none; }
     }
 
     @keyframes fadeUp {
@@ -1176,6 +1159,191 @@
       display: block;
     }
 
+    /* FILM PAGE — dual-screen synced player */
+    .film-page {
+      min-height: calc(100vh - var(--nav-height));
+      max-height: 100vh;
+      padding: var(--nav-height) 0 80px;
+      overflow-y: auto;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.1s forwards;
+    }
+
+    .film-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 0 56px;
+    }
+
+    .film-page h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 56px;
+      margin-top: 40px;
+    }
+
+    .film-piece { margin-bottom: 96px; }
+    .film-piece:last-child { margin-bottom: 0; }
+
+    .film-meta {
+      text-align: center;
+      margin: 0 auto 36px;
+      max-width: 760px;
+    }
+
+    .film-title {
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      font-size: 32px;
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 14px;
+      letter-spacing: 0.01em;
+      line-height: 1.15;
+    }
+
+    .film-credit {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 22px;
+    }
+
+    .film-desc {
+      font-family: 'EB Garamond', serif;
+      font-size: 15.5px;
+      color: #c8c8c8;
+      line-height: 1.7;
+    }
+
+    .film-stage { width: 100%; }
+
+    .film-dual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: #000;
+      width: 100%;
+    }
+
+    .film-screen {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      background: #0a0a0a;
+      object-fit: cover;
+    }
+
+    .film-controls {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      padding: 22px 4px 0;
+    }
+
+    .film-play {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: none;
+      background: #fff;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .film-play:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 22px rgba(255,255,255,0.18);
+    }
+    .film-play svg { width: 20px; height: 20px; fill: currentColor; }
+    .film-play .icon-play { margin-left: 3px; }
+
+    .film-progress {
+      flex: 1;
+      cursor: pointer;
+      padding: 12px 0;
+      min-width: 0;
+    }
+    .film-progress-bar {
+      height: 3px;
+      background: #1a1a1a;
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    .film-progress-fill {
+      height: 100%;
+      background: #fff;
+      width: 0%;
+      transition: width 0.1s linear;
+      border-radius: 2px;
+    }
+
+    .film-time {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: #888;
+      white-space: nowrap;
+      min-width: 110px;
+      text-align: right;
+    }
+
+    .film-fullscreen {
+      background: none;
+      border: none;
+      color: #555;
+      cursor: pointer;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+    .film-fullscreen:hover { color: #fff; }
+    .film-fullscreen svg {
+      width: 18px; height: 18px;
+      stroke: currentColor; stroke-width: 1.5; fill: none;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* Coming-soon placeholder when video files aren't in place */
+    .film-placeholder {
+      width: 100%;
+      aspect-ratio: 32 / 9;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .film-placeholder-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    @media (max-width: 900px) {
+      .film-inner { padding: 0 20px; }
+      .film-dual { grid-template-columns: 1fr; gap: 4px; }
+      .film-title { font-size: 26px; }
+      .film-controls { flex-wrap: wrap; gap: 12px; }
+      .film-time { min-width: 0; font-size: 10px; }
+    }
+
     /* CONTACT PAGE */
     .contact-page {
       min-height: calc(100vh - var(--nav-height));
@@ -1373,6 +1541,7 @@
     <a href="#" class="nav-logo" onclick="showPage('home', null)">Tobias Robertson</a>
     <div class="nav-links">
       <a href="#" onclick="showPage('video', this)">Video</a>
+      <a href="#" onclick="showPage('film', this)">Film</a>
       <a href="#" onclick="showPage('photography', this)">Photography</a>
       <a href="#" onclick="showPage('writing', this)">Writing</a>
       <a href="#" onclick="showPage('sound', this)">Music</a>
@@ -1382,8 +1551,6 @@
 
   <!-- HOME (= About) -->
   <div id="page-home" class="page active">
-    <canvas class="bg-osc bg-osc--left"  id="bg-osc-left"  aria-hidden="true"></canvas>
-    <canvas class="bg-osc bg-osc--right" id="bg-osc-right" aria-hidden="true"></canvas>
     <div class="home-spread">
       <div class="home-text">
         <div class="home-eyebrow">About</div>
@@ -1413,6 +1580,15 @@
     <div class="video-page">
       <h1>Video Essays</h1>
       <div class="video-grid" id="video-grid"></div>
+    </div>
+  </div>
+
+  <!-- FILM -->
+  <div id="page-film" class="page">
+    <div class="film-page">
+      <div class="film-inner" id="film-content">
+        <h1>Film</h1>
+      </div>
     </div>
   </div>
 
@@ -1451,7 +1627,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=18"></script>
+  <script src="content.js?v=19"></script>
 
   <script id="music-data">
     // Audio state
@@ -1872,6 +2048,142 @@
       lb.classList.toggle('fullscreen');
     }
 
+    /* ------------------------------------------------------------------
+       FILM POETRY — dual-screen synced player
+       Two muted <video> elements + one master <audio>. The audio drives the
+       clock; if either video drifts beyond SYNC_THRESHOLD seconds, it is
+       snapped back to the audio's currentTime. Single play/pause + scrub
+       dispatch to all three. Skip files that don't load yet.
+       ------------------------------------------------------------------ */
+    function renderFilm() {
+      const container = document.getElementById('film-content');
+      if (!container) return;
+      const films = (CONTENT.films || []);
+      let html = '<h1>Film</h1>';
+      if (films.length === 0) {
+        html += '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;text-align:center;">Coming soon</p>';
+        container.innerHTML = html;
+        return;
+      }
+      films.forEach((f, i) => {
+        html += '<div class="film-piece">';
+        html += '<div class="film-meta">';
+        html += '<h2 class="film-title">' + f.title + '</h2>';
+        if (f.credit)      html += '<div class="film-credit">' + f.credit + '</div>';
+        if (f.description) html += '<div class="film-desc">' + f.description + '</div>';
+        html += '</div>';
+
+        if (f.ready !== false) {
+          html += '<div class="film-stage">';
+          html += '<div class="film-dual" id="film-dual-' + i + '">';
+          html += '<video class="film-screen" id="film-left-'  + i + '" muted playsinline preload="metadata" src="' + f.leftSrc  + '"></video>';
+          html += '<video class="film-screen" id="film-right-' + i + '" muted playsinline preload="metadata" src="' + f.rightSrc + '"></video>';
+          html += '</div>';
+          html += '<audio id="film-audio-' + i + '" preload="metadata" src="' + f.audioSrc + '"></audio>';
+          html += '<div class="film-controls">';
+          html += '<button class="film-play" id="film-play-' + i + '" aria-label="Play">' +
+                    '<svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>' +
+                    '<svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>' +
+                  '</button>';
+          html += '<div class="film-progress" id="film-progress-' + i + '">' +
+                    '<div class="film-progress-bar"><div class="film-progress-fill" id="film-progress-fill-' + i + '"></div></div>' +
+                  '</div>';
+          html += '<span class="film-time"><span id="film-cur-' + i + '">0:00</span> / <span id="film-dur-' + i + '">—</span></span>';
+          html += '<button class="film-fullscreen" onclick="filmFullscreen(' + i + ')" aria-label="Fullscreen">' +
+                    '<svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>' +
+                  '</button>';
+          html += '</div>';
+          html += '</div>';
+        } else {
+          html += '<div class="film-placeholder"><div class="film-placeholder-label">Video coming soon</div></div>';
+        }
+        html += '</div>';
+      });
+      container.innerHTML = html;
+
+      // Wire up each ready player after DOM has been written
+      films.forEach((f, i) => {
+        if (f.ready !== false) setupFilmPlayer(i);
+      });
+    }
+
+    function setupFilmPlayer(i) {
+      const audio    = document.getElementById('film-audio-' + i);
+      const leftV    = document.getElementById('film-left-'  + i);
+      const rightV   = document.getElementById('film-right-' + i);
+      const playBtn  = document.getElementById('film-play-'  + i);
+      const progress = document.getElementById('film-progress-' + i);
+      const fill     = document.getElementById('film-progress-fill-' + i);
+      const curEl    = document.getElementById('film-cur-' + i);
+      const durEl    = document.getElementById('film-dur-' + i);
+      if (!audio || !leftV || !rightV || !playBtn) return;
+
+      let isPlaying = false;
+      const SYNC_THRESHOLD = 0.18; // seconds before re-syncing a drifting video
+
+      function setPlayIcon(playing) {
+        playBtn.querySelector('.icon-play').style.display  = playing ? 'none'  : 'block';
+        playBtn.querySelector('.icon-pause').style.display = playing ? 'block' : 'none';
+      }
+
+      function play() {
+        isPlaying = true;
+        setPlayIcon(true);
+        // Snap videos to audio first to avoid an audible offset on start
+        leftV.currentTime  = audio.currentTime;
+        rightV.currentTime = audio.currentTime;
+        leftV.play().catch(() => {});
+        rightV.play().catch(() => {});
+        audio.play().catch(() => {});
+      }
+
+      function pause() {
+        isPlaying = false;
+        setPlayIcon(false);
+        audio.pause();
+        leftV.pause();
+        rightV.pause();
+      }
+
+      playBtn.onclick = () => isPlaying ? pause() : play();
+
+      audio.addEventListener('timeupdate', () => {
+        if (Math.abs(leftV.currentTime  - audio.currentTime) > SYNC_THRESHOLD) leftV.currentTime  = audio.currentTime;
+        if (Math.abs(rightV.currentTime - audio.currentTime) > SYNC_THRESHOLD) rightV.currentTime = audio.currentTime;
+        if (audio.duration) {
+          fill.style.width = ((audio.currentTime / audio.duration) * 100) + '%';
+          curEl.textContent = formatTime(audio.currentTime);
+        }
+      });
+
+      audio.addEventListener('loadedmetadata', () => {
+        if (audio.duration) durEl.textContent = formatTime(audio.duration);
+      });
+
+      audio.addEventListener('ended', pause);
+
+      progress.addEventListener('click', (e) => {
+        if (!audio.duration) return;
+        const rect = e.currentTarget.getBoundingClientRect();
+        const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        const newTime = ratio * audio.duration;
+        audio.currentTime  = newTime;
+        leftV.currentTime  = newTime;
+        rightV.currentTime = newTime;
+      });
+    }
+
+    function filmFullscreen(i) {
+      const stage = document.getElementById('film-dual-' + i);
+      if (!stage) return;
+      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if (fsEl) {
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      } else {
+        (stage.requestFullscreen || stage.webkitRequestFullscreen).call(stage);
+      }
+    }
+
     function renderWriting() {
       const list = document.getElementById('writing-list');
       if (!list) return;
@@ -2052,80 +2364,5 @@
     renderPhotos();
     renderWriting();
     renderMusic();
-    initBackgroundOscillators();
-
-    /* ------------------------------------------------------------------
-       AMBIENT OSCILLATORS
-       Two slow, drifting harmonograph-style canvases on the sides of the
-       home page. Each draws a small stack of sine waves whose amplitude,
-       frequency, and phase modulate over time — like watching a long
-       exposure of two pendulums slowly disagreeing with each other.
-       Disabled on mobile and when the user prefers reduced motion.
-       ------------------------------------------------------------------ */
-    function initBackgroundOscillators() {
-      const reducedMotion = window.matchMedia &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reducedMotion) return;
-
-      function setup(id, seed) {
-        const canvas = document.getElementById(id);
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        const dpr = Math.max(1, window.devicePixelRatio || 1);
-
-        function resize() {
-          const rect = canvas.getBoundingClientRect();
-          if (rect.width === 0 || rect.height === 0) return;
-          canvas.width  = Math.floor(rect.width  * dpr);
-          canvas.height = Math.floor(rect.height * dpr);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        }
-        resize();
-        window.addEventListener('resize', resize);
-
-        let t = seed;
-
-        function frame() {
-          // If the canvas isn't on screen (different page active), idle.
-          if (canvas.offsetParent === null) {
-            requestAnimationFrame(frame);
-            return;
-          }
-
-          const W = canvas.width  / dpr;
-          const H = canvas.height / dpr;
-
-          // Very slow fade of existing strokes — gives lines a soft trail
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
-          ctx.fillRect(0, 0, W, H);
-
-          // Three layered sine "ribbons", each slightly offset in phase
-          for (let layer = 0; layer < 3; layer++) {
-            const ampMod  = 0.34 + 0.10 * Math.sin(t * 0.38 + layer * 1.1);
-            const freqMod = 0.012 + 0.004 * Math.sin(t * 0.16 + layer * 0.7);
-            const phase   = t * 0.55 + layer * 0.85;
-            const ampX    = W * ampMod;
-
-            ctx.strokeStyle = 'rgba(255, 255, 255, ' + (0.085 - layer * 0.02).toFixed(3) + ')';
-            ctx.lineWidth   = 0.6;
-            ctx.beginPath();
-            for (let y = 0; y < H; y += 2) {
-              const x = W * 0.5 + ampX * Math.sin(y * freqMod + phase);
-              if (y === 0) ctx.moveTo(x, y);
-              else         ctx.lineTo(x, y);
-            }
-            ctx.stroke();
-          }
-
-          t += 0.0035;
-          requestAnimationFrame(frame);
-        }
-
-        // Small delay so the page entrance animation doesn't compete
-        setTimeout(() => requestAnimationFrame(frame), 250);
-      }
-
-      setup('bg-osc-left',  0);
-      setup('bg-osc-right', 73);  // different seed so they don't move in lockstep
-    }
+    renderFilm();
   </script>

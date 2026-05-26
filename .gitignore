@@ -8,3 +8,11 @@ audio/*.wav
 audio/*.aif
 audio/*.aiff
 audio/*.flac
+
+# Film masters — ProRes/raw MOVs are way too big for git; only push the
+# compressed web MP4s in /films/ that the dual player references.
+films/*.mov
+films/*.wav
+films/*.aif
+films/*.aiff
+films/*.prores

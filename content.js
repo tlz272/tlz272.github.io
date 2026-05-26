@@ -119,6 +119,33 @@ const CONTENT = {
   ],
 
 
+  // --- FILMS (dual-screen synced player) ---
+  // For two-channel films originally designed for installation. Each entry
+  // shows two videos side-by-side with one shared audio track. Audio is the
+  // master clock — the player snaps the videos back to audio.currentTime if
+  // they drift more than ~0.18 seconds.
+  //
+  // To add a film:
+  //   1. Drop two compressed MP4s into /films/ (e.g. room-service-left.mp4
+  //      and room-service-right.mp4). See conversion recipe in chat history.
+  //      Each file must be UNDER 100 MB (GitHub's per-file limit).
+  //   2. Drop the mixed audio as MP3 into /films/.
+  //   3. Add a block below with the paths. Flip `ready: true` once files
+  //      are in place. Leave `ready: false` to show a "Video coming soon"
+  //      placeholder while the audio-only mix is still being prepared.
+  films: [
+    {
+      title:       "Room Service",
+      credit:      "Fremantle Biennale, 2025 — dual-channel film-poem",
+      description: "A two-channel film-poem co-directed, filmed, edited, and scored by Tobias Leigh Robertson for the Room Service exhibition at the Fremantle Biennale (2025). Originally presented across two facing walls of the installation space; the dual channels play synchronously here as a single field of attention.",
+      leftSrc:     "films/room-service-left.mp4",
+      rightSrc:    "films/room-service-right.mp4",
+      audioSrc:    "films/room-service.mp3",
+      ready:       true,   // set to false to show a placeholder until the MP4s are uploaded
+    },
+  ],
+
+
   // --- PHOTOGRAPHY CURATIONS ---
   // Each curation is a collection of photos that share a single thread —
   // a place, a technique, a mood. The Photography landing page shows
