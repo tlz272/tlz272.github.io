@@ -77,22 +77,22 @@ const GROUP_META = {
 // supplies the playlist's default cover. Drop new artwork into /audio/art/ and
 // reference it below.
 const TRACKS = [
-  // Standalone — Valves
-  { title: "Valves",                      src: "audio/valves.mp3",                      artwork: "audio/art/valves.jpg" },
+  // Group 1 — Vintur
+  { title: "Vintur",                      src: "audio/vintur.mp3",                      artwork: "audio/art/vintur.jpg",                     group: "Vintur" },
+  { title: "Breath by Breath",            src: "audio/breath-by-breath.mp3",            artwork: "audio/art/breath-by-breath.jpg",           group: "Vintur" },
 
-  // Group 1 — Vosa
+  // Group 2 — Vosa
   { title: "Vosa",                        src: "audio/track-01.mp3",                    artwork: "audio/art/vosa.jpg",                       group: "Vosa" },
   { title: "Vosa II",                     src: "audio/track-02.mp3",                    artwork: "audio/art/vosa.jpg",                       group: "Vosa" },
   { title: "Vosa III",                    src: "audio/track-03.mp3",                    artwork: "audio/art/vosa.jpg",                       group: "Vosa" },
-
-  // Group 2 — Vintur
-  { title: "Vintur",                      src: "audio/vintur.mp3",                      artwork: "audio/art/vintur.jpg",                     group: "Vintur" },
-  { title: "Breath by Breath",            src: "audio/breath-by-breath.mp3",            artwork: "audio/art/breath-by-breath.jpg",           group: "Vintur" },
 
   // Group 3 — Didessa Fantasy
   { title: "Didessa Fantasy",             src: "audio/didessa-fantasy.mp3",             artwork: "audio/art/didessa-fantasy.jpg",            group: "Didessa Fantasy" },
   { title: "A Moment's Solace",           src: "audio/a-moments-solace.mp3",            artwork: "audio/art/a-moments-solace.jpg",           group: "Didessa Fantasy" },
   { title: "Valleys of Despina",          src: "audio/valleys-of-despina.mp3",          artwork: "audio/art/valleys-of-despina.jpg",         group: "Didessa Fantasy" },
+
+  // Standalone — Valves
+  { title: "Valves",                      src: "audio/valves.mp3",                      artwork: "audio/art/valves.jpg" },
 
   // Group 4 — Nebula Mandala
   { title: "Nebula Mandala",              src: "audio/a5-nebula-mandala.mp3",           artwork: "audio/art/a5-nebula-mandala.jpg",          group: "Nebula Mandala" },

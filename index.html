@@ -1230,6 +1230,15 @@
       gap: 6px;
       background: #000;
       width: 100%;
+      position: relative;
+    }
+
+    /* Fullscreen — center the two videos vertically on the black field */
+    .film-dual:fullscreen,
+    .film-dual:-webkit-full-screen {
+      align-content: center;
+      background: #000;
+      height: 100%;
     }
 
     .film-screen {
@@ -1239,6 +1248,28 @@
       background: #0a0a0a;
       object-fit: cover;
     }
+
+    /* Overlay shown when video files fail to load */
+    .film-error-overlay {
+      position: absolute;
+      inset: 0;
+      background: #0a0a0a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #555;
+      line-height: 1.8;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .film-error-overlay[hidden] { display: none; }
 
     .film-controls {
       display: flex;
@@ -1540,11 +1571,11 @@
   <nav>
     <a href="#" class="nav-logo" onclick="showPage('home', null)">Tobias Robertson</a>
     <div class="nav-links">
-      <a href="#" onclick="showPage('video', this)">Video</a>
-      <a href="#" onclick="showPage('film', this)">Film</a>
+      <a href="#" onclick="showPage('video', this)">Video Essays</a>
       <a href="#" onclick="showPage('photography', this)">Photography</a>
       <a href="#" onclick="showPage('writing', this)">Writing</a>
       <a href="#" onclick="showPage('sound', this)">Music</a>
+      <a href="#" onclick="showPage('film', this)">Film Poetry</a>
       <a href="#" onclick="showPage('contact', this)">Contact</a>
     </div>
   </nav>
@@ -1583,11 +1614,11 @@
     </div>
   </div>
 
-  <!-- FILM -->
+  <!-- FILM POETRY -->
   <div id="page-film" class="page">
     <div class="film-page">
       <div class="film-inner" id="film-content">
-        <h1>Film</h1>
+        <h1>Film Poetry</h1>
       </div>
     </div>
   </div>
@@ -1627,7 +1658,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=19"></script>
+  <script src="content.js?v=20"></script>
 
   <script id="music-data">
     // Audio state
@@ -2059,7 +2090,7 @@
       const container = document.getElementById('film-content');
       if (!container) return;
       const films = (CONTENT.films || []);
-      let html = '<h1>Film</h1>';
+      let html = '<h1>Film Poetry</h1>';
       if (films.length === 0) {
         html += '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;text-align:center;">Coming soon</p>';
         container.innerHTML = html;
@@ -2078,6 +2109,7 @@
           html += '<div class="film-dual" id="film-dual-' + i + '">';
           html += '<video class="film-screen" id="film-left-'  + i + '" muted playsinline preload="metadata" src="' + f.leftSrc  + '"></video>';
           html += '<video class="film-screen" id="film-right-' + i + '" muted playsinline preload="metadata" src="' + f.rightSrc + '"></video>';
+          html += '<div class="film-error-overlay" id="film-error-' + i + '" hidden>Video files not yet uploaded<br>see <code>/films/</code> folder</div>';
           html += '</div>';
           html += '<audio id="film-audio-' + i + '" preload="metadata" src="' + f.audioSrc + '"></audio>';
           html += '<div class="film-controls">';
@@ -2161,6 +2193,14 @@
       });
 
       audio.addEventListener('ended', pause);
+
+      // Show a clear overlay if the video files can't be loaded yet
+      const errorOverlay = document.getElementById('film-error-' + i);
+      function showVideoError() {
+        if (errorOverlay) errorOverlay.hidden = false;
+      }
+      leftV.addEventListener('error',  showVideoError);
+      rightV.addEventListener('error', showVideoError);
 
       progress.addEventListener('click', (e) => {
         if (!audio.duration) return;
