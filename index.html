@@ -485,16 +485,16 @@
     }
 
     /* CURATIONS LIST — gallery wall.
-       Photos are mostly square, so the grid reads as a clean print-room
-       arrangement. Min 260px gives a comfortable 4-column layout at
-       typical desktop widths and gracefully reflows below. */
+       Photos are the heroes. Labels sit close beneath them, refined and
+       quiet. 4 columns at typical desktop widths, tight horizontal rhythm,
+       generous (but not cavernous) vertical breathing room. */
     .curations-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 88px 36px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 64px 26px;
       width: 100%;
-      max-width: 1320px;
-      padding: 0 64px;
+      max-width: 1400px;
+      padding: 0 48px;
       margin: 0 auto;
       align-items: start;
     }
@@ -527,44 +527,41 @@
       height: auto;
       display: block;
       transition: filter 0.5s ease;
-      filter: brightness(0.92);
+      filter: brightness(0.94);
     }
 
     .curation-card:hover .curation-card-image img {
-      filter: brightness(1.02);
+      filter: brightness(1.04);
     }
 
     .curation-card-meta {
-      margin-top: 18px;
+      margin-top: 14px;
       text-align: center;
     }
 
     .curation-card-name {
       font-family: 'EB Garamond', serif;
       font-style: italic;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 400;
-      color: #e0e0e0;
+      color: #d8d8d8;
       letter-spacing: 0.015em;
-      transition: color 0.2s, letter-spacing 0.4s ease;
+      transition: color 0.2s;
     }
 
     .curation-card-numeral {
       font-family: 'EB Garamond', serif;
       font-style: normal;
-      font-size: 11.5px;
-      color: #666;
+      font-size: 11px;
+      color: #5a5a5a;
       letter-spacing: 0.08em;
-      margin-left: 6px;
+      margin-left: 5px;
       vertical-align: 1px;
       transition: color 0.3s ease;
     }
 
-    .curation-card:hover .curation-card-name {
-      color: #fff;
-      letter-spacing: 0.035em;
-    }
-    .curation-card:hover .curation-card-numeral { color: #aaa; }
+    .curation-card:hover .curation-card-name { color: #fff; }
+    .curation-card:hover .curation-card-numeral { color: #999; }
 
     .curation-card-date {
       font-family: 'Jost', sans-serif;
@@ -1848,7 +1845,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=26"></script>
+  <script src="content.js?v=27"></script>
 
   <script id="music-data">
     // Audio state
@@ -2627,11 +2624,7 @@
       } catch (e) { /* localStorage disabled — ignore */ }
     }
 
-    /* Valid page ids — used to validate hash routes and reject garbage */
-    const VALID_PAGES = ['home', 'video', 'photography', 'writing', 'sound', 'film', 'contact'];
-
-    function showPage(id, linkEl, skipHistory) {
-      if (!VALID_PAGES.includes(id)) id = 'home';
+    function showPage(id, linkEl) {
       const innerSel = '.inner-page, .video-page, .writing-page, .music-page, .about-page, .contact-page, .photo-page, .film-page';
 
       document.querySelectorAll('.page').forEach(p => {
@@ -2641,7 +2634,7 @@
       });
 
       const page = document.getElementById('page-' + id);
-      if (!page) { showPage('home', null, skipHistory); return; }
+      if (!page) return;
       page.classList.add('active');
 
       const inner = page.querySelector(innerSel);
@@ -2655,29 +2648,7 @@
       document.querySelectorAll('[data-page="' + id + '"]').forEach(a => a.classList.add('active'));
 
       if (id === 'sound') renderMusic();
-
-      // Update browser URL and history (unless we're responding to popstate)
-      if (!skipHistory) {
-        const newHash = (id === 'home') ? '' : '#' + id;
-        const newUrl = location.pathname + location.search + newHash;
-        if (newUrl !== location.pathname + location.search + location.hash) {
-          history.pushState({ page: id }, '', newUrl);
-        }
-      }
-
       if (window.event) event.preventDefault();
-    }
-
-    // Browser back / forward: re-render the page from the hash
-    window.addEventListener('popstate', () => {
-      const id = (location.hash || '#home').slice(1) || 'home';
-      showPage(id, null, true);
-    });
-
-    // Initial route: read hash on first paint
-    function routeFromHash() {
-      const id = (location.hash || '#home').slice(1) || 'home';
-      if (id !== 'home') showPage(id, null, true);
     }
 
     function toggleMobileNav() {
@@ -2850,7 +2821,5 @@
     renderPhotos();
     renderWriting();
     renderMusic();
-    // After everything is wired, restore the page from the URL hash if any
-    routeFromHash();
     renderFilm();
   </script>

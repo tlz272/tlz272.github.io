@@ -187,7 +187,7 @@ const CONTENT = {
       date: "November 2018",
       description: "Photographs made beneath the moon, where colour drains and silver remains.",
       quote: "",
-      cover: "photos/curations/moonlight/01.jpg",
+      cover: "photos/curations/moonlight/02.jpg",
       images: [
         "photos/curations/moonlight/01.jpg",
         "photos/curations/moonlight/02.jpg",
@@ -199,7 +199,7 @@ const CONTENT = {
       date: "June 2019",
       description: "Long-exposure studies where the camera becomes a brush. Light gathered, smeared, drawn — held briefly on the sensor.",
       quote: "",
-      cover: "photos/curations/painting-with-light/01.jpg",
+      cover: "photos/curations/painting-with-light/02.jpg",
       images: [
         "photos/curations/painting-with-light/01.jpg",
         "photos/curations/painting-with-light/02.jpg",
