@@ -417,7 +417,7 @@ const CONTENT = {
       date: "",
       description: "",
       quote: "",
-      cover: "photos/curations/listenings/07.jpg",
+      cover: "photos/curations/listenings/01.jpg",
       images: [
         "photos/curations/listenings/01.jpg",
         "photos/curations/listenings/02.jpg",

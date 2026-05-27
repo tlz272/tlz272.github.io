@@ -662,10 +662,14 @@
       align-items: start;
     }
 
-    /* Photos display at their NATIVE aspect ratio — no crop.
-       The grid keeps columns uniform; row heights flow with the images. */
+    /* All detail-grid photos cropped to 3:2 for a uniform gallery rhythm.
+       Photos that aren't natively 3:2 (squares, portraits) are centered
+       and cropped via object-fit. The full uncropped version is always
+       available by clicking into the lightbox. */
     .curation-images img {
       width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
       height: auto;
       display: block;
       cursor: pointer;
@@ -677,11 +681,10 @@
       filter: brightness(1.04);
     }
 
-    /* Epoché photos have native portrait aspect, but the rest of the work
-       is 3:2 landscape. Force-crop Epoché to 3:2 so it sits visually with
-       the other previews instead of standing taller than them. */
+    /* Force-crop on landing-page covers for series whose cover image
+       isn't natively 3:2. Aligns them with the rest of the grid. */
     .curation-card-image img[src*="/epoche/"],
-    .curation-images img[src*="/epoche/"] {
+    .curation-card-image img[src*="/listenings/"] {
       aspect-ratio: 3 / 2;
       object-fit: cover;
       height: auto;
@@ -1847,7 +1850,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=29"></script>
+  <script src="content.js?v=30"></script>
 
   <script id="music-data">
     // Audio state
