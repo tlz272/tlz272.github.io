@@ -505,8 +505,9 @@
       cursor: pointer;
       transition: opacity 0.4s ease;
       opacity: 0;
-      transform: translateY(14px);
-      animation: cardIn 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      transform: translateY(10px);
+      animation: cardIn 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+      will-change: opacity, transform;
     }
 
     @keyframes cardIn {
@@ -676,11 +677,12 @@
       filter: brightness(1.04);
     }
 
-    /* Epoché has mixed aspect ratios; force square so it visually belongs
-       with the rest of the (square) work without distorting compositions. */
+    /* Epoché photos have native portrait aspect, but the rest of the work
+       is 3:2 landscape. Force-crop Epoché to 3:2 so it sits visually with
+       the other previews instead of standing taller than them. */
     .curation-card-image img[src*="/epoche/"],
     .curation-images img[src*="/epoche/"] {
-      aspect-ratio: 1 / 1;
+      aspect-ratio: 3 / 2;
       object-fit: cover;
       height: auto;
     }
@@ -1845,7 +1847,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=28"></script>
+  <script src="content.js?v=29"></script>
 
   <script id="music-data">
     // Audio state
@@ -2127,18 +2129,28 @@
       // SERIES (curations)
       if (curations.length > 0) {
         html += '<div class="curations-grid">';
-        html += curations.map((c, i) => `
-          <a class="curation-card" href="#" style="animation-delay: ${Math.min(i * 60, 900)}ms"
+        html += curations.map((c, i) => {
+          // First 4 covers eager-load (above the fold on most screens),
+          // first one gets highest priority. Rest stream in lazily.
+          const loadAttr = i === 0
+            ? 'loading="eager" fetchpriority="high" decoding="async"'
+            : i < 4
+              ? 'loading="eager" decoding="async"'
+              : 'loading="lazy" decoding="async"';
+          // Shorter stagger so 14 cards finish entering in well under a second
+          return `
+          <a class="curation-card" href="#" style="animation-delay: ${Math.min(i * 35, 450)}ms"
              onclick="showCuration(${i}); return false;">
             <div class="curation-card-image">
-              <img src="${c.cover}" alt="${c.name}" loading="lazy">
+              <img src="${c.cover}" alt="${c.name}" ${loadAttr}>
             </div>
             <div class="curation-card-meta">
               <span class="curation-card-name">${c.name}</span>
               <span class="curation-card-numeral">(${toRoman(i+1)})</span>
             </div>
           </a>
-        `).join('');
+        `;
+        }).join('');
         html += '</div>';
       }
 
