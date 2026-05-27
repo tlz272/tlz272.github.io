@@ -214,6 +214,7 @@ const CONTENT = {
         "photos/curations/painting-with-light/11.jpg",
         "photos/curations/painting-with-light/12.jpg",
         "photos/curations/painting-with-light/13.jpg",
+        "photos/curations/painting-with-light/14.jpg",
       ],
     },
 

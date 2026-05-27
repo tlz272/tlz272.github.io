@@ -6,6 +6,7 @@
   <title>Tobias Leigh Robertson</title>
   <meta name="description" content="Tobias Leigh Robertson is an interdisciplinary artist working across film, photography, writing, and music. Founder of Vosa Creative.">
   <meta name="author" content="Tobias Leigh Robertson">
+  <meta name="theme-color" content="#000000">
 
   <!-- Open Graph — used by Facebook, LinkedIn, Substack, iMessage, etc. -->
   <meta property="og:type" content="website">
@@ -483,22 +484,25 @@
       margin-top: 80px;
     }
 
-    /* CURATIONS LIST — gallery-wall grid */
+    /* CURATIONS LIST — gallery wall.
+       Each preview keeps the photo's native aspect ratio (no cropping).
+       Cards align by their top edge; row heights vary with each image. */
     .curations-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 78px 44px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 72px 36px;
       width: 100%;
-      max-width: 1480px;
+      max-width: 1240px;
       padding: 0 56px;
       margin: 0 auto;
+      align-items: start;
     }
 
     .curation-card {
       display: block;
       text-decoration: none;
       cursor: pointer;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.4s ease;
       opacity: 0;
       transform: translateY(14px);
       animation: cardIn 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
@@ -512,16 +516,14 @@
 
     .curation-card-image {
       width: 100%;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      background: #0a0a0a;
+      background: transparent;
       position: relative;
+      /* No fixed aspect-ratio — image determines height */
     }
 
     .curation-card-image img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
       display: block;
       transition: filter 0.5s ease;
       filter: brightness(0.92);
@@ -826,6 +828,25 @@
       transition: opacity 0.3s ease;
     }
 
+    /* One-time keyboard hint, shown on first lightbox open */
+    #lightbox-hint {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #666;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      z-index: 202;
+    }
+    #lightbox-hint.show { opacity: 1; }
+    #lightbox.fullscreen #lightbox-hint { opacity: 0; }
+
     /* Fullscreen mode: image fills viewport, UI disappears */
     #lightbox.fullscreen .lb-stage { gap: 0; max-width: 100vw; max-height: 100vh; }
     #lightbox.fullscreen .lb-img-wrap { cursor: zoom-out; }
@@ -940,6 +961,10 @@
     }
 
     .writing-text { margin-top: 14px; }
+
+    /* Smooth swap when Substack data replaces the cached/fallback list */
+    #writing-list { transition: opacity 0.28s ease; }
+    #writing-list.swapping { opacity: 0.25; }
 
     .writing-title {
       font-family: 'EB Garamond', serif;
@@ -1806,11 +1831,12 @@
       </div>
       <div id="lightbox-label"></div>
     </div>
+    <div id="lightbox-hint">← →&nbsp;&nbsp;·&nbsp;&nbsp;ESC</div>
   </div>
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=24"></script>
+  <script src="content.js?v=25"></script>
 
   <script id="music-data">
     // Audio state
@@ -2213,6 +2239,20 @@
 
       lb.classList.add('open');
       document.addEventListener('keydown', lightboxKeyHandler);
+      maybeShowLightboxHint();
+    }
+
+    // Show the keyboard hint exactly once per visitor (persisted in localStorage)
+    const LB_HINT_KEY = 'lb-hint-seen-v1';
+    function maybeShowLightboxHint() {
+      try {
+        if (localStorage.getItem(LB_HINT_KEY)) return;
+        localStorage.setItem(LB_HINT_KEY, '1');
+      } catch (e) { /* private mode — fall through, hint shows each session */ }
+      const hint = document.getElementById('lightbox-hint');
+      if (!hint) return;
+      requestAnimationFrame(() => hint.classList.add('show'));
+      setTimeout(() => hint.classList.remove('show'), 3200);
     }
 
     // Preload the image one step ahead AND one step behind (covers both
@@ -2271,6 +2311,32 @@
       else if (e.key === 'ArrowRight') lightboxNext();
       else if (e.key === 'Escape') closeLightbox();
     }
+
+    /* Mobile swipe — left to advance, right to go back. Threshold: 50px
+       and predominantly horizontal so vertical scrolls don't trigger it. */
+    let lbTouchStartX = null, lbTouchStartY = null;
+    function lbTouchStart(e) {
+      if (e.touches.length !== 1) return;
+      lbTouchStartX = e.touches[0].clientX;
+      lbTouchStartY = e.touches[0].clientY;
+    }
+    function lbTouchEnd(e) {
+      if (lbTouchStartX === null) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - lbTouchStartX;
+      const dy = t.clientY - lbTouchStartY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+        if (dx < 0) lightboxNext();
+        else        lightboxPrev();
+      }
+      lbTouchStartX = lbTouchStartY = null;
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const stage = document.querySelector('.lb-stage');
+      if (!stage) return;
+      stage.addEventListener('touchstart', lbTouchStart, { passive: true });
+      stage.addEventListener('touchend',   lbTouchEnd,   { passive: true });
+    });
 
     function toggleLightboxFullscreen(e) {
       e.stopPropagation();
@@ -2454,19 +2520,33 @@
     function paintWriting(writing) {
       const list = document.getElementById('writing-list');
       if (!list) return;
-      if (writing.length === 0) {
-        list.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Essays, fiction, and thought — coming soon</p>';
-        return;
+      const hadContent = list.children.length > 0 &&
+                        !(list.children.length === 1 && list.children[0].tagName === 'P');
+      const render = () => {
+        if (writing.length === 0) {
+          list.innerHTML = '<p style="font-family:\'Jost\',sans-serif;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#444;">Essays, fiction, and thought — coming soon</p>';
+        } else {
+          list.innerHTML = writing.map(w => `
+            <a href="${w.url}" target="_blank" rel="noopener" class="writing-item">
+              ${w.image ? `<div class="writing-img"><img src="${w.image}" alt="${escapeAttr(w.title)}" loading="lazy"></div>` : ''}
+              <div class="writing-text">
+                <div class="writing-title">${w.title}</div>
+                <div class="writing-desc">${w.description || ''}</div>
+              </div>
+            </a>
+          `).join('');
+        }
+      };
+      if (hadContent) {
+        // Soft cross-fade so the swap doesn't pop
+        list.classList.add('swapping');
+        setTimeout(() => {
+          render();
+          requestAnimationFrame(() => list.classList.remove('swapping'));
+        }, 220);
+      } else {
+        render();
       }
-      list.innerHTML = writing.map(w => `
-        <a href="${w.url}" target="_blank" rel="noopener" class="writing-item">
-          ${w.image ? `<div class="writing-img"><img src="${w.image}" alt="${escapeAttr(w.title)}" loading="lazy"></div>` : ''}
-          <div class="writing-text">
-            <div class="writing-title">${w.title}</div>
-            <div class="writing-desc">${w.description || ''}</div>
-          </div>
-        </a>
-      `).join('');
     }
 
     function escapeAttr(s) {
@@ -2535,7 +2615,11 @@
       } catch (e) { /* localStorage disabled — ignore */ }
     }
 
-    function showPage(id, linkEl) {
+    /* Valid page ids — used to validate hash routes and reject garbage */
+    const VALID_PAGES = ['home', 'video', 'photography', 'writing', 'sound', 'film', 'contact'];
+
+    function showPage(id, linkEl, skipHistory) {
+      if (!VALID_PAGES.includes(id)) id = 'home';
       const innerSel = '.inner-page, .video-page, .writing-page, .music-page, .about-page, .contact-page, .photo-page, .film-page';
 
       document.querySelectorAll('.page').forEach(p => {
@@ -2545,6 +2629,7 @@
       });
 
       const page = document.getElementById('page-' + id);
+      if (!page) { showPage('home', null, skipHistory); return; }
       page.classList.add('active');
 
       const inner = page.querySelector(innerSel);
@@ -2558,7 +2643,29 @@
       document.querySelectorAll('[data-page="' + id + '"]').forEach(a => a.classList.add('active'));
 
       if (id === 'sound') renderMusic();
+
+      // Update browser URL and history (unless we're responding to popstate)
+      if (!skipHistory) {
+        const newHash = (id === 'home') ? '' : '#' + id;
+        const newUrl = location.pathname + location.search + newHash;
+        if (newUrl !== location.pathname + location.search + location.hash) {
+          history.pushState({ page: id }, '', newUrl);
+        }
+      }
+
       if (window.event) event.preventDefault();
+    }
+
+    // Browser back / forward: re-render the page from the hash
+    window.addEventListener('popstate', () => {
+      const id = (location.hash || '#home').slice(1) || 'home';
+      showPage(id, null, true);
+    });
+
+    // Initial route: read hash on first paint
+    function routeFromHash() {
+      const id = (location.hash || '#home').slice(1) || 'home';
+      if (id !== 'home') showPage(id, null, true);
     }
 
     function toggleMobileNav() {
@@ -2731,5 +2838,7 @@
     renderPhotos();
     renderWriting();
     renderMusic();
+    // After everything is wired, restore the page from the URL hash if any
+    routeFromHash();
     renderFilm();
   </script>
