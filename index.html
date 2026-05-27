@@ -689,6 +689,11 @@
       object-fit: cover;
       height: auto;
     }
+    /* Listenings 01 is portrait; default centred crop misses the ear.
+       Shift the crop upward so the ear sits in the framed window. */
+    .curation-card-image img[src*="/listenings/"] {
+      object-position: center 20%;
+    }
 
     /* Adaptive grid for small series */
     .curation-images[data-count="1"] {
@@ -1850,7 +1855,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=30"></script>
+  <script src="content.js?v=31"></script>
 
   <script id="music-data">
     // Audio state
@@ -2662,6 +2667,12 @@
       document.querySelectorAll('[data-page]').forEach(a => a.classList.remove('active'));
       document.querySelectorAll('[data-page="' + id + '"]').forEach(a => a.classList.add('active'));
 
+      // Clicking the Photography nav from inside a curation should return
+      // to the curations grid (not stay on the detail view).
+      if (id === 'photography') {
+        const view = document.getElementById('photo-view');
+        if (view && view.querySelector('.curation-detail')) renderCurations();
+      }
       if (id === 'sound') renderMusic();
       if (window.event) event.preventDefault();
     }

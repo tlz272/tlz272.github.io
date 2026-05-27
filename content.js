@@ -231,6 +231,9 @@ const CONTENT = {
         "photos/curations/cathedrals/04.jpg",
         "photos/curations/cathedrals/05.jpg",
         "photos/curations/cathedrals/06.jpg",
+        "photos/curations/cathedrals/07.jpg",
+        "photos/curations/cathedrals/08.jpg",
+        "photos/curations/cathedrals/09.jpg",
       ],
     },
 
@@ -289,7 +292,6 @@ const CONTENT = {
         "photos/curations/burgundy/30.jpg",
         "photos/curations/burgundy/31.jpg",
         "photos/curations/burgundy/32.jpg",
-        "photos/curations/burgundy/33.jpg",
       ],
     },
 
@@ -307,6 +309,8 @@ const CONTENT = {
         "photos/curations/epoche/05.jpg",
         "photos/curations/epoche/06.jpg",
         "photos/curations/epoche/07.jpg",
+        "photos/curations/epoche/08.jpg",
+        "photos/curations/epoche/09.jpg",
       ],
     },
 
@@ -360,6 +364,7 @@ const CONTENT = {
         "photos/curations/paris-cemetery/04.jpg",
         "photos/curations/paris-cemetery/05.jpg",
         "photos/curations/paris-cemetery/06.jpg",
+        "photos/curations/paris-cemetery/07.jpg",
       ],
     },
 
@@ -399,16 +404,6 @@ const CONTENT = {
         "photos/curations/moments-in-france/13.jpg",
         "photos/curations/moments-in-france/14.jpg",
         "photos/curations/moments-in-france/15.jpg",
-        "photos/curations/moments-in-france/16.jpg",
-        "photos/curations/moments-in-france/17.jpg",
-        "photos/curations/moments-in-france/18.jpg",
-        "photos/curations/moments-in-france/19.jpg",
-        "photos/curations/moments-in-france/20.jpg",
-        "photos/curations/moments-in-france/21.jpg",
-        "photos/curations/moments-in-france/22.jpg",
-        "photos/curations/moments-in-france/23.jpg",
-        "photos/curations/moments-in-france/24.jpg",
-        "photos/curations/moments-in-france/25.jpg",
       ],
     },
 
@@ -428,6 +423,8 @@ const CONTENT = {
         "photos/curations/listenings/07.jpg",
         "photos/curations/listenings/08.jpg",
         "photos/curations/listenings/09.jpg",
+        "photos/curations/listenings/10.jpg",
+        "photos/curations/listenings/11.jpg",
       ],
     },
 

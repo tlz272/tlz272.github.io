@@ -16,3 +16,8 @@ films/*.wav
 films/*.aif
 films/*.aiff
 films/*.prores
+
+# Film MP4s — currently kept locally only because Film Poetry is hidden and
+# right-screen MP4 exceeds GitHub's 100MB per-file limit. Remove this line
+# (and the MP4s must be under 100MB each) when Film Poetry is re-activated.
+films/*.mp4
