@@ -282,7 +282,7 @@ const CONTENT = {
       date: "January 2020",
       description: "A phenomenological pause — bracketing the familiar to see again what was always there.",
       quote: "",
-      cover: "photos/curations/epoche/01.jpg",
+      cover: "photos/curations/epoche/03.jpg",
       images: [
         "photos/curations/epoche/01.jpg",
         "photos/curations/epoche/02.jpg",
