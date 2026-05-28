@@ -689,10 +689,10 @@
       object-fit: cover;
       height: auto;
     }
-    /* Listenings 01 is portrait; default centred crop misses the ear.
-       Anchor the crop at the very top so the figure sits in the middle. */
+    /* Listenings 01 is portrait; pull the 3:2 crop window upward
+       enough that the ear sits dead-centre in the frame. */
     .curation-card-image img[src*="/listenings/"] {
-      object-position: center top;
+      object-position: center 6%;
     }
 
     /* Adaptive grid for small series */
@@ -1855,7 +1855,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=32"></script>
+  <script src="content.js?v=33"></script>
 
   <script id="music-data">
     // Audio state
@@ -2188,6 +2188,9 @@
       const photoPageScroll = document.querySelector('.photo-page');
       if (photoPageScroll) lastGridScroll = photoPageScroll.scrollTop;
       if (heading) heading.textContent = '';
+      // Description / date / quote currently hidden — title + images only.
+      // To bring them back: un-comment the <aside> block below and the
+      // .curation-body wrapper (and remove the standalone .curation-images line).
       view.innerHTML = `
         <div class="curation-detail">
           <button class="curation-back" onclick="renderCurations()" aria-label="Back to all series">
@@ -2196,24 +2199,17 @@
           <div class="curation-header">
             <h2 class="curation-name">${c.name} <span class="curation-name-numeral">(${toRoman(i+1)})</span></h2>
           </div>
-          <div class="curation-body">
-            <div class="curation-images" data-count="${c.images.length}">
-              ${c.images.map((img, idx) => {
-                // First image: highest priority. Next five: eager (above-the-fold).
-                // The rest: lazy — stream in as the user scrolls.
-                const loadAttr = idx === 0
-                  ? 'loading="eager" fetchpriority="high" decoding="async"'
-                  : idx < 6
-                    ? 'loading="eager" decoding="async"'
-                    : 'loading="lazy" decoding="async"';
-                return `<img src="${img}" alt="${c.name} ${idx+1}" ${loadAttr} onclick="openCurationLightbox(${i}, ${idx})">`;
-              }).join('')}
-            </div>
-            <aside class="curation-info">
-              ${c.date ? `<div class="curation-date">${c.date}</div>` : ''}
-              ${c.description ? `<div class="curation-desc">${c.description}</div>` : ''}
-              ${c.quote ? `<div class="curation-quote">${c.quote}</div>` : ''}
-            </aside>
+          <div class="curation-images" data-count="${c.images.length}">
+            ${c.images.map((img, idx) => {
+              // First image: highest priority. Next five: eager (above-the-fold).
+              // The rest: lazy — stream in as the user scrolls.
+              const loadAttr = idx === 0
+                ? 'loading="eager" fetchpriority="high" decoding="async"'
+                : idx < 6
+                  ? 'loading="eager" decoding="async"'
+                  : 'loading="lazy" decoding="async"';
+              return `<img src="${img}" alt="${c.name} ${idx+1}" ${loadAttr} onclick="openCurationLightbox(${i}, ${idx})">`;
+            }).join('')}
           </div>
         </div>
       `;
