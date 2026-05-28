@@ -174,7 +174,7 @@ const CONTENT = {
     {
       name: "Shadow Bird",
       date: "",
-      description: "",
+      description: "This was taken at a previous flat I used to live in which was right next to a park. There were a bunch of Butcherbirds that would sunbake on the balcony from time to time. Some people would feed them. They were companions. A couple times I decided to take some photographs of them, and out came this. A spectacular moment. The shadow lining perfectly with the railing. A reminder, perhaps, that in order to fly, to ascend, we must not forget that it is our shadow that is flying with us. The side of us that we often neglect.",
       quote: "",
       cover: "photos/curations/shadow-bird/01.jpg",
       images: [
@@ -185,7 +185,7 @@ const CONTENT = {
     {
       name: "Moonlight",
       date: "November 2018",
-      description: "",
+      description: "When I first got a camera these were some of the earliest photos that I took. I remember so vividly being out at night, by The Spit, watching the ripples of dark waves at night, illuminated by only the moon. The first image is a path leading directly into unknown horizons. Beyond what we can see, but we know that it is there. In the second, buzzing flies join in on the fun, their light captured along with the moon and its pathway.",
       quote: "",
       cover: "photos/curations/moonlight/02.jpg",
       images: [
@@ -197,7 +197,7 @@ const CONTENT = {
     {
       name: "Painting with Light",
       date: "June 2019",
-      description: "",
+      description: "These are some of the most personally fascinating photos that I have ever taken. There was a small rainbow on the balcony outside. I decided to slide an A4 sheet of paper under it, giving a smoother base to see the colours. I then found a glass that I filled with water and placed this above the rainbow on the sheet of paper. A variety of mysterious shapes ensued. Winged beings. Figures I would describe as aliens. It felt like tapping into some primordial pulse of the universe. Some secret. A glitch in the matrix.",
       quote: "",
       cover: "photos/curations/painting-with-light/02.jpg",
       images: [
@@ -221,7 +221,7 @@ const CONTENT = {
     {
       name: "Cathedrals",
       date: "January 2019",
-      description: "",
+      description: "Interior explorations in my travels in France in the Winter of 2018/2019. The last four photos are the Notre-Dame, before the fires. Truly unforgettable spaces. You breathe with awe with every step.",
       quote: "",
       cover: "photos/curations/cathedrals/01.jpg",
       images: [
@@ -240,7 +240,7 @@ const CONTENT = {
     {
       name: "Gargoyles",
       date: "",
-      description: "",
+      description: "Pictured here are six chimeras (decorative gargoyles) seated at the top of the Notre-Dame. The first image pictures Le Stryge (The Vampire). The name comes from Latin and Greek words for owls and nocturnal witches said to drink human blood. These figures were created by the 19th-century French architect Eugène Viollet-le-Duc and sculptor Victor Pyanet.",
       quote: "",
       cover: "photos/curations/gargoyles/01.jpg",
       images: [
@@ -256,7 +256,7 @@ const CONTENT = {
     {
       name: "Burgundy",
       date: "December 2018",
-      description: "",
+      description: "Travels in the countryside of Burgundy, in East-central France. My personal favourite of the time I spent in France. It is one thing to connect to the city of France, it's another to experience the countryside. A very medieval feel here. Castles, old vineyards, farm towns, stables, and old churches. Explored the Vézelay Abbey, the Basilica of Saint Mary Magdalene — a UNESCO World Heritage Site, built between 1120 and 1150.",
       quote: "",
       cover: "photos/curations/burgundy/01.jpg",
       images: [
@@ -298,7 +298,7 @@ const CONTENT = {
     {
       name: "Epoché",
       date: "January 2020",
-      description: "",
+      description: "A curation from a series of photographic explorations I undertook in 2020 during the beginning of the pandemic. Epoché refers to the methodological suspension of all preconceived beliefs, biases, and judgements about the external world. It is about perceiving more fully by suspending judgement. Here I photographed some statues, as well as ordinary mechanical objects around the house, discovering a strange abstract beauty in looking at these objects in a new light, as if I were seeing them for the first time.",
       quote: "",
       cover: "photos/curations/epoche/03.jpg",
       images: [
@@ -317,7 +317,7 @@ const CONTENT = {
     {
       name: "Kinetic Roots",
       date: "",
-      description: "",
+      description: "This was a series of photos I took in Tamborine Mountain Rainforest. I love these dangly roots. These photos captured something so dark and bewildering that I feel attracted to with the forest. The trees here are ancient. Each of them is at the very least several human lifespans put together. They are our elders. They are wise, yet ruthless, alien to our comprehension. Our ecological understanding is but a raindrop in an ocean of unknowns. This rainforest is also part of the Gondwana system. Its ecological lineage traces back to forests that were around when Australia was connected to Antarctica in the Gondwana supercontinent. The origins of this stretch back 180 million years.",
       quote: "",
       cover: "photos/curations/kinetic-roots/01.jpg",
       images: [
@@ -339,7 +339,7 @@ const CONTENT = {
     {
       name: "Pantheon",
       date: "January 2019",
-      description: "",
+      description: "The Pantheon in Paris is a monument that was designed in 1790 by the architect Jacques-Germain Soufflot. It is a masterpiece of Neoclassical feature. Its crypt holds the remains of figures like Voltaire, Jean-Jacques Rousseau, Victor Hugo, and scientists like Pierre and Marie Curie. It typifies Enlightenment ideals with its neoclassical forms, and Foucault's pendulum hanging from its centre.",
       quote: "",
       cover: "photos/curations/pantheon/03.jpg",
       images: [
@@ -354,7 +354,7 @@ const CONTENT = {
     {
       name: "Paris Cemetery",
       date: "December 2018",
-      description: "",
+      description: "The Père Lachaise Cemetery. It was the first garden cemetery. I have never before this experience or after ever experienced a space for the dead that felt so peaceful, hopeful. It is very artistic. The second image is the great composer Chopin's grave. Oscar Wilde's gravestone is the fifth and sixth images.",
       quote: "",
       cover: "photos/curations/paris-cemetery/01.jpg",
       images: [
@@ -371,7 +371,7 @@ const CONTENT = {
     {
       name: "Aquae Motus",
       date: "June 2019",
-      description: "Slow shutter studies.",
+      description: "Studies in slow shutter. For me, this captures the journey of a river — the passage that water takes on its travels.",
       quote: "“You cannot step into the same river twice, for other waters are continually flowing on to you.” — Heraclitus",
       cover: "photos/curations/aquae-motus/01.jpg",
       images: [
@@ -385,9 +385,9 @@ const CONTENT = {
     {
       name: "Moments in France",
       date: "December 2018 – January 2019",
-      description: "",
+      description: "A series of moments in travel that seem to belong together. Vivid moments, impressions, images that have remained in my mind — captured in moments of wandering, all through the journey.",
       quote: "",
-      cover: "photos/curations/moments-in-france/10.jpg",
+      cover: "photos/curations/moments-in-france/07.jpg",
       images: [
         "photos/curations/moments-in-france/01.jpg",
         "photos/curations/moments-in-france/02.jpg",
@@ -410,7 +410,7 @@ const CONTENT = {
     {
       name: "Listenings",
       date: "",
-      description: "",
+      description: "A series of images that speak to the beauty of nature in the Northern Rivers.",
       quote: "",
       cover: "photos/curations/listenings/01.jpg",
       images: [
@@ -431,7 +431,7 @@ const CONTENT = {
     {
       name: "Reflections",
       date: "December 2018",
-      description: "",
+      description: "Some of the first photos I took with my first camera. Reflections captured in a lake. The last image made me realise that photography is, after all, really painting with light. It is amazing how water relates to light. I understand Monet's fascination, a topic he dedicated his life towards.",
       quote: "",
       cover: "photos/curations/reflections/01.jpg",
       images: [
