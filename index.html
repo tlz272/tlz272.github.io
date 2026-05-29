@@ -684,14 +684,14 @@
     /* Force-crop on landing-page covers for series whose cover image
        isn't natively 3:2. Aligns them with the rest of the grid. */
     .curation-card-image img[src*="/epoche/"],
-    .curation-card-image img[src*="/listenings/"] {
+    .curation-card-image img[src*="/listen/"] {
       aspect-ratio: 3 / 2;
       object-fit: cover;
       height: auto;
     }
-    /* Listenings 01 is portrait; pull the 3:2 crop window upward
+    /* Listenings cover is portrait; pull the 3:2 crop window upward
        enough that the ear sits dead-centre in the frame. */
-    .curation-card-image img[src*="/listenings/"] {
+    .curation-card-image img[src*="/listen/"] {
       object-position: center 6%;
     }
 
@@ -1870,7 +1870,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=35"></script>
+  <script src="content.js?v=36"></script>
 
   <script id="music-data">
     // Audio state

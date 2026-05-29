@@ -412,27 +412,6 @@ const CONTENT = {
     },
 
     {
-      name: "Listenings",
-      date: "",
-      description: "A series of images that speak to the beauty of nature in the Northern Rivers.",
-      quote: "",
-      cover: "photos/curations/listenings/01.jpg",
-      images: [
-        "photos/curations/listenings/01.jpg",
-        "photos/curations/listenings/02.jpg",
-        "photos/curations/listenings/03.jpg",
-        "photos/curations/listenings/04.jpg",
-        "photos/curations/listenings/05.jpg",
-        "photos/curations/listenings/06.jpg",
-        "photos/curations/listenings/07.jpg",
-        "photos/curations/listenings/08.jpg",
-        "photos/curations/listenings/09.jpg",
-        "photos/curations/listenings/10.jpg",
-        "photos/curations/listenings/11.jpg",
-      ],
-    },
-
-    {
       name: "Reflections",
       date: "December 2018",
       description: "Some of the first photos I took with my first camera. Reflections captured in a lake. The last image made me realise that photography is, after all, really painting with light. It is amazing how water relates to light. I understand Monet's fascination, a topic he dedicated his life towards.",
@@ -443,6 +422,17 @@ const CONTENT = {
         "photos/curations/reflections/02.jpg",
         "photos/curations/reflections/03.jpg",
         "photos/curations/reflections/04.jpg",
+      ],
+    },
+
+    {
+      name: "Listenings",
+      date: "",
+      description: "A series of images that speak to the beauty of nature in the Northern Rivers.",
+      quote: "",
+      cover: "photos/curations/listen/01.jpg",
+      images: [
+        "photos/curations/listen/01.jpg",
       ],
     },
   ],
