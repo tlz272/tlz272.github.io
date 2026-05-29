@@ -21,8 +21,8 @@
 // Until you fill them in:
 //   - Contact form falls back to opening the visitor's email client (mailto).
 //   - Newsletter form falls back to opening a pre-filled email to you.
-const FORMSPREE_ID            = "";   // contact form — e.g. "abcd1234"
-const NEWSLETTER_FORMSPREE_ID = "";   // newsletter — e.g. "wxyz5678"
+const FORMSPREE_ID            = "mredjjpz";   // contact form
+const NEWSLETTER_FORMSPREE_ID = "mredjjpz";   // newsletter (same endpoint for now — Formspree groups by fields)
 
 
 // --- MUSIC TRACKS (SoundCloud) ---
