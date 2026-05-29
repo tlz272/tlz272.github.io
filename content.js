@@ -5,20 +5,24 @@
    ============================================================ */
 
 
-// --- CONTACT FORM (Formspree) ---
-// To activate the contact form so messages arrive in your inbox instead of
-// opening the visitor's email client:
-//   1. Go to https://formspree.io and sign up (free, ~2 minutes).
-//   2. Create a new form. You'll be given an endpoint that looks like
-//      https://formspree.io/f/abcd1234
-//   3. Paste just the ID part (the "abcd1234") between the quotes below.
-//      Save, push, done. The form will start sending submissions to your
-//      verified email automatically.
+// --- FORMSPREE (contact form + newsletter signups) ---
+// Two separate Formspree forms recommended so messages and subscribers
+// land in different inboxes (or use the same ID for both if you prefer).
 //
-// Leave it blank to keep the current mailto: fallback (which opens the
-// visitor's email app pre-filled with the message — works fine but less
-// convenient for the visitor).
-const FORMSPREE_ID = "";   // e.g. "abcd1234"
+// Setup (~5 minutes, free up to 50 submissions per form per month):
+//   1. Go to https://formspree.io and sign up with tobiasrob28@gmail.com.
+//   2. Create a form called "Contact". Copy the ID (the "abcd1234" part
+//      of https://formspree.io/f/abcd1234) and paste it into FORMSPREE_ID
+//      below. This is for the Contact page form.
+//   3. Create a second form called "Newsletter". Paste its ID into
+//      NEWSLETTER_FORMSPREE_ID. Subscribers go here.
+//   4. Save, push to GitHub. Both forms now arrive in your inbox.
+//
+// Until you fill them in:
+//   - Contact form falls back to opening the visitor's email client (mailto).
+//   - Newsletter form falls back to opening a pre-filled email to you.
+const FORMSPREE_ID            = "";   // contact form — e.g. "abcd1234"
+const NEWSLETTER_FORMSPREE_ID = "";   // newsletter — e.g. "wxyz5678"
 
 
 // --- MUSIC TRACKS (SoundCloud) ---

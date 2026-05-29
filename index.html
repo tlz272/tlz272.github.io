@@ -1649,6 +1649,21 @@
       color: #555;
     }
 
+    /* Inline form status (sending / sent / error) */
+    .form-status {
+      margin-top: 14px;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: #888;
+      min-height: 18px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .form-status.show { opacity: 1; }
+    .form-status.error { color: var(--red); }
+    .form-status.success { color: #b0c8a8; } /* muted green for sent confirmation */
+
     .contact-fallback a {
       color: #888;
       text-decoration: none;
@@ -1855,7 +1870,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=33"></script>
+  <script src="content.js?v=34"></script>
 
   <script id="music-data">
     // Audio state
@@ -2035,19 +2050,9 @@
           <div class="contact-col">
             <h2>Send a message</h2>
 
-            <!--
-              ============================================
-              CONTACT FORM SETUP (one-time, ~2 minutes):
-              1. Go to https://formspree.io and sign up (free).
-              2. Create a new form. You'll be given an endpoint
-                 that looks like  https://formspree.io/f/abcd1234.
-              3. Replace YOUR_FORM_ID below with that ID
-                 (just the abcd1234 part).
-              Until you do, the Send button opens the visitor's
-              email app pre-filled with the form contents
-              (graceful fallback so the page never throws an error).
-              ============================================
-            -->
+            <!-- See content.js for the FORMSPREE_ID setup. Until that's filled
+                 in, Send opens the visitor's mail app with the message
+                 pre-filled (mailto fallback). -->
             <form class="contact-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="return handleContactSubmit(event)">
               <div class="form-field">
                 <label>Name*</label>
@@ -2065,7 +2070,8 @@
                 <label>Message*</label>
                 <textarea name="message" required></textarea>
               </div>
-              <button type="submit" class="contact-submit">Send</button>
+              <button type="submit" class="contact-submit" id="contact-submit-btn">Send</button>
+              <div class="form-status" id="contact-status" aria-live="polite"></div>
             </form>
 
             <div class="contact-fallback">
@@ -2075,11 +2081,12 @@
 
           <div class="contact-col">
             <h2>Newsletter</h2>
-            <div class="subscribe-desc">Occasional updates from the studio &mdash; new essays, films, photographs, and works in progress.</div>
-            <form class="subscribe-form" onsubmit="handleSubscribe(event)">
-              <input type="email" placeholder="your@email.com" required>
-              <button type="submit">Subscribe</button>
+            <div class="subscribe-desc">Occasional notes from the studio &mdash; whenever there's new writing, photography, music, or video to share.</div>
+            <form class="subscribe-form" id="subscribe-form" onsubmit="return handleSubscribe(event)">
+              <input type="email" name="email" placeholder="your@email.com" required>
+              <button type="submit" id="subscribe-btn">Subscribe</button>
             </form>
+            <div class="form-status" id="subscribe-status" aria-live="polite"></div>
           </div>
         </div>
       </div>
@@ -2697,33 +2704,136 @@
       if (drawer && drawer.classList.contains('open')) toggleMobileNav();
     });
 
-    function handleSubscribe(e) {
-      e.preventDefault();
-      const email = e.target.querySelector('input[type=email]').value;
-      if (!email) return;
-      window.open('https://vosacreative.substack.com/subscribe?email=' + encodeURIComponent(email), '_blank');
+    /* ---- form status helper ---- */
+    function setFormStatus(elId, text, kind) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      el.textContent = text;
+      el.classList.remove('error', 'success');
+      if (kind) el.classList.add(kind);
+      el.classList.add('show');
+      // Clear after success (subscribe) or error after a while
+      if (kind === 'success' || kind === 'error') {
+        clearTimeout(el._tid);
+        el._tid = setTimeout(() => el.classList.remove('show'), 6000);
+      }
     }
 
+    /* ---- contact form ---- */
     function handleContactSubmit(e) {
       const form = e.target;
-      // If Formspree isn't set up yet, fall back to opening the visitor's email client.
-      const noFormspree = form.action.includes('YOUR_FORM_ID') ||
-                          (typeof FORMSPREE_ID === 'undefined' || !FORMSPREE_ID);
-      if (noFormspree) {
-        e.preventDefault();
+      e.preventDefault();
+
+      const haveFormspree = typeof FORMSPREE_ID !== 'undefined' && FORMSPREE_ID;
+      const btn = document.getElementById('contact-submit-btn');
+
+      if (!haveFormspree) {
+        // Mailto fallback — opens visitor's email app pre-filled.
         const data = new FormData(form);
-        const name = data.get('name') || '';
-        const email = data.get('email') || '';
+        const name    = data.get('name')    || '';
+        const email   = data.get('email')   || '';
         const subject = data.get('subject') || '';
         const message = data.get('message') || '';
         const body = 'From: ' + name + ' <' + email + '>\n\n' + message;
         window.location.href = 'mailto:tobiasrob28@gmail.com'
           + '?subject=' + encodeURIComponent(subject)
           + '&body=' + encodeURIComponent(body);
+        setFormStatus('contact-status',
+          'Opening your email app… If nothing happens, please email tobiasrob28@gmail.com directly.',
+          null);
         return false;
       }
-      // Formspree ID is set; let the form submit normally.
-      return true;
+
+      // Formspree set up — AJAX submit so we can show inline confirmation
+      const action = 'https://formspree.io/f/' + FORMSPREE_ID;
+      const data = new FormData(form);
+      btn.disabled = true;
+      const originalBtnText = btn.textContent;
+      btn.textContent = 'Sending…';
+      setFormStatus('contact-status', '', null);
+
+      fetch(action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(res => {
+        btn.disabled = false;
+        btn.textContent = originalBtnText;
+        if (res.ok) {
+          form.reset();
+          setFormStatus('contact-status', 'Sent. I’ll get back to you soon.', 'success');
+        } else {
+          setFormStatus('contact-status',
+            'Couldn’t send. Please try again or email tobiasrob28@gmail.com directly.',
+            'error');
+        }
+      }).catch(() => {
+        btn.disabled = false;
+        btn.textContent = originalBtnText;
+        setFormStatus('contact-status',
+          'Couldn’t send. Please email tobiasrob28@gmail.com directly.',
+          'error');
+      });
+      return false;
+    }
+
+    /* ---- newsletter signup (Formspree-backed, no Substack) ---- */
+    function handleSubscribe(e) {
+      e.preventDefault();
+      const form = e.target;
+      const input = form.querySelector('input[type=email]');
+      const email = (input.value || '').trim();
+      if (!email) return false;
+
+      const haveFormspree = typeof NEWSLETTER_FORMSPREE_ID !== 'undefined' && NEWSLETTER_FORMSPREE_ID;
+      const btn = document.getElementById('subscribe-btn');
+
+      if (!haveFormspree) {
+        // Fallback — open a pre-filled email to Tobias with the subscriber address.
+        const body = 'Please add me to the newsletter list.\n\nEmail: ' + email;
+        window.location.href = 'mailto:tobiasrob28@gmail.com'
+          + '?subject=' + encodeURIComponent('Newsletter signup')
+          + '&body=' + encodeURIComponent(body);
+        setFormStatus('subscribe-status',
+          'Opening your email app… If nothing happens, please email tobiasrob28@gmail.com to be added.',
+          null);
+        return false;
+      }
+
+      // AJAX submit to Formspree
+      const action = 'https://formspree.io/f/' + NEWSLETTER_FORMSPREE_ID;
+      const data = new FormData();
+      data.append('email', email);
+      data.append('_subject', 'New newsletter subscriber');
+      data.append('source', 'website-newsletter');
+      btn.disabled = true;
+      const originalBtnText = btn.textContent;
+      btn.textContent = 'Subscribing…';
+      setFormStatus('subscribe-status', '', null);
+
+      fetch(action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(res => {
+        btn.disabled = false;
+        btn.textContent = originalBtnText;
+        if (res.ok) {
+          input.value = '';
+          setFormStatus('subscribe-status', 'Thanks — I’ll let you know when there’s new work.', 'success');
+        } else {
+          setFormStatus('subscribe-status',
+            'Couldn’t subscribe just now. Please try again later.',
+            'error');
+        }
+      }).catch(() => {
+        btn.disabled = false;
+        btn.textContent = originalBtnText;
+        setFormStatus('subscribe-status',
+          'Couldn’t subscribe just now. Please try again later.',
+          'error');
+      });
+      return false;
     }
 
     function renderMusic() {
