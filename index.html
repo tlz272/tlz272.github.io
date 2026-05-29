@@ -689,10 +689,21 @@
       object-fit: cover;
       height: auto;
     }
-    /* Listenings cover is portrait; pull the 3:2 crop window upward
+    /* Listen cover is portrait; pull the 3:2 crop window upward
        enough that the ear sits dead-centre in the frame. */
     .curation-card-image img[src*="/listen/"] {
       object-position: center 6%;
+    }
+
+    /* But in the detail view, Listen is a single photograph and reads
+       far better in its native vertical aspect than cropped to 3:2.
+       Override the global detail-grid crop just for /listen/. */
+    .curation-images img[src*="/listen/"] {
+      aspect-ratio: auto;
+      object-fit: contain;
+      max-width: 520px;
+      margin: 0 auto;
+      display: block;
     }
 
     /* Adaptive grid for small series */
@@ -1870,7 +1881,7 @@
 
   <!-- Site content (edit content.js to update the site) -->
   <!-- ?v= is a cache-buster; bump the number if you edit content.js and changes don't show. -->
-  <script src="content.js?v=36"></script>
+  <script src="content.js?v=37"></script>
 
   <script id="music-data">
     // Audio state

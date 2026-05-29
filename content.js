@@ -426,7 +426,7 @@ const CONTENT = {
     },
 
     {
-      name: "Listenings",
+      name: "Listen",
       date: "",
       description: "A series of images that speak to the beauty of nature in the Northern Rivers.",
       quote: "",
